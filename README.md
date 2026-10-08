@@ -33,6 +33,8 @@ Dit project onderzoekt een centraal LDV-platform waarin:
 - [Architecture Decision Records](docs/decisions/README.md)
 - [API- en eventcontracten](contracts/README.md)
 - [Teststrategie](docs/testing/test-strategy.md)
+- [Implementatieroadmap met fasepoorten](docs/implementation/roadmap.md)
+- [Actuele implementatiestatus](docs/implementation/status.md)
 
 ## Voorgenomen componenten
 
