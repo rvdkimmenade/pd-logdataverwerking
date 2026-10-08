@@ -48,8 +48,8 @@ bestaande Kafka- en PostgreSQL-data worden niet geraakt.
 - [x] Eindtijd vóór starttijd afgewezen.
 - [x] Envelop alleen geldig met geldige payload.
 - [x] Bibliotheek werkt zonder infrastructuur; alle contracttests groen.
-- [ ] Volledige verify en schone checkout groen; demo en status bijgewerkt.
-- [ ] Consistente wijziging gecommit.
+- [x] Volledige verify en schone checkout groen; demo en status bijgewerkt.
+- [x] Consistente implementatie gecommit als b680e28; bewijsupdate bij dit plan.
 
 ## Bevindingen
 
@@ -57,3 +57,14 @@ De standaard laat protocollen vrij; de bestaande JSON-representatie blijft intac
 Het lokale schema vereist een URI voor identifier-type (de standaard laat ook een
 string toe) en bevat kandidaatvelden: dit blijft nadrukkelijk een lokaal POC-profiel.
 Open attributen in het schema worden niet stilzwijgend gesloten.
+
+## Uitkomst
+
+Volledige verify groen: 81 tests, contractchecks en alle foundation-/uitvalproeven.
+Schone clone b680e28: offline npm ci, verify:code en demo:domain groen.
+Demo: 12 geaccepteerde voorbeelden en 23 verwachte afwijzingen. Er zijn geen
+netwerk- of databaseclients in het domeinpackage. De bestaande vijf voorbeelden
+en dertig nieuwe fixtures worden alle gecontroleerd. Een initiële TypeScript-
+typeversmalling is hersteld door de synchrone AJV-compilefunctie te gebruiken.
+De sandbox blokkeerde aanvankelijk de npm-cache; na toegestane cachetoegang
+is de offline schone installatie geslaagd. Geen open defecten. Fase 2 niet gestart.

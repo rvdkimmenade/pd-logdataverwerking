@@ -4,8 +4,8 @@
 
 **Fase 1 — LDV-domein en contractvalidatie**
 
-Status op 2026-10-08: **fase 1 in verificatie**. Fase 0 is voltooid. De gebruiker
-heeft opdracht gegeven de volgende fase uit te voeren. Fase 2 is niet gestart.
+Status op 2026-10-08: **fase 1 voltooid**. De volledige repositoryverificatie,
+schone checkout en zelfstandige domeindemo zijn groen. Fase 2 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -18,7 +18,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | Fase | Status | Open punten |
 | --- | --- | --- |
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
-| 1. LDV-domein en contractvalidatie | In verificatie | Volledige verify en schone checkout |
+| 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister | Niet gestart | Voorafgaande fasen |
 | 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
@@ -39,7 +39,13 @@ Fouten bevatten geen invoerwaarden. Geen netwerk, database of runtime-service no
 - Domeindemo via contracts:check: **12 geaccepteerd, 23 terecht afgewezen**.
   Dit omvat de 30 nieuwe complete fixtures en de vijf bestaande voorbeelden.
 - Bestaande publieke schemas en OpenAPI zijn ongewijzigd.
-- Schone-checkoutcontrole volgt vóór het markeren van deze fase als voltooid.
+- Schone checkout van `b680e28dd4de2c5ea657e0edb873340273821ce4` op branch
+  `codex/phase-1-domain` naar `.local/domain-clean`: `npm.cmd ci --offline --ignore-scripts`,
+  `npm.cmd run verify:code` en `npm.cmd run demo:domain` geslaagd. Opnieuw alle
+  81 tests groen; demo 12 geaccepteerd / 23 terecht afgewezen. De installatie
+  gebruikte de lokale cache en deze controles roepen geen infrastructuur aan.
+- Deze fase is lokaal geverifieerd en gecommit; geen nieuwe GitHub Actions-run
+  geclaimd. De bestaande CI voert dezelfde uitgebreide verify-opdracht uit.
 
 Regels: [validatiecontract](../../contracts/validation.md).
 Reproduceren en gebruik: [runbook](../runbooks/domain-validation.md).
