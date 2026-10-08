@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: LDV Ingest API
+  version: 0.1.0
+  description: De server voegt na duurzame acceptatie een interne transportenvelop toe.
+servers:
+  - url: https://ldv.example.invalid
+paths:
+  /v1/log-records:
+    post:
+      operationId: createLogRecord
+      summary: Leg een LDV-logregel vast
+      description: Bij meerdere betrokkenen biedt de applicatie per betrokkene een afzonderlijke logregel aan.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/ldv-log-record.schema.json
+            examples:
+              demo:
+                $ref: ../examples/valid-ldv-log-record.json
+      responses:
+        "202":
+          description: Logregel duurzaam geaccepteerd
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [event_id, accepted_at]
+                properties:
+                  event_id: {type: string, format: uuid}
+                  accepted_at: {type: string, format: date-time}
+        "400": {description: JSON of verzoekstructuur is ongeldig}
+        "401": {description: Authenticatie ontbreekt of is ongeldig}
+        "403": {description: Bron is niet bevoegd}
+        "422": {description: Logregel voldoet niet aan het LDV-contract}
+        "503": {description: Duurzame acceptatie kan niet worden gegarandeerd}

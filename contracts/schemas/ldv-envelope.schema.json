@@ -1,39 +1,17 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.nl/schemas/ldv-envelope.schema.json",
-  "title": "LDV event envelope",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "event_id",
-    "schema_version",
-    "source_application",
-    "responsible_party",
-    "created_at",
-    "payload"
-  ],
-  "properties": {
-    "event_id": {
-      "type": "string",
-      "format": "uuid"
-    },
-    "schema_version": {
-      "const": "1.0"
-    },
-    "source_application": {
-      "type": "string",
-      "minLength": 1
-    },
-    "responsible_party": {
-      "type": "string",
-      "minLength": 1
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "payload": {
-      "type": "object"
-    }
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://schemas.example.invalid/ldv-envelope.schema.json",
+  "title":"Intern LDV-transportevent",
+  "description":"Technische envelop die het platform na acceptatie rond de LDV-logregel aanbrengt.",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["event_id","schema_version","source_application","responsible_party","created_at","payload"],
+  "properties":{
+    "event_id":{"type":"string","format":"uuid"},
+    "schema_version":{"const":"1.0"},
+    "source_application":{"type":"string","minLength":1},
+    "responsible_party":{"type":"string","minLength":1},
+    "created_at":{"type":"string","format":"date-time"},
+    "payload":{"$ref":"ldv-log-record.schema.json"}
   }
 }

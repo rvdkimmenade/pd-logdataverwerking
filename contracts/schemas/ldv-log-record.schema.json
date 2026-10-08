@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/ldv-log-record.schema.json",
+  "title": "LDV-logregel voor verwerking van persoonsgegevens",
+  "description": "POC-profiel van LDV 1.0.0. Voor iedere betrokkene wordt een afzonderlijke logregel vastgelegd.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["trace_id", "span_id", "name", "start_time", "end_time", "status", "attributes"],
+  "properties": {
+    "trace_id": {"type":"string","pattern":"^[0-9a-fA-F]{32}$","description":"16-byte trace-ID als 32 hexadecimale tekens."},
+    "span_id": {"type":"string","pattern":"^[0-9a-fA-F]{16}$","description":"8-byte span-ID als 16 hexadecimale tekens."},
+    "parent_span_id": {"type":"string","pattern":"^[0-9a-fA-F]{16}$","description":"Optionele 8-byte span-ID van de aanroepende actie."},
+    "name": {"type":"string","minLength":1,"examples":["Demo: raadplegen aanvraag"]},
+    "start_time": {"type":"integer","minimum":0,"description":"Starttijd in milliseconden sinds Unix epoch."},
+    "end_time": {"type":"integer","minimum":0,"description":"Eindtijd in milliseconden sinds Unix epoch."},
+    "status": {"type":"string","enum":["Unset","Ok","Error"]},
+    "resource": {
+      "type":"object","additionalProperties":false,"required":["attributes"],
+      "properties":{"attributes":{"type":"object","description":"Technische broncontext.","examples":[{"service.name":"demo-service","service.version":"0.1.0","deployment.environment.name":"demo","organization.id":"example-municipality"}]}}
+    },
+    "attributes": {
+      "type":"object",
+      "required":["dpl.core.processing_activity_id","dpl.core.data_subject_id","dpl.core.data_subject_id_type"],
+      "properties": {
+        "dpl.core.processing_activity_id":{"type":"string","format":"uri","description":"URI naar de verwerkingsactiviteit in het Register.","examples":["https://register.example.invalid/processing-activities/DEMO-001"]},
+        "dpl.core.data_subject_id":{"type":"string","minLength":1,"description":"Unieke versleutelde of gepseudonimiseerde identificatie; gebruik geen leesbaar BSN.","examples":["example-subject-not-real-001","example-employee-not-real-001","example-organisation-not-real-001"]},
+        "dpl.core.data_subject_id_type":{"type":"string","format":"uri","description":"URI die het type oorspronkelijke identificatie beschrijft.","examples":["https://register.example.invalid/identifier-types/bsn-pseudonym","https://register.example.invalid/identifier-types/personnel-number-pseudonym","https://register.example.invalid/identifier-types/kvk-pseudonym"]},
+        "dpl.core.foreign_operation.processor":{"type":"string","format":"uri","description":"Alleen bij aanroep van een andere applicatie."},
+        "dpl.pd.case_id":{"type":"string","description":"Kandidaat-extensie: niet-herleidbare zaakreferentie; geen leesbaar zaaknummer."},
+        "dpl.pd.case_type":{"type":"string","description":"Kandidaat-extensie: URI of code van het zaaktype."},
+        "dpl.pd.service_id":{"type":"string","description":"Kandidaat-extensie: URI of code van gemeentelijk product of dienst."},
+        "dpl.pd.channel":{"type":"string","enum":["web","balie","telefoon","post","batch","api","intern","overig"],"description":"Kandidaat-extensie: startkanaal."},
+        "dpl.pd.data_source":{"type":"string","description":"Kandidaat-extensie: logische bronregistratie of dataset, zonder recordinhoud."},
+        "dpl.pd.data_destination":{"type":"string","description":"Kandidaat-extensie: logisch doelsysteem of ontvanger, zonder recordinhoud."}
+      },
+      "additionalProperties":true
+    }
+  }
+}

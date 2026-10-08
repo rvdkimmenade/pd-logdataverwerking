@@ -1,0 +1,29 @@
+{
+  "_comment": "Volledig synthetisch demo-object; bevat geen echte persoon, zaak of organisatie.",
+  "trace_id": "00000000000000000000000000000001",
+  "span_id": "0000000000000001",
+  "parent_span_id": "0000000000000002",
+  "name": "Demo: raadplegen aanvraag",
+  "start_time": 1791442798000,
+  "end_time": 1791442799000,
+  "status": "Ok",
+  "resource": {
+    "attributes": {
+      "service.name": "demo-service",
+      "service.version": "0.1.0",
+      "deployment.environment.name": "demo",
+      "organization.id": "example-municipality"
+    }
+  },
+  "attributes": {
+    "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+    "dpl.core.data_subject_id": "example-subject-not-real-001",
+    "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym",
+    "dpl.pd.case_id": "example-case-not-real-001",
+    "dpl.pd.case_type": "https://catalog.example.invalid/case-types/demo-service",
+    "dpl.pd.service_id": "https://catalog.example.invalid/services/demo-service",
+    "dpl.pd.channel": "web",
+    "dpl.pd.data_source": "demo-source",
+    "dpl.pd.data_destination": "demo-destination"
+  }
+}

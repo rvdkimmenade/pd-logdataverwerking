@@ -1,0 +1,20 @@
+{
+  "description": "Volledig synthetische voorbeelden; geen waarden zijn afkomstig van echte personen of organisaties.",
+  "examples": [
+    {
+      "context": "Inwoner geïdentificeerd vanuit BSN",
+      "dpl.core.data_subject_id": "example-subject-not-real-001",
+      "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+    },
+    {
+      "context": "Medewerker als betrokkene, niet als uitvoerende gebruiker",
+      "dpl.core.data_subject_id": "example-employee-not-real-001",
+      "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/personnel-number-pseudonym"
+    },
+    {
+      "context": "Onderneming als betrokkene",
+      "dpl.core.data_subject_id": "example-organisation-not-real-001",
+      "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/kvk-pseudonym"
+    }
+  ]
+}
