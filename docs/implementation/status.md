@@ -4,9 +4,8 @@
 
 **Fase 0 — Fundament en besluiten**
 
-Status op 2026-10-08: implementatie en lokale demonstratie gereed. De volledige
-lokale verificatie is groen. Schone-checkoutbewijs en een daadwerkelijke CI-run
-moeten nog worden toegevoegd; fase 0 is daarom nog niet als voltooid gemarkeerd.
+Status op 2026-10-08: **fase 0 voltooid**. De lokale demonstratie, volledige
+verificatie, schone checkout en GitHub Actions zijn groen. Fase 1 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -18,8 +17,8 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 | Fase | Status | Open punten |
 | --- | --- | --- |
-| 0. Fundament en besluiten | Lokaal groen; laatste bewijzen open | Schone checkout en CI-run |
-| 1. LDV-domein en contractvalidatie | Niet gestart | Fase-0-poort |
+| 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
+| 1. LDV-domein en contractvalidatie | Niet gestart; fase-0-poort vrijgegeven | Volgende afzonderlijke opdracht |
 | 2. Versioned Verwerkingsregister | Niet gestart | Voorafgaande fasen |
 | 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
@@ -42,9 +41,10 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Uitgevoerd bewijs
 
-Baseline: 99ee227. De implementatiecommit wordt na vastlegging teruggevonden met
-`git log -1 --format=%H -- scripts/verify.mjs`. Dit document bevat geen zelfverwijzende
-commithash. Artifactpaden hieronder zijn lokaal gegenereerd en worden niet gecommit.
+Baseline: 99ee227. Geteste implementatiecommit:
+`a05201282193e92f1b0ddbc755951b9358bd7c76`, branch `codex/phase-0-foundation`.
+De opvolgende bewijsupdate wijzigt uitsluitend documentatie. Artifactpaden hieronder
+zijn lokaal gegenereerd en worden niet gecommit.
 
 | Controle | Commando | Uitkomst |
 | --- | --- | --- |
@@ -53,8 +53,8 @@ commithash. Artifactpaden hieronder zijn lokaal gegenereerd en worden niet gecom
 | Contracten | npm.cmd run contracts:check | 6 documenten, 2 schemas, 1 OpenAPI, 5 voorbeelden |
 | Technische demo | npm.cmd run demo | Geslaagd; PostgreSQL-query en Kafka-roundtrip |
 | Volledige fasepoort lokaal | npm.cmd run verify | Geslaagd, inclusief uitvaldetectie, herstart en cleanup |
-| Schone checkout | Nog uit te voeren | Open |
-| GitHub Actions | Nog uit te voeren | Open |
+| Schone checkout | git clone --no-hardlinks . .local/foundation-clean; daar npm.cmd ci en npm.cmd run verify | Geslaagd; dezelfde 24 tests en alle infrastructuurgates |
+| GitHub Actions | npm ci en npm run verify op ubuntu-24.04 / Node 24.21.0 | Geslaagd; [run 37757494324](https://github.com/rvdkimmenade/pd-logdataverwerking/actions/runs/37757494324) |
 
 Lokale omgeving: Windows, Node.js 24.16.0, npm 11.13.0, Docker Engine 29.5.3,
 Compose 5.1.4. De Node-referentiepatch voor CI is 24.21.0; package.json ondersteunt
@@ -65,6 +65,10 @@ De volledige verificatie start een unieke teststack zonder hostpoorten. Na een
 positieve databasequery en een synthetische Kafka-roundtrip wordt de broker gestopt.
 De healthgate weigert die toestand en wordt na herstart weer groen. Alleen de
 unieke teststack en haar volumes worden opgeruimd. De blijvende demo is intact.
+
+Laatste runtimecontrole: `docker ps --filter label=com.docker.compose.project=ldv-foundation-dev`
+toont PostgreSQL en Kafka beide healthy, uitsluitend gepubliceerd op respectievelijk
+127.0.0.1:15432 en 127.0.0.1:19092. Er is geen webapplicatie op deze poorten.
 
 Rapporten: artifacts/demo.html, artifacts/demo.json, artifacts/foundation.html en
 artifacts/foundation.json. Dit zijn momentopnamen van testuitkomsten, geen

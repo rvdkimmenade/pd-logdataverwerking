@@ -45,7 +45,7 @@ Native installaties op Windows maken Kafka- en CI-pariteit lastiger. Een volledi
 
 ## Inventarisatie en terugrol
 
-Op 2026-10-08 is Docker CLI 29.5.3 gevonden. Ook buiten de sandbox ontbreekt de pipe voor Docker Desktop Linux Engine. De engine moet worden gestart vóór infrastructuurchecks kunnen slagen. Er zijn geen images gedownload, containers gestart of volumes gewijzigd.
+Tijdens de eerste inventarisatie op 2026-10-08 was Docker CLI 29.5.3 aanwezig maar draaide Docker Desktop Linux Engine nog niet. Na goedkeuring is de engine gestart. De lokale demo en geïsoleerde infrastructuurtests zijn inmiddels geslaagd; zie de implementatiestatus voor het bewijs.
 
 De voorstellen zijn terug te draaien als documentwijziging. Na implementatie is stop/start met behoud van volumes de standaard. Schemaherstel wordt pas bij de databasefasen toegevoegd.
 

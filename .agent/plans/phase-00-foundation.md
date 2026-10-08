@@ -44,7 +44,9 @@ voor synthetische data, geïsoleerde netwerken en loopbackpoorten.
 8. npm run verify uitgevoerd: code, contracten, infrastructuur en negatieve
    stop/herstart-proef geslaagd. De ontwikkelomgeving bleef draaien.
 9. README, runbook en implementatiestatus bijgewerkt.
-10. Nog te bewijzen: verificatie op een schone checkout en daadwerkelijke CI-run.
+10. Schone checkout via lokale clone: npm ci en npm run verify geslaagd.
+11. GitHub Actions-run 37757494324 voor implementatiecommit a052012 groen.
+12. Definitief fasebewijs vastgelegd; geen fase-1-werk gestart.
 
 ## Contracten en migraties
 
@@ -65,8 +67,8 @@ servergeneratie beschrijft. Dit is niet met een premature interfacewijziging opg
 - [x] PostgreSQL/Kafka starten gezond en beantwoorden echte bewerkingen.
 - [x] Negatieve gate wijst gestopte Kafka af; herstart wordt weer groen.
 - [x] Demo via npm run demo geslaagd; artifacts/demo.html is de momentopname.
-- [ ] Schone checkout kan bouwen en npm run verify slaagt.
-- [ ] CI voert dezelfde checks uit en heeft een groene runlink.
+- [x] Schone checkout kan bouwen en npm run verify slaagt.
+- [x] CI voert dezelfde checks uit en heeft een groene runlink in status.md.
 
 Commando's: npm ci, npm run demo, npm run verify. Op Windows mag npm.cmd worden
 gebruikt. Node-referentiepatch staat in .node-version; ondersteunde ondergrens
@@ -99,7 +101,7 @@ Code terugrollen vereist geen migratie. Dit is geen bewijs voor productie-HA.
 
 - [x] Technologie- en security-ADR's menselijk geaccepteerd.
 - [x] Lokale foundationchecks en gedocumenteerde demonstratie groen.
-- [ ] Schone checkout en daadwerkelijke CI groen, met evidence in status.md.
-- [ ] Consistente commit en definitieve fase-evidence vastgelegd.
+- [x] Schone checkout en daadwerkelijke CI groen, met evidence in status.md.
+- [x] Consistente implementatiecommit a052012 en definitieve fase-evidence vastgelegd.
 
 Fase 1 wordt niet in deze uitvoering gestart.
