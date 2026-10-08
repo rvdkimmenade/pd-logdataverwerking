@@ -11,3 +11,6 @@ Statussen: Proposed, Accepted, Superseded of Rejected.
 - [ADR-003: At-least-once en idempotentie](ADR-003-at-least-once-delivery.md)
 - [ADR-004: Append-only bron en zoekprojectie](ADR-004-append-only-and-search.md)
 - [ADR-005: Versioned Verwerkingsregister](ADR-005-register-versioning.md)
+- [ADR-006: Technologie en repository-indeling](ADR-006-technology-and-repository.md) — Proposed
+- [ADR-007: Lokale en productie-infrastructuur](ADR-007-infrastructure.md) — Proposed
+- [ADR-008: Authenticatie en autorisatie](ADR-008-authentication-and-authorization.md) — Proposed
