@@ -1,0 +1,18 @@
+services:
+  kafbat:
+    image: ghcr.io/kafbat/kafka-ui:v1.5.0@sha256:7cda86a33344160309fdb65146332e4da65db81a945614f2fe32e210803f6fd1
+    ports:
+      - '127.0.0.1:18080:8080'
+    environment:
+      KAFKA_CLUSTERS_0_NAME: ldv-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_READONLY: 'true'
+      DYNAMIC_CONFIG_ENABLED: 'false'
+      GITHUB_RELEASE_INFO_ENABLED: 'false'
+      LOGGING_LEVEL_ROOT: INFO
+      LOGGING_LEVEL_IO_KAFBAT_UI: INFO
+    networks: [foundation]
+networks:
+  foundation:
+    external: true
+    name: ldv-foundation-dev_default

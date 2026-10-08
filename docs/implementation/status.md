@@ -74,6 +74,23 @@ Rapporten: artifacts/demo.html, artifacts/demo.json, artifacts/foundation.html e
 artifacts/foundation.json. Dit zijn momentopnamen van testuitkomsten, geen
 gebruikersapp of live monitor. Ze bevatten geen secrets of persoonsgegevens.
 
+## Lokale Kafka-viewer (2026-10-08)
+
+Op expliciet verzoek is Kafbat UI v1.5.0 geïnstalleerd als optionele fase-0-tool
+volgens ADR-009. De image is op digest vastgezet in infra/compose.viewer.yaml.
+Het aparte Compose-project ldv-viewer gebruikt het bestaande Kafka-netwerk.
+
+- `npm.cmd run viewer:up` geslaagd; viewer bereikbaar op http://127.0.0.1:18080.
+- HTTP-root geeft 200; `/api/clusters` toont ldv-local ONLINE, één broker en
+  `readOnly: true`. `npm.cmd run viewer:check` geslaagd.
+- `npm.cmd run verify` opnieuw geslaagd: formatter, lint, build, 24 tests,
+  contractchecks en alle geïsoleerde infrastructuur- en uitvalproeven.
+- Alleen het interne topic __consumer_offsets aanwezig. Installatie maakt geen
+  voorbeeldberichten; de bestaande demoproef ruimt haar tijdelijke topic op.
+- Start-, stop- en kijkinstructies staan in README en het lokale runbook.
+
+Deze aanvulling introduceert geen LDV-productconsole of volgende implementatiefase.
+
 ## Herstelde fouten
 
 - Kafka kon niet schrijven naar de root-owned named volume. De beperkte initcontainer

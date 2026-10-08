@@ -14,3 +14,4 @@ Statussen: Proposed, Accepted, Superseded of Rejected.
 - [ADR-006: Technologie en repository-indeling](ADR-006-technology-and-repository.md) — Accepted
 - [ADR-007: Lokale en productie-infrastructuur](ADR-007-infrastructure.md) — Accepted
 - [ADR-008: Authenticatie en autorisatie](ADR-008-authentication-and-authorization.md) — Accepted
+- [ADR-009: Lokale Kafka-viewer](ADR-009-local-kafka-viewer.md) — Accepted

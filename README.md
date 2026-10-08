@@ -84,6 +84,18 @@ Stoppen behoudt de ontwikkelvolumes. Configuratie, geheimen en herstel staan in
 het [lokale runbook](docs/runbooks/local-foundation.md). Op Windows PowerShell
 kan `npm.cmd` worden gebruikt.
 
+## Kafka-viewer
+
+Kafka inspecteren kan met de optionele Kafbat UI:
+
+```text
+npm run viewer:up
+```
+
+Open <http://127.0.0.1:18080> en kies **ldv-local → Topics → Messages**.
+Stop de viewer met `npm run viewer:down`, vóór het stoppen van de foundationstack.
+De viewer is alleen lokaal en staat in alleen-lezenmodus.
+
 ## Verificatie
 
 ```text

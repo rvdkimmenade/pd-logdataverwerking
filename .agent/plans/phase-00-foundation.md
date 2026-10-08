@@ -105,3 +105,15 @@ Code terugrollen vereist geen migratie. Dit is geen bewijs voor productie-HA.
 - [x] Consistente implementatiecommit a052012 en definitieve fase-evidence vastgelegd.
 
 Fase 1 wordt niet in deze uitvoering gestart.
+
+## Aanvulling: gevraagde lokale Kafka-viewer
+
+Op 2026-10-08 vraagt de gebruiker expliciet Kafbat UI te installeren. Deze beperkte
+uitbreiding blijft fase 0: optionele ontwikkeltool, geen productconsole. ADR-009
+legt loopbackbinding, read-only, aparte lifecycle en ontbreken van nieuwe data vast.
+
+- [x] Officiële release bepaald en download gestart.
+- [x] Image op digest pinnen en apart Compose-project configureren.
+- [x] Viewer starten en HTTP plus Kafka-clusterstatus controleren.
+- [x] Volledige repositoryverificatie uitvoeren; runbook en status bijwerken.
+- [x] Consistente wijziging vastgelegd in de commit met deze checklist. Terugrol: alleen het viewerproject stoppen.

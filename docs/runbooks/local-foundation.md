@@ -102,6 +102,24 @@ containerlogs. `npm run verify:code` is handig zonder Docker, maar voltooit fase
 - Afgebroken testproces: een uniek testproject kan achterblijven. Controleer de
   projectnaam en ownershiplabels voordat je uitsluitend dat testproject opruimt.
 
+## Kafka bekijken met Kafbat UI
+
+De optionele viewer is beschikbaar via `npm run viewer:up` op
+<http://127.0.0.1:18080>. Deze opdracht start zo nodig ook de foundationstack en
+controleert daarna de webinterface en de Kafka-verbinding. In de viewer:
+**ldv-local → Topics → een topic → Messages**. Zet de filter voor interne topics
+aan om `__consumer_offsets` te zien. De huidige foundationdemo verwijdert haar
+testtopic na afloop; de installatie van de viewer voegt geen berichten toe.
+
+`npm run viewer:check` controleert bereikbaarheid en clusterstatus opnieuw.
+`npm run viewer:down` stopt uitsluitend het viewerproject. Stop de viewer vóór
+`npm run infra:down`, omdat beide hetzelfde Docker-netwerk gebruiken. Starten
+herstelt de vaste configuratie; er wordt geen Kafka-data verwijderd.
+
+De viewer gebruikt alleen localhost, heeft geen gebruikerslogin en staat op
+read-only. Dynamische configuratie is uitgeschakeld. Dit is een ontwikkeltool voor
+de synthetische lokale demo, geen productie-autorisatiemaatregel. Zie ADR-009.
+
 ## Beperkingen
 
 Deze fase bewijst lokale opstartbaarheid en basisconnectiviteit. Eén Kafka-broker

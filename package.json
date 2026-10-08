@@ -23,7 +23,10 @@
     "infra:up": "npm run build && node scripts/infra.mjs up",
     "infra:check": "npm run build && node scripts/infra.mjs check",
     "infra:down": "node scripts/infra.mjs down",
-    "demo": "npm run build && node scripts/infra.mjs demo"
+    "demo": "npm run build && node scripts/infra.mjs demo",
+    "viewer:up": "npm run infra:up && docker compose --project-name ldv-viewer --file infra/compose.viewer.yaml up --detach && npm run viewer:check",
+    "viewer:check": "node scripts/viewer-check.mjs",
+    "viewer:down": "docker compose --project-name ldv-viewer --file infra/compose.viewer.yaml down"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "13.1.0",
