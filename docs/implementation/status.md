@@ -2,10 +2,10 @@
 
 ## Huidige fase
 
-**Fase 0 — Fundament en besluiten**
+**Fase 1 — LDV-domein en contractvalidatie**
 
-Status op 2026-10-08: **fase 0 voltooid**. De lokale demonstratie, volledige
-verificatie, schone checkout en GitHub Actions zijn groen. Fase 1 is niet gestart.
+Status op 2026-10-08: **fase 1 in verificatie**. Fase 0 is voltooid. De gebruiker
+heeft opdracht gegeven de volgende fase uit te voeren. Fase 2 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -18,7 +18,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | Fase | Status | Open punten |
 | --- | --- | --- |
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
-| 1. LDV-domein en contractvalidatie | Niet gestart; fase-0-poort vrijgegeven | Volgende afzonderlijke opdracht |
+| 1. LDV-domein en contractvalidatie | In verificatie | Volledige verify en schone checkout |
 | 2. Versioned Verwerkingsregister | Niet gestart | Voorafgaande fasen |
 | 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
@@ -26,6 +26,26 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-1-resultaat
+
+@ldv/domain bevat typen voor logregel, core-attributen, kandidaatvelden, resource
+en transportenvelop; AJV-validatie tegen de ongewijzigde JSON Schemas; controles
+op tijdvolgorde, exacte getallen en niet-nul-ID's; expliciet synthetisch demobeleid.
+Fouten bevatten geen invoerwaarden. Geen netwerk, database of runtime-service nodig.
+
+- `npm.cmd run verify`: geslaagd; formatter, lint, beide TypeScript-builds,
+  **81 tests in 5 bestanden**, contractchecks en alle Docker-/uitvalproeven groen.
+- Domeindemo via contracts:check: **12 geaccepteerd, 23 terecht afgewezen**.
+  Dit omvat de 30 nieuwe complete fixtures en de vijf bestaande voorbeelden.
+- Bestaande publieke schemas en OpenAPI zijn ongewijzigd.
+- Schone-checkoutcontrole volgt vóór het markeren van deze fase als voltooid.
+
+Regels: [validatiecontract](../../contracts/validation.md).
+Reproduceren en gebruik: [runbook](../runbooks/domain-validation.md).
+Plan: [fase 1](../../.agent/plans/phase-01-domain.md).
+De demo-allowlist bewijst geen algemene herkenning of pseudonimisering van
+persoonsgegevens. Geen migratie nodig en geen productie-authenticatie toegevoegd.
 
 ## Fase-0-resultaat
 

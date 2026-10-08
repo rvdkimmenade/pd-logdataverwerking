@@ -1,0 +1,604 @@
+{
+  "description": "Uitsluitend synthetische fixtures. Numerieke nulwaarden zijn geen echte identificatoren.",
+  "cases": [
+    {
+      "name": "core-only",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "status-Unset",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Unset",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "status-Error",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Error",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "zero-duration",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442798000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "uppercase-hex",
+      "kind": "record",
+      "input": {
+        "trace_id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "span_id": "BBBBBBBBBBBBBBBB",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "envelope-valid",
+      "kind": "envelope",
+      "input": {
+        "event_id": "00000000-0000-4000-8000-000000000001",
+        "schema_version": "1.0",
+        "source_application": "demo-service",
+        "responsible_party": "example-municipality",
+        "created_at": "2026-10-08T07:00:00Z",
+        "payload": {
+          "trace_id": "00000000000000000000000000000001",
+          "span_id": "0000000000000001",
+          "name": "Synthetische validatieproef",
+          "start_time": 1791442798000,
+          "end_time": 1791442799000,
+          "status": "Ok",
+          "attributes": {
+            "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+            "dpl.core.data_subject_id": "example-subject-not-real-001",
+            "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+          }
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "missing-dpl.core.processing_activity_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "missing-dpl.core.data_subject_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "missing-dpl.core.data_subject_id_type",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-trace_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "bad",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-span_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "gggggggggggggggg",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-parent_span_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        },
+        "parent_span_id": ""
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-status",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "error",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-start_time",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": -1,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-end_time",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1.5,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "invalid-name",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "zero-trace_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000000",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "ZERO_ID"
+    },
+    {
+      "name": "zero-span_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000000",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "ZERO_ID"
+    },
+    {
+      "name": "zero-parent_span_id",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        },
+        "parent_span_id": "0000000000000000"
+      },
+      "valid": false,
+      "code": "ZERO_ID"
+    },
+    {
+      "name": "time-reversed",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442797999,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "TIME_ORDER"
+    },
+    {
+      "name": "unsafe-time",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 9007199254740992,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "TIME_PRECISION"
+    },
+    {
+      "name": "raw-bsn",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "000000000",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "DEMO_SUBJECT_REQUIRED",
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "raw-kvk",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "00000000",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "DEMO_SUBJECT_REQUIRED",
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "raw-personnel",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "DEMO-PERSONNEL-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": false,
+      "code": "DEMO_SUBJECT_REQUIRED",
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "demo-subject-valid",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+        }
+      },
+      "valid": true,
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "raw-case",
+      "kind": "record",
+      "input": {
+        "trace_id": "00000000000000000000000000000001",
+        "span_id": "0000000000000001",
+        "name": "Synthetische validatieproef",
+        "start_time": 1791442798000,
+        "end_time": 1791442799000,
+        "status": "Ok",
+        "attributes": {
+          "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+          "dpl.core.data_subject_id": "example-subject-not-real-001",
+          "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym",
+          "dpl.pd.case_id": "DEMO-ZAAK-001"
+        }
+      },
+      "valid": false,
+      "code": "DEMO_CASE_REQUIRED",
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "envelope-time-reversed",
+      "kind": "envelope",
+      "input": {
+        "event_id": "00000000-0000-4000-8000-000000000001",
+        "schema_version": "1.0",
+        "source_application": "demo-service",
+        "responsible_party": "example-municipality",
+        "created_at": "2026-10-08T07:00:00Z",
+        "payload": {
+          "trace_id": "00000000000000000000000000000001",
+          "span_id": "0000000000000001",
+          "name": "Synthetische validatieproef",
+          "start_time": 1791442798000,
+          "end_time": 0,
+          "status": "Ok",
+          "attributes": {
+            "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+            "dpl.core.data_subject_id": "example-subject-not-real-001",
+            "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+          }
+        }
+      },
+      "valid": false,
+      "code": "TIME_ORDER"
+    },
+    {
+      "name": "envelope-invalid-payload",
+      "kind": "envelope",
+      "input": {
+        "event_id": "00000000-0000-4000-8000-000000000001",
+        "schema_version": "1.0",
+        "source_application": "demo-service",
+        "responsible_party": "example-municipality",
+        "created_at": "2026-10-08T07:00:00Z",
+        "payload": {
+          "trace_id": "00000000000000000000000000000001",
+          "span_id": "0000000000000001",
+          "name": "Synthetische validatieproef",
+          "start_time": 1791442798000,
+          "end_time": 1791442799000,
+          "status": "Ok"
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    },
+    {
+      "name": "envelope-demo-policy",
+      "kind": "envelope",
+      "input": {
+        "event_id": "00000000-0000-4000-8000-000000000001",
+        "schema_version": "1.0",
+        "source_application": "demo-service",
+        "responsible_party": "example-municipality",
+        "created_at": "2026-10-08T07:00:00Z",
+        "payload": {
+          "trace_id": "00000000000000000000000000000001",
+          "span_id": "0000000000000001",
+          "name": "Synthetische validatieproef",
+          "start_time": 1791442798000,
+          "end_time": 1791442799000,
+          "status": "Ok",
+          "attributes": {
+            "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+            "dpl.core.data_subject_id": "000000000",
+            "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+          }
+        }
+      },
+      "valid": false,
+      "code": "DEMO_SUBJECT_REQUIRED",
+      "policy": "synthetic-demo"
+    },
+    {
+      "name": "envelope-invalid-uuid",
+      "kind": "envelope",
+      "input": {
+        "event_id": "invalid",
+        "schema_version": "1.0",
+        "source_application": "demo-service",
+        "responsible_party": "example-municipality",
+        "created_at": "2026-10-08T07:00:00Z",
+        "payload": {
+          "trace_id": "00000000000000000000000000000001",
+          "span_id": "0000000000000001",
+          "name": "Synthetische validatieproef",
+          "start_time": 1791442798000,
+          "end_time": 1791442799000,
+          "status": "Ok",
+          "attributes": {
+            "dpl.core.processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+            "dpl.core.data_subject_id": "example-subject-not-real-001",
+            "dpl.core.data_subject_id_type": "https://register.example.invalid/identifier-types/bsn-pseudonym"
+          }
+        }
+      },
+      "valid": false,
+      "code": "SCHEMA_INVALID"
+    }
+  ]
+}

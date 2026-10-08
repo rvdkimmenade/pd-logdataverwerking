@@ -34,6 +34,12 @@ Controleer bij implementatie altijd de normatieve bron. Dit document beschrijft 
 
 ## Lokale technische envelop
 
+De uitvoerbare invulling van dit persoonsdataprofiel staat in
+[contracts/validation.md](../../contracts/validation.md) en package @ldv/domain.
+Het lokale schema vereist een URI voor het identifier-type; LDV 1.0.0 laat daar
+ook een beschrijvende string toe. `dpl.pd.*` blijft het afzonderlijke
+[kandidaatprofiel](municipal-profile.md), geen vastgestelde LDV-extensie.
+
 De envelop bevat transport- en beheerinformatie die niet automatisch onderdeel is van het normatieve LDV-record:
 
 - `event_id`;

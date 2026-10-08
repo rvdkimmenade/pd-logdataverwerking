@@ -84,6 +84,17 @@ Stoppen behoudt de ontwikkelvolumes. Configuratie, geheimen en herstel staan in
 het [lokale runbook](docs/runbooks/local-foundation.md). Op Windows PowerShell
 kan `npm.cmd` worden gebruikt.
 
+## LDV-domeinvalidatie (fase 1)
+
+```text
+npm run demo:domain
+```
+
+Deze demo controleert logregels en transportenveloppen zonder Docker, netwerk of
+database. De bibliotheek valideert schema's, tijdvolgorde en ID's, met een optioneel
+beleid voor synthetische identificatoren. Zie het [runbook](docs/runbooks/domain-validation.md)
+en [validatiecontract](contracts/validation.md).
+
 ## Kafka-viewer
 
 Kafka inspecteren kan met de optionele Kafbat UI:

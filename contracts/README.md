@@ -21,4 +21,11 @@ Deze map is de bron van waarheid voor externe interfaces.
 lokale schema-/OpenAPI-referenties en de aanwezige synthetische voorbeelden.
 Het OpenAPI Example Object gebruikt `externalValue` naar het ongewijzigde JSON-record.
 Deze correctie verandert het HTTP-contract of de berichtinhoud niet.
-Inhoudelijke LDV-domeinregels en negatieve domeinfixtures volgen in fase 1.
+## Controle in fase 1
+
+Na `npm run build` voert `npm run contracts:check` ook de zelfstandige
+domeinvalidatie uit. `npm run demo:domain` bouwt en demonstreert dezelfde regels.
+Zie [validation.md](validation.md) voor schema-, semantische en beleidscontroles.
+`examples/validation-cases.json` bevat positieve en negatieve complete berichten
+met de verwachte uitkomst en foutcode. De bestaande vijf voorbeelden worden ook
+door de domeinbibliotheek gevalideerd.
