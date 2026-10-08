@@ -1,18 +1,25 @@
 {
-  "event_id": "7c3a0f94-4327-4f1a-a770-b4c42696fd67",
-  "schema_version": "1.0",
-  "source_application": "bijzondere-bijstand",
-  "responsible_party": "gemeente-voorbeeld",
-  "created_at": "2026-10-08T07:00:00Z",
-  "payload": {
-    "trace_id": "7bba9f33312b3dabc8f8e90c7c61f194",
-    "span_id": "2a3f5c8d1e6b4a09",
-    "name": "Raadplegen aanvraag bijzondere bijstand",
-    "status": "Ok",
-    "start_time": "2026-10-08T06:59:58Z",
-    "end_time": "2026-10-08T06:59:59Z",
-    "attributes": {
-      "dpl.core.processing_activity_id": "PA-001"
+  "_comment":"Volledig synthetisch intern transportevent.",
+  "event_id":"00000000-0000-4000-8000-000000000001",
+  "schema_version":"1.0",
+  "source_application":"demo-service",
+  "responsible_party":"example-municipality",
+  "created_at":"2026-10-08T07:00:00Z",
+  "payload":{
+    "trace_id":"00000000000000000000000000000001",
+    "span_id":"0000000000000001",
+    "parent_span_id":"0000000000000002",
+    "name":"Demo: raadplegen aanvraag",
+    "start_time":1791442798000,
+    "end_time":1791442799000,
+    "status":"Ok",
+    "attributes":{
+      "dpl.core.processing_activity_id":"https://register.example.invalid/processing-activities/DEMO-001",
+      "dpl.core.data_subject_id":"example-subject-not-real-001",
+      "dpl.core.data_subject_id_type":"https://register.example.invalid/identifier-types/bsn-pseudonym",
+      "dpl.pd.case_id":"example-case-not-real-001",
+      "dpl.pd.service_id":"https://catalog.example.invalid/services/demo-service",
+      "dpl.pd.channel":"web"
     }
   }
 }
