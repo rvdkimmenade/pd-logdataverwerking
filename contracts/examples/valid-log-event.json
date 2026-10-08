@@ -1,0 +1,18 @@
+{
+  "event_id": "7c3a0f94-4327-4f1a-a770-b4c42696fd67",
+  "schema_version": "1.0",
+  "source_application": "bijzondere-bijstand",
+  "responsible_party": "gemeente-voorbeeld",
+  "created_at": "2026-10-08T07:00:00Z",
+  "payload": {
+    "trace_id": "7bba9f33312b3dabc8f8e90c7c61f194",
+    "span_id": "2a3f5c8d1e6b4a09",
+    "name": "Raadplegen aanvraag bijzondere bijstand",
+    "status": "Ok",
+    "start_time": "2026-10-08T06:59:58Z",
+    "end_time": "2026-10-08T06:59:59Z",
+    "attributes": {
+      "dpl.core.processing_activity_id": "PA-001"
+    }
+  }
+}
