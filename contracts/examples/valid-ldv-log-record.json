@@ -1,5 +1,4 @@
 {
-  "_comment": "Volledig synthetisch demo-object; bevat geen echte persoon, zaak of organisatie.",
   "trace_id": "00000000000000000000000000000001",
   "span_id": "0000000000000001",
   "parent_span_id": "0000000000000002",
