@@ -19,7 +19,7 @@ paths:
               $ref: ../schemas/ldv-log-record.schema.json
             examples:
               demo:
-                $ref: ../examples/valid-ldv-log-record.json
+                externalValue: ../examples/valid-ldv-log-record.json
       responses:
         "202":
           description: Logregel duurzaam geaccepteerd

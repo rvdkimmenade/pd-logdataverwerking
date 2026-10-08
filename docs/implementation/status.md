@@ -1,100 +1,88 @@
 # Implementatiestatus
 
-Dit bestand is het controlepunt voor de gefaseerde implementatie. Werk het bij na iedere betekenisvolle stap en voor iedere faseovergang.
-
 ## Huidige fase
 
 **Fase 0 — Fundament en besluiten**
 
-Status: gestart op 2026-10-08. Besluitvoorstellen gereed voor menselijke beoordeling; scaffolding nog niet gestart. Fase 0 is niet voltooid.
+Status op 2026-10-08: implementatie en lokale demonstratie gereed. De volledige
+lokale verificatie is groen. Schone-checkoutbewijs en een daadwerkelijke CI-run
+moeten nog worden toegevoegd; fase 0 is daarom nog niet als voltooid gemarkeerd.
+
+## Menselijke goedkeuring
+
+Roger van de Kimmenade (opdrachtgever), 2026-10-08: 'ik geef goedkeuring voor de 3
+voorstellen'. ADR-006, ADR-007 en ADR-008 zijn Accepted, inclusief de begrensde
+lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgeleid.
 
 ## Faseoverzicht
 
-| Fase | Status | Bewijs | Open punten |
-|---|---|---|---|
-| 0. Fundament en besluiten | Wacht op goedkeuring voorstellen | ADR-006/007/008 en ExecPlan | Acceptatie, scaffolding, Docker Engine en foundationchecks |
-| 1. LDV-domein en contractvalidatie | Geblokkeerd door fase 0 | — | — |
-| 2. Versioned Verwerkingsregister | Geblokkeerd door fase 1 | — | — |
-| 3. Ingest API en Kafka | Geblokkeerd door fase 2 | — | — |
-| 4. Consumer en logopslag | Geblokkeerd door fase 3 | — | — |
-| 5. Zoekprojectie en Query API | Geblokkeerd door fase 4 | — | — |
-| 6. Adminconsole | Geblokkeerd door fase 5 | — | — |
-| 7. Applicatie-outbox | Geblokkeerd door fase 6 | — | — |
-| 8. Hardening en acceptatie | Geblokkeerd door fase 7 | — | — |
+| Fase | Status | Open punten |
+| --- | --- | --- |
+| 0. Fundament en besluiten | Lokaal groen; laatste bewijzen open | Schone checkout en CI-run |
+| 1. LDV-domein en contractvalidatie | Niet gestart | Fase-0-poort |
+| 2. Versioned Verwerkingsregister | Niet gestart | Voorafgaande fasen |
+| 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
+| 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
+| 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
+| 6. Adminconsole | Niet gestart | Voorafgaande fasen |
+| 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
+| 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
 
-## Bewijs per fase
+## Fase-0-resultaat
 
-### Fase 0: besluitvoorbereiding
+- [Goedgekeurde technologie](../decisions/ADR-006-technology-and-repository.md),
+  [infrastructuur](../decisions/ADR-007-infrastructure.md) en
+  [security](../decisions/ADR-008-authentication-and-authorization.md).
+- [Uitvoeringsplan](../../.agent/plans/phase-00-foundation.md).
+- [Runbook](../runbooks/local-foundation.md) en [CI-workflow](../../.github/workflows/verify.yml).
+- npm-workspace met configuratievalidatie; exacte dependencies en lockfile.
+- Gepinde PostgreSQL 18.6- en Kafka 4.3.1-images met digest.
+- Technische demo met query, Kafka-roundtrip en geredigeerde HTML/JSON-rapporten.
+- Bestaande OpenAPI-exampleverwijzing gecorrigeerd, payload ongewijzigd.
 
-Uitgangscommit: 2582037 (roadmap). De commit van deze beslisronde is na committen reproduceerbaar op te vragen met `git log -1 --format=%H -- docs/decisions/ADR-006-technology-and-repository.md`; zo ontstaat geen zelfverwijzing naar de hash van dit bestand.
+## Uitgevoerd bewijs
 
-Reviewbare resultaten:
+Baseline: 99ee227. De implementatiecommit wordt na vastlegging teruggevonden met
+`git log -1 --format=%H -- scripts/verify.mjs`. Dit document bevat geen zelfverwijzende
+commithash. Artifactpaden hieronder zijn lokaal gegenereerd en worden niet gecommit.
 
-- [ADR-006: technologie en repository-indeling](../decisions/ADR-006-technology-and-repository.md).
-- [ADR-007: infrastructuur](../decisions/ADR-007-infrastructure.md).
-- [ADR-008: authenticatie en autorisatie](../decisions/ADR-008-authentication-and-authorization.md).
-- [ExecPlan fase 0](../../.agent/plans/phase-00-foundation.md).
+| Controle | Commando | Uitkomst |
+| --- | --- | --- |
+| Dependencies | npm install met exacte versies | Lockfile gegenereerd; nul gerapporteerde kwetsbaarheden |
+| Formatter/linter/build/tests | npm.cmd run verify:code | Geslaagd; 24 tests in 4 bestanden |
+| Contracten | npm.cmd run contracts:check | 6 documenten, 2 schemas, 1 OpenAPI, 5 voorbeelden |
+| Technische demo | npm.cmd run demo | Geslaagd; PostgreSQL-query en Kafka-roundtrip |
+| Volledige fasepoort lokaal | npm.cmd run verify | Geslaagd, inclusief uitvaldetectie, herstart en cleanup |
+| Schone checkout | Nog uit te voeren | Open |
+| GitHub Actions | Nog uit te voeren | Open |
 
-Alle nieuwe ADR's zijn Proposed. Naam/rol en datum van menselijke goedkeuring: nog niet ontvangen. Het verzoek om te starten is niet geregistreerd als acceptatie van deze concrete besluiten.
+Lokale omgeving: Windows, Node.js 24.16.0, npm 11.13.0, Docker Engine 29.5.3,
+Compose 5.1.4. De Node-referentiepatch voor CI is 24.21.0; package.json ondersteunt
+Node 24 vanaf 24.16.0. Dev-dependencies zijn exact vastgezet; typescript-eslint
+vereist TypeScript lager dan 6.1, daarom is de compatibele 5.9.3 gebruikt.
 
-Inventarisatie op 2026-10-08:
+De volledige verificatie start een unieke teststack zonder hostpoorten. Na een
+positieve databasequery en een synthetische Kafka-roundtrip wordt de broker gestopt.
+De healthgate weigert die toestand en wordt na herstart weer groen. Alleen de
+unieke teststack en haar volumes worden opgeruimd. De blijvende demo is intact.
 
-| Commando | Uitkomst |
-|---|---|
-| node --version | v24.16.0 |
-| npm.cmd --version | 11.13.0 |
-| docker version (buiten sandbox) | Client 29.5.3; Linux-enginepipe ontbreekt |
-| docker context ls (buiten sandbox) | desktop-linux actief, engine nog niet bereikbaar |
-| git log -1 --format='%h %s' bij aanvang | 2582037, roadmapcommit |
+Rapporten: artifacts/demo.html, artifacts/demo.json, artifacts/foundation.html en
+artifacts/foundation.json. Dit zijn momentopnamen van testuitkomsten, geen
+gebruikersapp of live monitor. Ze bevatten geen secrets of persoonsgegevens.
 
-Het gecombineerde Docker-inventarisatiecommando eindigde met exitcode 0 doordat context ls slaagde. De afzonderlijke enginefout blijft een mislukte beschikbaarheidscontrole; dit is geen groene infrastructuurtest.
+## Herstelde fouten
 
-### Verplichte foundationgates
+- Kafka kon niet schrijven naar de root-owned named volume. De beperkte initcontainer
+  corrigeert uitsluitend de volumeroot; de daadwerkelijke broker draait als UID 1000.
+- De OpenAPI Example Object-ref wees naar een kaal record. externalValue verwijst
+  nu naar dezelfde fixture; contract- en toolingtests zijn groen.
+- De aanvankelijk gekozen ESLint 9 was niet meer ondersteund en is vervangen door
+  de compatibele ESLint 10. Er is geen architectuur- of contractafwijking.
 
-| Gate | Resultaat |
-|---|---|
-| Schone checkout/build | Niet uitgevoerd; scaffolding wacht op goedkeuring |
-| Formatter/linter | Niet ingericht |
-| Unit-testvoorbeeld | Niet ingericht |
-| Repositorycontractvalidator | Niet ingericht; losse JSON-parsing is onvoldoende |
-| Infrastructuur start en healthchecks | Niet uitgevoerd; Docker Engine ontbreekt |
-| CI met dezelfde checks | Niet ingericht; geen CI-run of runlink |
-| Demonstratie | Besluitdocumenten, geen draaiend platform |
-| Menselijke acceptatie | Open voor ADR-006, ADR-007 en ADR-008 |
+## Beperkingen en vervolg
 
-Er is nog geen repositoryverificatiecommando. Voorgesteld is npm run verify inclusief infrastructuur. Geen foundationgate is groen verklaard.
-
-### Uitgevoerde documentcontroles
-
-Op 2026-10-08: git diff --check geslaagd; 5 JSON-bestanden succesvol geparseerd; lokale Markdown-links gecontroleerd in 22 bestanden zonder ontbrekende doelen. De Git-meldingen over LF/CRLF zijn normalisatiewaarschuwingen, geen testfouten. Deze checks bewijzen geen schema-, OpenAPI- of runtimeconformiteit.
-
-Reproduceerbaar vanuit de repositoryroot met PowerShell:
-
-```powershell
-git diff --check
-if ($LASTEXITCODE -ne 0) { throw 'Whitespace check failed' }
-$jsonFiles = @(Get-ChildItem contracts -Recurse -Filter *.json)
-foreach ($file in $jsonFiles) {
-    Get-Content -Raw -LiteralPath $file.FullName | ConvertFrom-Json -ErrorAction Stop | Out-Null
-}
-Write-Output ('JSON syntax OK: ' + $jsonFiles.Count + ' files')
-$markdownFiles = @(Get-ChildItem docs,.agent -Recurse -Filter *.md)
-foreach ($file in $markdownFiles) {
-    $body = Get-Content -Raw -LiteralPath $file.FullName
-    foreach ($match in [regex]::Matches($body, '\]\(([^)]+)\)')) {
-        $target = $match.Groups[1].Value
-        if ($target -notmatch '^(https?://|#)') {
-            $resolved = Join-Path $file.DirectoryName ($target.Split('#')[0])
-            if (-not (Test-Path -LiteralPath $resolved)) { throw ('Broken link: ' + $resolved) }
-        }
-    }
-}
-Write-Output ('Local Markdown links OK: ' + $markdownFiles.Count + ' files')
-```
-
-## Besluiten en blokkades
-
-1. Het bestaande ExecPlan schrijft goedkeuring vóór scaffolding voor (werkvolgorde stap 4); AGENTS.md eist menselijke acceptatie voor fase 0. Na acceptatie volgt eerst de foundationimplementatie, nog niet fase 1.
-2. Docker Desktop Linux Engine draait niet. Deze moet beschikbaar zijn voor de verplichte infrastructuurproeven.
-3. Bij OpenAPI-validatie moet de verwijzing naar een kaal record onder examples.demo worden beoordeeld. Vóór fase 3 moet de stabiele retry-identiteit uit reliability.md worden afgestemd op het ingestcontract. Dit zijn geregistreerde, nog onopgeloste bevindingen.
-4. Hostingprovider, concrete identityprovider, retentieduur en RPO/RTO zijn niet gekozen; de POC is niet productierijp.
+Geen Register API, ingestservice, LDV-opslag of console in fase 0. Geen
+productie-authenticatie of HA bewezen. Single-node Kafka en lokaal PLAINTEXT vallen
+onder de expliciet goedgekeurde demo-uitzondering. Providerkeuze, productieretentie
+en RPO/RTO zijn niet ingevuld. De stabiele retry-identiteit moet vóór fase 3
+contractueel worden afgestemd; niet verborgen door foundationtests.

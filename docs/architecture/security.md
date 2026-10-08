@@ -1,5 +1,14 @@
 # Security en privacy
 
+## Goedgekeurde uitwerking
+
+Zie [ADR-008](../decisions/ADR-008-authentication-and-authorization.md), geaccepteerd
+op 2026-10-08. De lokale fase-0-demo gebruikt uitsluitend synthetische data en
+loopbackpoorten; alleen daar is transport zonder TLS toegestaan. De
+foundationcommando's weigeren productie-/gedeelde omgevingen. Hieronder staan de
+doelarchitectuureisen; mTLS/OIDC en de rollen worden in de betreffende servicefasen
+geïmplementeerd en zijn niet door een infrastructuurdemo bewezen.
+
 ## Uitgangspunten
 
 - Authenticatie van services met workload identity of mTLS.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed — 2026-10-08. Menselijke goedkeuring ontbreekt. Dit voorstel geeft nog geen toestemming om scaffolding of services te bouwen.
+Accepted — 2026-10-08. Roger van de Kimmenade heeft in deze taak expliciet alle drie de voorstellen goedgekeurd. Optie A is geaccepteerd; uitvoering blijft begrensd tot de roadmapfase.
 
 ## Context
 
@@ -65,4 +65,4 @@ CI voert npm ci en npm run verify uit op een schone Linux-runner met Docker. Een
 
 ## Goedkeuring
 
-Te accepteren: optie A, tooling, repository-indeling en de volledige verificatiepoort. Naam/rol, datum en besluit worden pas na expliciete goedkeuring ingevuld in de implementatiestatus.
+Geaccepteerd door Roger van de Kimmenade (opdrachtgever), 2026-10-08: optie A, tooling, repository-indeling en de volledige verificatiepoort. Bron: bericht 'ik geef goedkeuring voor de 3 voorstellen'.

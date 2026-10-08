@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed — 2026-10-08. Menselijke goedkeuring vereist vóór scaffolding. Dit document beschrijft een te implementeren grens, geen reeds bewezen beveiliging.
+Accepted — 2026-10-08. Roger van de Kimmenade heeft de securitykeuzes inclusief de begrensde lokale uitzondering goedgekeurd. Dit document beschrijft een te implementeren grens, geen reeds bewezen beveiliging.
 
 ## Context
 
@@ -62,4 +62,4 @@ API-keys als gedeeld geheim worden niet als voorkeursmodel gekozen: lifecycle en
 
 ## Goedkeuring
 
-Te accepteren: mTLS voor workloads, OIDC voor mensen, autorisatie op verantwoordelijke/bron/actie, rollenmatrix inclusief publicatiescheiding en uitsluitend de beschreven lokale uitzondering.
+Geaccepteerd door Roger van de Kimmenade (opdrachtgever), 2026-10-08: mTLS voor workloads, OIDC voor mensen, autorisatie op verantwoordelijke/bron/actie, rollenmatrix inclusief publicatiescheiding en uitsluitend de beschreven lokale uitzondering. Bron: bericht 'ik geef goedkeuring voor de 3 voorstellen'.

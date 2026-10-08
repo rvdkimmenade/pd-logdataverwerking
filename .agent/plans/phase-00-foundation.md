@@ -1,82 +1,105 @@
 # ExecPlan fase 0 — Fundament en besluiten
 
-## Doel
+## Doel en uitgangssituatie
 
-Maak een minimale, reproduceerbare ontwikkelomgeving en laat technologie- en securitykeuzes goedkeuren voordat scaffolding en functionele services worden gebouwd. De gebruiker vroeg op 2026-10-08 om de eerste fase te starten. De huidige fase is fase 0, niet fase 1.
+Lever een reproduceerbare technische ontwikkelomgeving. Fase 0 is de enige actieve
+fase; geen Register-, ingest-, consumer-, query-, domein- of consolefunctionaliteit.
+Baseline: commit 99ee227 bevat de voorgestelde ADR's bovenop roadmapcommit 2582037.
 
-## Huidige situatie en bronnen
+Bronnen: AGENTS.md, .agent/PLANS.md, docs/implementation/roadmap.md,
+docs/architecture/{overview,reliability,security}.md, docs/testing/test-strategy.md,
+contracts/AGENTS.md en ADR-006/007/008.
 
-Uitgangspunt: commit 2582037, uitsluitend documentatie en contractskeletten. Relevante bronnen zijn AGENTS.md, .agent/PLANS.md, docs/implementation/roadmap.md, docs/architecture/{overview,reliability,security}.md, docs/ldv/standard-profile.md, docs/testing/test-strategy.md en contracts/AGENTS.md. Er is nog geen verificatiecommando of CI-workflow.
+## Goedkeuring en ontwerp
 
-## Scope
+Roger van de Kimmenade (opdrachtgever) heeft op 2026-10-08 expliciet geschreven:
+'ik geef goedkeuring voor de 3 voorstellen'. ADR-006/007/008 zijn Accepted.
+TypeScript strict, Node.js 24 LTS en npm workspaces vormen de basis. Fastify blijft
+een keuze voor toekomstige HTTP-services en wordt nog niet ongebruikt geïnstalleerd.
+PostgreSQL 18 en Kafka 4 draaien via Compose; OpenSearch volgt pas in fase 5.
+mTLS/OIDC volgen bij de services. De lokale PLAINTEXT-uitzondering geldt alleen
+voor synthetische data, geïsoleerde netwerken en loopbackpoorten.
 
-Alleen fase 0 uit `docs/implementation/roadmap.md`. Geen Register-, ingest-, Kafka-consumer-, query- of UI-functionaliteit implementeren.
+## Deliverables uit de roadmap
 
-## Deliverables
+- [x] ADR voor taal, framework, buildtool en repository-indeling, geaccepteerd.
+- [x] ADR lokale/productie-infrastructuur, geaccepteerd.
+- [x] ADR authenticatie/autorisatie, geaccepteerd.
+- [x] Projectscaffolding met formatter, linter en testframework.
+- [x] Dependency locking met exacte dependencies en package-lock.json.
+- [x] Lokale PostgreSQL/Kafka-omgeving; OpenSearch niet nodig in deze fase.
+- [x] Eén volledige verificatieopdracht: npm run verify.
+- [x] CI-workflow die npm ci en dezelfde verificatie uitvoert.
+- [x] Environmentconfiguratie, loopbackdefaults en gegenereerde lokale secrets.
 
-- [x] ADR programmeertaal, framework, buildtool en monorepo-indeling opgesteld; acceptatie open.
-- [x] ADR lokale en productie-infrastructuur opgesteld; acceptatie open.
-- [x] ADR authenticatie en autorisatie opgesteld; acceptatie open.
-- [ ] Projectscaffolding.
-- [ ] Formatter, linter en testframework.
-- [ ] Dependency locking.
-- [ ] Lokale PostgreSQL-, Kafka- en optionele OpenSearchomgeving.
-- [ ] Eén verificatiecommando.
-- [ ] CI-workflow.
-- [ ] Veilige configuratie zonder secrets.
+## Uitgevoerde stappen
 
-## Werkvolgorde
-
-1. [x] Bestaande contracten, architectuur en aanwezige tools inventariseren.
-2. [x] Twee stackopties uitwerken met gevolgen voor beheer, Kafka, JSON Schema, OpenAPI en frontend.
-3. [x] Aanbevelingen vastleggen in ADR-006, ADR-007 en ADR-008, alle met status Proposed.
-4. [ ] Stop voor menselijke goedkeuring. **Huidige positie.**
-5. [ ] Na goedkeuring uitsluitend scaffolding, lockfile en lokale infrastructuur bouwen.
-6. [ ] Formatter, linter, verificatie, runbook en CI toevoegen.
-7. [ ] Alle fase-0-tests uitvoeren, ook vanuit een schone checkout.
-8. [ ] Werkelijke testbewijzen en acceptatie in status.md opnemen en een consistente wijziging committen.
-
-## Ontwerpkeuzes ter goedkeuring
-
-- ADR-006 vergelijkt TypeScript/Node.js en C#/.NET; aanbeveling: TypeScript strict, Node.js 24 LTS, Fastify 5 en npm workspaces.
-- ADR-007: PostgreSQL en Kafka via Compose. De single-node-demo is geen bewijs voor productie-HA. OpenSearch is pas in fase 5 nodig.
-- ADR-008: mTLS voor workloads, OIDC voor mensen en rechten per verantwoordelijke, bron en actie. De lokale plaintext-uitzondering geldt uitsluitend voor synthetische infrastructuurtests.
-- Een algemeen verzoek om te beginnen geldt niet als acceptatie van nog niet getoonde besluiten.
+1. Architectuur, roadmap, contracten en tools geïnventariseerd.
+2. Goedkeuring vastgelegd en ADR-index bijgewerkt.
+3. Minimale foundationworkspace met configuratievalidatie en tests gebouwd.
+4. Syntax-/schema-/referentiecontrole voor bestaande contracten ingericht.
+5. Compose met gepinde images/digests, secrets en healthchecks toegevoegd.
+6. Afzonderlijke ontwikkel- en unieke verificatieprojecten gemaakt.
+7. npm run demo uitgevoerd: query en Kafka-roundtrip geslaagd; HTML/JSON-bewijs.
+8. npm run verify uitgevoerd: code, contracten, infrastructuur en negatieve
+   stop/herstart-proef geslaagd. De ontwikkelomgeving bleef draaien.
+9. README, runbook en implementatiestatus bijgewerkt.
+10. Nog te bewijzen: verificatie op een schone checkout en daadwerkelijke CI-run.
 
 ## Contracten en migraties
 
-Geen wijzigingen in publieke contracten of databases tijdens deze beslisronde. De foundationchecker controleert syntax, schemastructuur en lokale referenties. De inhoudelijke domeinvalidatie blijft fase 1.
+De ongeldige OpenAPI Example Object-ref is vervangen door externalValue naar
+hetzelfde ongewijzigde JSON-record. Geen gewijzigde velden, HTTP-responses of
+securitygrenzen. De toolingtests bewijzen de verwijzing en afwijzing van een
+ontbrekende lokale referentie. Schema-/fixturechecks gebruiken AJV 2020-12.
+Semantische LDV-domeinvalidatie blijft fase 1. Er zijn geen database-migraties.
 
-Twee bevindingen blijven zichtbaar: de OpenAPI-verwijzing onder examples.demo verwijst naar een kaal record en moet bij volledige OpenAPI-validatie worden beoordeeld als Example Object; de stabiele event_id aan de bron uit reliability.md moet vóór fase 3 worden afgestemd op het servergegenereerde ingest-event. Geen van deze punten wordt hier stilzwijgend opgelost door een contractwijziging.
+Vóór fase 3 blijft retry-identiteit een expliciet contractpunt: reliability.md
+vraagt een stabiele event_id vanaf de bron, terwijl het huidige ingestcontract
+servergeneratie beschrijft. Dit is niet met een premature interfacewijziging opgelost.
 
-## Validatie
+## Verificatie en demonstratie
 
-Voorgesteld: npm ci gevolgd door npm run verify. Het laatste commando bevat ook infrastructuurchecks. PostgreSQL moet een echte query beantwoorden; Kafka moet een synthetisch bericht produceren en consumeren. Een ontbrekende engine of ongezonde service moet een foutstatus opleveren, geen stille skip. Losse documentcontroles tellen niet als foundationtest.
+- [x] Formatter, linting, TypeScript-build en 24 tests lokaal geslaagd.
+- [x] Contractsyntax: 6 documenten, 2 schemas, 1 OpenAPI en 5 voorbeelden.
+- [x] PostgreSQL/Kafka starten gezond en beantwoorden echte bewerkingen.
+- [x] Negatieve gate wijst gestopte Kafka af; herstart wordt weer groen.
+- [x] Demo via npm run demo geslaagd; artifacts/demo.html is de momentopname.
+- [ ] Schone checkout kan bouwen en npm run verify slaagt.
+- [ ] CI voert dezelfde checks uit en heeft een groene runlink.
 
-Verplichte tests uit de roadmap:
-
-- [ ] Schone checkout kan bouwen.
-- [ ] Unit-testvoorbeeld slaagt.
-- [ ] Contractbestanden worden syntactisch gevalideerd door de repositoryverificatie.
-- [ ] Lokale infrastructuur start en health checks worden groen.
-- [ ] CI voert dezelfde checks uit.
-
-Demonstratie: vanuit een schone checkout installeren, volledige verificatie uitvoeren, resultaten tonen en aantonen dat een ongezonde afhankelijkheid de poort niet passeert. README en runbook moeten overeenkomen met de werkelijke commando's.
+Commando's: npm ci, npm run demo, npm run verify. Op Windows mag npm.cmd worden
+gebruikt. Node-referentiepatch staat in .node-version; ondersteunde ondergrens
+staat in package.json. De CI-actions zijn op geverifieerde commit-SHA's gepind.
 
 ## Betrouwbaarheid, security en terugrol
 
-Geen runtime- of datamutaties in deze beslisronde. ADR-001 tot en met ADR-005 blijven leidend. Geen echte gegevens of productiecredentials nodig. De voorstellen kunnen zonder datamigratie worden herzien. Later worden alleen projectgebonden testcontainers opgeruimd; reguliere ontwikkelvolumes blijven behouden.
+Geen businessrecords of persoonsgegevens. Het testbericht is uitsluitend een
+synthetische foundationprobe, geen LDV-logrecord. De teststack publiceert geen
+hostpoorten. De demo gebruikt 127.0.0.1:15432 en 127.0.0.1:19092. Productie-
+omgevingen, publieke bindadressen en ongeldige poorten worden geweigerd.
 
-## Uitkomsten en bevindingen
+Geheimen staan uitsluitend in genegeerde .local-mappen, gemount als Compose secret.
+Alleen de unieke teststack en haar volumes worden automatisch opgeruimd. De demo
+behoudt volumes en secret bij npm run infra:down. Geen bestaande stacks opruimen.
+Code terugrollen vereist geen migratie. Dit is geen bewijs voor productie-HA.
 
-- 2026-10-08: Node.js 24.16.0 en npm 11.13.0 aanwezig. Dit is inventarisatie, geen goedgekeurde securitypatchbaseline.
-- 2026-10-08: Docker CLI 29.5.3 aanwezig, Docker Desktop Linux Engine niet bereikbaar, ook buiten de sandbox. Geen infrastructuurtest geslaagd.
-- Drie reviewbare ADR's en bijgewerkte status opgesteld. Scaffolding wacht op stap 4. Geen latere fase gestart.
+## Bevindingen en herstel
 
-## Fasepoort
+- Docker Desktop is gestart; de Linux Engine is nu bereikbaar.
+- Het Kafka-volume werd aanvankelijk als root aangemaakt. Een beperkte, kortlevende
+  initcontainer zet alleen de volumeroot op UID/GID 1000; Kafka blijft niet-root.
+- ESLint 9 bleek niet meer ondersteund. ESLint 10 is binnen dezelfde goedgekeurde
+  toolingkeuze vastgezet; installatiescan rapporteerde nul kwetsbaarheden.
+- OpenAPI-examplefout is gerepareerd zonder payloadwijziging.
+- Fouten worden per gate zichtbaar in HTML/JSON; subprocessoutput met mogelijke
+  secrets wordt niet automatisch gepubliceerd.
 
-Fase 1 mag pas starten nadat alle checks groen zijn en de ADR's expliciet door een mens zijn geaccepteerd.
+## Exitcriterium
 
-- [ ] Technologie- en security-ADR's door een mens geaccepteerd.
-- [ ] Alle foundationchecks groen, inclusief schone checkout en CI.
-- [ ] Demonstratie geslaagd en reproduceerbaar bewijs in status.md.
+- [x] Technologie- en security-ADR's menselijk geaccepteerd.
+- [x] Lokale foundationchecks en gedocumenteerde demonstratie groen.
+- [ ] Schone checkout en daadwerkelijke CI groen, met evidence in status.md.
+- [ ] Consistente commit en definitieve fase-evidence vastgelegd.
+
+Fase 1 wordt niet in deze uitvoering gestart.

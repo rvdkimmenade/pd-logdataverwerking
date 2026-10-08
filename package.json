@@ -1,0 +1,42 @@
+{
+  "name": "pd-logdataverwerking",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.16.0 <25",
+    "npm": ">=11 <12"
+  },
+  "packageManager": "npm@11.13.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "format": "prettier --write packages scripts infra .github *.json *.mjs *.ts",
+    "format:check": "prettier --check packages scripts infra .github *.json *.mjs *.ts",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "contracts:check": "node scripts/contracts.mjs",
+    "verify:code": "npm run format:check && npm run lint && npm run build && npm test && npm run contracts:check",
+    "verify": "node scripts/verify.mjs",
+    "infra:up": "npm run build && node scripts/infra.mjs up",
+    "infra:check": "npm run build && node scripts/infra.mjs check",
+    "infra:down": "node scripts/infra.mjs down",
+    "demo": "npm run build && node scripts/infra.mjs demo"
+  },
+  "devDependencies": {
+    "@apidevtools/swagger-parser": "13.1.0",
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "eslint": "10.12.0",
+    "globals": "17.13.0",
+    "prettier": "3.9.9",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.1",
+    "vitest": "5.0.3",
+    "yaml": "2.9.1"
+  }
+}

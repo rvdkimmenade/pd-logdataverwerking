@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed — 2026-10-08. Menselijke goedkeuring ontbreekt. Er wordt met dit voorstel niets uitgerold of ingekocht.
+Accepted — 2026-10-08. Roger van de Kimmenade heeft de lokale infrastructuur en productie-uitgangspunten goedgekeurd. Dit autoriseert geen productie-uitrol of inkoop.
 
 ## Context
 
@@ -57,4 +57,4 @@ De voorstellen zijn terug te draaien als documentwijziging. Na implementatie is 
 
 ## Goedkeuring
 
-Te accepteren: lokale single-node Compose-omgeving, optionele zoekindex pas in fase 5, productie-uitgangspunten zonder providerkeuze en de begrensde lokale security-uitzondering uit ADR-008.
+Geaccepteerd door Roger van de Kimmenade (opdrachtgever), 2026-10-08: lokale single-node Compose-omgeving, zoekindex pas in fase 5, productie-uitgangspunten zonder providerkeuze en de lokale security-uitzondering uit ADR-008. Bron: bericht 'ik geef goedkeuring voor de 3 voorstellen'.
