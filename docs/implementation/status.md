@@ -2,11 +2,11 @@
 
 ## Huidige fase
 
-**Fase 2 — Versioned Verwerkingsregister en beheer**
+**Fase 3 — Ingest API en duurzame acceptatie (besluitvorming)**
 
-Status op 2026-10-09: **fase 2 voltooid**. De volledige verificatie en schone
-checkout zijn groen, inclusief browserdemo en databaseherstel. De fase-3-poort
-is vrijgegeven; de opdracht om door te gaan is ontvangen.
+Status op 2026-10-09: **fase 2 voltooid; fase 3 voorbereid**. De volledige
+verificatie en schone checkout zijn groen. Het concrete retry-voorstel staat in
+ADR-011; implementatie wacht op akkoord voor deze interface-/architectuuruitbreiding.
 
 ## Menselijke goedkeuring
 
@@ -21,7 +21,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
-| 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
+| 3. Ingest API en Kafka | Ontwerp voorbereid | Akkoord ADR-011 voor stabiele retry-identiteit |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
