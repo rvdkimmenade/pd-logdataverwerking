@@ -4,9 +4,9 @@
 
 **Fase 2 — Versioned Verwerkingsregister en beheer**
 
-Status op 2026-10-09: **fase 2 in eindverificatie**. API, migraties, rollen en
-beheerscherm zijn gebouwd. De laatste browsercorrectie wordt geverifieerd;
-schone-checkoutbewijs en commit volgen. Fase 3 is nog niet gestart.
+Status op 2026-10-09: **fase 2 voltooid**. De volledige verificatie en schone
+checkout zijn groen, inclusief browserdemo en databaseherstel. De fase-3-poort
+is vrijgegeven; de opdracht om door te gaan is ontvangen.
 
 ## Menselijke goedkeuring
 
@@ -20,13 +20,43 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | --- | --- | --- |
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
-| 2. Versioned Verwerkingsregister en beheer | Eindverificatie | Volledige verificatie en schone checkout |
+| 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
 | 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-2-resultaat (2026-10-09)
+
+Implementatiecommit `dd0e867` op `codex/phase-2-register`. Register API, migraties,
+lokale rol-/scopehandhaving en beheerinterface zijn gebouwd. ADR-010 legt de
+goedgekeurde combinatie met beheer en het uitstellen van OIDC vast.
+
+- `npm.cmd run verify` lokaal geslaagd: 90 tests in 6 bestanden; formatter,
+  lint, builds, 3 schemas, 2 OpenAPI-contracten en alle foundationproeven groen.
+- Alle 12 registerchecks groen: migratie/upgrade, API-contracten, rollen/scopes,
+  publicaties, overlap, historie, concurrentie, audittransacties, invoer,
+  browserflow, databaseherstel met databehoud en cleanup.
+- Desktop- en mobiele screenshots visueel gecontroleerd; de browserflow toetst
+  drie rollen, wizard, wijzigingen, publicatie, opvolger, vergelijking en historie.
+- Schone checkout van `dd0e867` in `.local/register-clean`: `npm ci --offline
+  --ignore-scripts` en `npm run verify` beide geslaagd. Opnieuw 90 tests en alle
+  foundation- en registerchecks groen. Geen nieuwe CI-run geclaimd.
+- Lokale server na verificatie herstart: http://127.0.0.1:18081 bereikbaar;
+  gegevens en toegangscodes behouden.
+- Runbook: [register.md](../runbooks/register.md). Bewijs lokaal:
+  artifacts/register.html, register-desktop.png en register-mobile.png.
+
+Herstelde bevindingen: locking met beperkte databaserol gebruikt een transactionele
+advisory lock; succesmeldingen worden vóór een nieuwe actie gewist; de browsertest
+respecteert de segmenten van native datumvelden; de tijdelijke Docker-poort blijft
+bij herstart vast zodat het herstel werkelijk op dezelfde verbinding wordt bewezen.
+
+Beperking: lokale synthetische demo, OIDC pas fase 6. Geen claim voor gedeelde of
+productie-inzet. Gepubliceerde geldigheidsperiodes blijven immutable, inclusief
+een onbegrensde einddatum. Geen logboekzoekschermen of fase-3-ingest geïmplementeerd.
 
 ## Fase-1-resultaat
 

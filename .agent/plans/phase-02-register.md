@@ -40,7 +40,7 @@ Geen OIDC, productie, Kafka-ingest, logboekzoekschermen of exports in deze fase.
 - [x] Autorisatie en tenantisolatie op API en UI getest.
 - [x] Migratie op lege database en bij upgrade getest.
 - [x] Browserdemo en browsertests per rol groen; labels/toetsenbord/fouten gecontroleerd.
-- [ ] Volledige verify, schone checkout, runbook en bewijs groen; consistent gecommit.
+- [x] Volledige verify, schone checkout, runbook en bewijs groen; implementatie dd0e867 en aansluitende bewijscommit.
 
 ## Veiligheid, herstel en observatie
 
@@ -58,3 +58,10 @@ zijn groen. Twee browserbevindingen zijn hersteld: native datumvelden hebben
 meerdere tabstappen; oude succesmeldingen moeten verdwijnen vóór een nieuwe actie
 zodat gebruikers/testautomatisering geen verouderde bevestiging lezen. De volledige
 verificatie is op 2026-10-09 hervat na de opdracht om door te gaan.
+
+Afgerond op 2026-10-09: lokale volledige verify en dezelfde verify vanuit de
+schone checkout dd0e867 groen (90 tests, alle foundationchecks en 12 registerchecks).
+De herstelproef stelde vast dat Docker willekeurige poorten na herstart wijzigt;
+de eenmaal toegewezen testpoort wordt nu vastgezet. Herstel en databehoud zijn
+aangetoond. Desktop/mobiel visueel gecontroleerd, lokale app herstart met behoud
+van data en codes. Geen open fase-2-defecten.
