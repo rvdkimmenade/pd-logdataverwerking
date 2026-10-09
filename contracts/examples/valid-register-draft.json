@@ -1,0 +1,26 @@
+{
+  "party": "example-municipality",
+  "content": {
+    "name": "Demo: aanvraag behandelen",
+    "description": "Uitsluitend synthetische beschrijving.",
+    "purpose": "Een synthetische aanvraag beoordelen.",
+    "legal_basis": "Demogrondslag; geen juridisch advies.",
+    "retention": "Demo: 1 jaar",
+    "data_subject_categories": [
+      "Synthetische inwoners"
+    ],
+    "data_categories": [
+      "Synthetische aanvraaggegevens"
+    ],
+    "processors": [],
+    "recipients": [],
+    "source_systems": [
+      "demo-portaal"
+    ],
+    "destination_systems": [
+      "demo-zaak"
+    ]
+  },
+  "valid_from": "2026-01-01T00:00:00Z",
+  "valid_until": "2027-01-01T00:00:00Z"
+}

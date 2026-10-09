@@ -1,0 +1,1089 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Register API — lokale demo",
+    "version": "1.0.0",
+    "description": "ADR-010: lokale toegangscodes/sessies; OIDC volgt in fase 6. Intervallen zijn halfopen. Publicaties zijn immutable, inclusief einddatum."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:18081"
+    }
+  ],
+  "security": [
+    {
+      "localSession": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "localSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "ldv_register"
+      }
+    }
+  },
+  "paths": {
+    "/api/activities": {
+      "get": {
+        "operationId": "listActivities",
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/register.schema.json#/$defs/summary"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createActivity",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/register.schema.json#/$defs/create"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/detail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      }
+    },
+    "/api/activities/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getActivity",
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/detail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities/{id}/versions": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "createVersion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/register.schema.json#/$defs/draft"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/version"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      }
+    },
+    "/api/activities/{id}/versions/{version}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "version",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "put": {
+        "operationId": "updateDraft",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/register.schema.json#/$defs/update"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/version"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      }
+    },
+    "/api/activities/{id}/versions/{version}/publish": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "version",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "post": {
+        "operationId": "publishVersion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/register.schema.json#/$defs/publish"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/version"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      }
+    },
+    "/api/activities/{id}/resolve": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "at",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "resolveVersion",
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/version"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/session": {
+      "post": {
+        "operationId": "loginLocalDemo",
+        "security": [],
+        "description": "Alleen lokale demo. Willekeurige code uit het genegeerde lokale bestand; HttpOnly SameSite=Strict cookie, 30 minuten geldig. OIDC volgt in fase 6.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "maxLength": 256
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "role",
+                    "party"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "enum": [
+                        "editor",
+                        "reviewer",
+                        "reader"
+                      ]
+                    },
+                    "party": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "logoutLocalDemo",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "const": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "description": "Moet exact overeenkomen met de geconfigureerde lokale origin.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ]
+      }
+    },
+    "/api/me": {
+      "get": {
+        "operationId": "currentDemoIdentity",
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "role",
+                    "party"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "enum": [
+                        "editor",
+                        "reviewer",
+                        "reader"
+                      ]
+                    },
+                    "party": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "ok",
+                        "ready"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "operationId": "ready",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "ok",
+                        "ready"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "operationId": "registerMetrics",
+        "responses": {
+          "200": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "requests",
+                    "denied",
+                    "mutations"
+                  ],
+                  "properties": {
+                    "requests": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "denied": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "mutations": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Resultaat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/register.schema.json#/$defs/problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -20,6 +20,8 @@ jobs:
       - name: Locked install
         run: npm ci
       - name: Full foundation gate
+        run: npx playwright install --with-deps chromium
+      - name: Full repository gate
         run: npm run verify
       - name: Keep verification evidence
         if: always()

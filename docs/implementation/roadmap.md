@@ -83,11 +83,13 @@ Maak van de bestaande contracten uitvoerbare regels zonder netwerk- of databasea
 
 De validatiebibliotheek heeft geen infrastructuur nodig en alle contracttests zijn groen.
 
-## Fase 2 — Versioned Verwerkingsregister
+## Fase 2 — Versioned Verwerkingsregister en beheer
 
 ### Doel
 
-Lever eerst een zelfstandig bruikbaar Register met historische versies.
+Lever een zelfstandig bruikbaar Register met historische versies en een lokaal
+beheerscherm. Opdrachtgever heeft op 2026-10-08 registerbeheer uit fase 6 naar
+fase 2 verplaatst en OIDC expliciet uitgesteld naar fase 6 (ADR-010).
 
 ### Deliverables
 
@@ -98,6 +100,10 @@ Lever eerst een zelfstandig bruikbaar Register met historische versies.
 - Query op activiteit-ID en tijdstip.
 - Eenvoudige seeddata met uitsluitend synthetische voorbeelden.
 - Audit-event voor registerwijzigingen, gescheiden van LDV-logregels.
+- Beheerscherm met activiteitenoverzicht, conceptwizard, bewerken, publiceren,
+  nieuwe versie, versieverschillen en historische raadpleging.
+- Lokale demo-toegang met aparte codes voor beheerder, reviewer en lezer;
+  API-autorisatie per verantwoordelijke en publicatie door een tweede persoon.
 
 ### Verplichte tests
 
@@ -107,10 +113,14 @@ Lever eerst een zelfstandig bruikbaar Register met historische versies.
 - Historische query levert de destijds geldige versie.
 - Autorisatie voorkomt ongeoorloofde mutaties.
 - Migratie werkt op een lege database en bij upgrade.
+- Browsertests voor maken, bewerken, publiceren, nieuwe versie en historie.
+- Roltests op API en scherm; basiscontrole labels, toetsenbord en foutmeldingen.
 
 ### Exitcriterium
 
-Een demo toont aanmaken, publiceren, versioneren en historische raadpleging. API- en integratietests zijn groen.
+Een demo toont aanmaken, publiceren, versioneren en historische raadpleging via
+het beheerscherm. API-, database-, autorisatie- en browsertests zijn groen.
+OIDC en gedeelde/productie-inzet zijn uitdrukkelijk geen fase-2-claim.
 
 ## Fase 3 — Ingest API en duurzame acceptatie
 
@@ -202,12 +212,13 @@ Zoeken en traceweergave werken binnen de vastgelegde POC-latency en een volledig
 
 ### Doel
 
-Lever een bruikbare interface voor registerbeheer, onderzoek en operationeel inzicht.
+Breid het in fase 2 gebouwde registerbeheer uit met onderzoek en operationeel inzicht.
 
 ### Deliverables
 
-- Inloggen en rolgebaseerde navigatie.
-- Registerwizard, publicatie en versieverschil.
+- OIDC-inloggen (Authorization Code en PKCE) en rolgebaseerde navigatie; vervangt
+  lokale demo-toegang uit fase 2. Registerwizard, publicatie en versieverschil
+  worden hergebruikt uit fase 2.
 - Zoeken op trace, periode, applicatie, activiteit en subject-pseudoniem.
 - Tracetijdlijn met parent-childrelaties.
 - Detailweergave van originele logregel plus historische registerversie.

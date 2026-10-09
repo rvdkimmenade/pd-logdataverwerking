@@ -6,6 +6,11 @@ Accepted — 2026-10-08. Roger van de Kimmenade heeft de securitykeuzes inclusie
 
 ## Context
 
+Aanvulling 2026-10-08: [ADR-010](ADR-010-register-management-phase-2.md)
+verplaatst registerbeheer naar fase 2 en stelt OIDC op expliciet verzoek uit.
+De daarin beschreven lokale demo-uitzondering vervangt de fase-0-beperking voor
+uitsluitend het lokale register. Gedeelde/productie-eisen blijven gelden.
+
 Bronapplicaties, registerbeheerders en onderzoekers hebben verschillende rechten. Een opgegeven responsible_party of source_application is geen bewijs van identiteit. De architectuur verlangt workload identity of mTLS, gescheiden logstromen en minimale persoonsgegevens.
 
 ## Voorgesteld besluit

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verwerkingsregister · LDV</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Naar inhoud</a>
+    <header>
+      <div class="brand">LDV <span>Platform Dienstverlening</span></div>
+      <div id="identity"></div>
+    </header>
+    <div class="demo">
+      LOKALE DEMO · uitsluitend synthetische gegevens · OIDC volgt in fase 6
+    </div>
+    <main id="main">
+      <div class="heading">
+        <div>
+          <p class="eyebrow">VERANTWOORDING & CONTEXT</p>
+          <h1>Verwerkingsregister</h1>
+          <p>
+            Van concept naar publicatie. Elke versie blijft terug te vinden.
+          </p>
+        </div>
+        <button id="new" hidden>Nieuwe activiteit</button>
+      </div>
+      <p id="message" role="status" aria-live="polite"></p>
+      <section id="login" class="card login">
+        <h2>Open het lokale register</h2>
+        <p>
+          Gebruik de toegangscode voor je demorol uit het lokale
+          toegangscodesbestand. Beheerder, reviewer en lezer hebben ieder een
+          eigen code.
+        </p>
+        <form id="login-form">
+          <label for="code">Demo-toegangscode</label
+          ><input
+            id="code"
+            name="code"
+            type="password"
+            autocomplete="off"
+            required
+          /><button>Inloggen</button>
+        </form>
+      </section>
+      <div id="workspace" class="workspace" hidden>
+        <aside class="card">
+          <h2>Activiteiten</h2>
+          <label for="filter">Zoeken op naam</label
+          ><input id="filter" type="search" placeholder="Zoek een activiteit" />
+          <p id="count" class="muted"></p>
+          <nav id="activities" aria-label="Verwerkingsactiviteiten"></nav>
+        </aside>
+        <section id="detail" class="card">
+          <div class="empty">
+            <span>↗</span>
+            <h2>Breng verwerkingen in beeld</h2>
+            <p>Selecteer een activiteit om de versies te bekijken.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      LDV · Registerbeheer
+      <span>Gepubliceerde versies zijn onveranderbaar</span>
+    </footer>
+  </body>
+</html>

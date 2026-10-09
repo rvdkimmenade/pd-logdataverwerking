@@ -10,6 +10,12 @@ Een verwerkingsactiviteit heeft een stabiele ID en één of meer versies. Iedere
 
 Een historische query resolveert de versie die geldig was op het tijdstip van de logregel.
 
+De fase-2-API gebruikt halfopen intervallen: de begindatum telt mee, de einddatum
+niet. Een gepubliceerde einddatum wordt nooit achteraf gewijzigd. Laat je de
+einddatum leeg, dan is de versie onbeperkt geldig en wordt een overlappende opvolger
+geweigerd. Een concept kan worden aangepast zolang het niet gepubliceerd is;
+revision voorkomt het overschrijven van gelijktijdige wijzigingen.
+
 ## Gegevens
 
 Een registerversie bevat ten minste:
@@ -28,6 +34,10 @@ Een registerversie bevat ten minste:
 
 ## Gebruiksvriendelijkheid
 
-De adminconsole ondersteunt een invoerwizard, hergebruik van bestaande activiteiten, concept- en goedkeuringsstatus, validatie, versieverschillen, bulkimport, deeplinks en autocomplete voor activiteit-ID's.
+Fase 2 bevat een invoerwizard, concepten, publicatie door een andere rol, nieuwe
+versies op basis van bestaande inhoud, validatie, versieverschillen en historische
+raadpleging. Bulkimport, deeplinks en autocomplete zijn toekomstige uitbreidingen.
+OIDC volgt in fase 6; de huidige interface gebruikt expliciete lokale demo-toegang
+volgens ADR-010.
 
 Applicaties vragen het Register niet voor iedere verwerking synchroon op. De stabiele activiteit-ID wordt doorgaans tijdens configuratie of deployment gekoppeld.

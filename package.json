@@ -9,16 +9,21 @@
   },
   "packageManager": "npm@11.13.0",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json",
-    "format": "prettier --write packages scripts infra .github *.json *.mjs *.ts",
-    "format:check": "prettier --check packages scripts infra .github *.json *.mjs *.ts",
+    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json",
+    "format": "prettier --write packages apps scripts infra .github *.json *.mjs *.ts",
+    "format:check": "prettier --check packages apps scripts infra .github *.json *.mjs *.ts",
     "lint": "eslint .",
     "test": "vitest run",
     "contracts:check": "node scripts/contracts.mjs && node scripts/domain-demo.mjs",
     "demo:domain": "npm run build && node scripts/domain-demo.mjs",
+    "register:up": "npm run build && node scripts/register-local.mjs up",
+    "register:down": "node scripts/register-local.mjs down",
+    "register:check": "node scripts/register-local.mjs check",
+    "test:register": "node scripts/register-test.mjs",
     "verify:code": "npm run format:check && npm run lint && npm run build && npm test && npm run contracts:check",
     "verify": "node scripts/verify.mjs",
     "infra:up": "npm run build && node scripts/infra.mjs up",
@@ -32,7 +37,9 @@
   "devDependencies": {
     "@apidevtools/swagger-parser": "13.1.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.0",
     "@types/node": "24.19.1",
+    "@types/pg": "8.23.1",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "eslint": "10.12.0",

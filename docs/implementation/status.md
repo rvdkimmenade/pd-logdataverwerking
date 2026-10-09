@@ -2,10 +2,11 @@
 
 ## Huidige fase
 
-**Fase 1 — LDV-domein en contractvalidatie**
+**Fase 2 — Versioned Verwerkingsregister en beheer**
 
-Status op 2026-10-08: **fase 1 voltooid**. De volledige repositoryverificatie,
-schone checkout en zelfstandige domeindemo zijn groen. Fase 2 is niet gestart.
+Status op 2026-10-09: **fase 2 in eindverificatie**. API, migraties, rollen en
+beheerscherm zijn gebouwd. De laatste browsercorrectie wordt geverifieerd;
+schone-checkoutbewijs en commit volgen. Fase 3 is nog niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -19,7 +20,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | --- | --- | --- |
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
-| 2. Versioned Verwerkingsregister | Niet gestart | Voorafgaande fasen |
+| 2. Versioned Verwerkingsregister en beheer | Eindverificatie | Volledige verificatie en schone checkout |
 | 3. Ingest API en Kafka | Niet gestart | Retry-identiteit vóór implementatie oplossen |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |

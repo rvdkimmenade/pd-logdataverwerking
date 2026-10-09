@@ -21,6 +21,13 @@ try {
   }
   const { infrastructure, recorder } = await import('./infra.mjs');
   await infrastructure('verify', recorder(checks));
+  const registerStart = Date.now();
+  npm(['run', 'test:register'], { stdio: 'inherit', timeout: 300_000 });
+  checks.push({
+    name: 'Register API, database, rollen en browser',
+    passed: true,
+    durationMs: Date.now() - registerStart,
+  });
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))

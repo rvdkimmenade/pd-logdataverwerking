@@ -95,6 +95,13 @@ database. De bibliotheek valideert schema's, tijdvolgorde en ID's, met een optio
 beleid voor synthetische identificatoren. Zie het [runbook](docs/runbooks/domain-validation.md)
 en [validatiecontract](contracts/validation.md).
 
+## Verwerkingsregister en beheer
+
+Het **Verwerkingsregister met beheerscherm** start je met `npm run register:up`.
+Open <http://127.0.0.1:18081>; lokale toegangscodes en de demonstratieroute staan in
+het [registerrunbook](docs/runbooks/register.md). OIDC volgt op verzoek in fase 6.
+Stop met `npm run register:down`; data blijft behouden.
+
 ## Kafka-viewer
 
 Kafka inspecteren kan met de optionele Kafbat UI:

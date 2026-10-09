@@ -49,6 +49,7 @@ export async function checkContracts() {
   const examples = [
     ['valid-ldv-log-record.json', 'ldv-log-record.schema.json'],
     ['valid-log-event.json', 'ldv-envelope.schema.json'],
+    ['valid-register-draft.json', 'register.schema.json#/$defs/create'],
   ];
   for (const [example, schema] of examples) {
     const validator = ajv.getSchema(
@@ -76,6 +77,8 @@ export async function checkContracts() {
   for (const [path, document] of documents) {
     if (!document.openapi) continue;
     await validateOpenApi(path);
+    apiCount++;
+    if (!document.paths['/v1/log-records']) continue;
     const media =
       document.paths['/v1/log-records'].post.requestBody.content[
         'application/json'
@@ -92,7 +95,6 @@ export async function checkContracts() {
     if (!validator(JSON.parse(await readFile(externalPath, 'utf8')))) {
       throw new Error('OpenAPI external example rejected');
     }
-    apiCount++;
   }
   if (apiCount === 0 || schemas.length === 0)
     throw new Error('Missing contract inputs');
@@ -100,7 +102,7 @@ export async function checkContracts() {
     documents: documents.size,
     schemas: schemas.length,
     openapi: apiCount,
-    fixtures: 5,
+    fixtures: 6,
   };
 }
 
