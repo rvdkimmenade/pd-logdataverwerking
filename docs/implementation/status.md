@@ -2,11 +2,12 @@
 
 ## Huidige fase
 
-**Fase 3 — Ingest API en duurzame acceptatie (besluitvorming)**
+**Fase 3 — Ingest API en duurzame acceptatie (uitvoering)**
 
-Status op 2026-10-09: **fase 2 voltooid; fase 3 voorbereid**. De volledige
-verificatie en schone checkout zijn groen. Het concrete retry-voorstel staat in
-ADR-011; implementatie wacht op akkoord voor deze interface-/architectuuruitbreiding.
+Status op 2026-10-09: **fase 2 voltooid; fase 3 in uitvoering**. ADR-011 is door
+de opdrachtgever goedgekeurd met 'ja akkoord'. De ontvangstlogica, contracten en
+beveiligde lokale infrastructuur zijn geïmplementeerd; volledige verificatie en
+schone checkout moeten voor afsluiting nog groen zijn.
 
 ## Menselijke goedkeuring
 
@@ -21,7 +22,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
-| 3. Ingest API en Kafka | Ontwerp voorbereid | Akkoord ADR-011 voor stabiele retry-identiteit |
+| 3. Ingest API en Kafka | In uitvoering | Volledige gates, demo en schone checkout |
 | 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
@@ -29,6 +30,13 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
 
 ## Fase-2-resultaat (2026-10-09)
+
+Voorafgaande fase-3-uitvoering op 2026-10-09: `npm run verify` geslaagd met 93
+unit-/contracttests, foundationproeven, 12 registerchecks en 15 ingestgates.
+Daarna expliciete netwerk-requestTimeout toegevoegd en aanvullend een stille
+broker getoetst: verify:code en alle 16 ingestgates groen. Demo op 18082 geeft
+202, event_id `91b44678-8b3c-4282-bb10-0290c990bb8d`, identieke retryresponse.
+Schone checkout nog te toetsen vóór fase-3-afsluiting. Rapport: artifacts/ingest.json.
 
 Implementatiecommit `dd0e867` op `codex/phase-2-register`. Register API, migraties,
 lokale rol-/scopehandhaving en beheerinterface zijn gebouwd. ADR-010 legt de

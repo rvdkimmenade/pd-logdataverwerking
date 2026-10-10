@@ -2,9 +2,9 @@
 
 ## Status
 
-Proposed — 2026-10-09. Fase 2 is voltooid. Voor uitvoering is akkoord nodig omdat
-deze keuze de publieke ingestinterface uitbreidt en een nieuwe duurzame technische
-administratie binnen ingest toevoegt. Bestaande contracten zijn nog niet gewijzigd.
+Accepted — 2026-10-09. Opdrachtgever heeft expliciet 'ja akkoord' gegeven op dit
+voorstel, inclusief de compatibele interface-uitbreiding en duurzame technische
+ontvangstadministratie. Uitvoering blijft begrensd tot fase 3.
 
 ## Probleem
 
@@ -65,8 +65,9 @@ wordt vóór start getest; geen impliciete overgang naar een onveilige gedeelde 
 
 Fase 3 levert ingest, ontvangstmetadata, Kafka-publicatie en hun testen. Append-only
 LDV-opslag, consumerdeduplicatie en bedrijfsoutbox blijven in fasen 4 en 7.
-De Kafka-clientkeuze is nog te toetsen op compatibiliteit met de gepinde Kafka 4.3.1,
-acks=all, idempotentie, begrensde foutafhandeling en producerherstel.
+Uitvoering gebruikt @platformatic/kafka 2.14.0 met acks=-1, idempotent=true,
+maxInflights=1 en begrensde retries/timeouts. De integratiepoort toetst publicatie,
+procescrash en producerherstel tegen de gepinde Kafka 4.3.1.
 
 ## Alternatieven
 
@@ -91,4 +92,4 @@ acks=all, idempotentie, begrensde foutafhandeling en producerherstel.
 
 ## Goedkeuring
 
-Nog niet ontvangen. Het bestaande publieke contract en de runtime zijn ongewijzigd.
+Ontvangen op 2026-10-09: 'ja akkoord' op de uitvoering van ADR-011.

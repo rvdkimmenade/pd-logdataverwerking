@@ -10,7 +10,8 @@ Een absolute garantie zonder duurzame opslag aan de bron bestaat niet. Daarom is
 
 1. De applicatie schrijft de businessmutatie en het LDV-event in één lokale databasetransactie.
 2. Een publisher selecteert nog niet bevestigde outboxregels.
-3. De publisher verzendt met een stabiele `event_id`.
+3. De publisher verzendt met een stabiele `Idempotency-Key`; ingest bewaart het
+   bijbehorende servergegenereerde `event_id` duurzaam volgens ADR-011.
 4. Na bevestigde acceptatie markeert de publisher het event als afgeleverd.
 5. Tijdelijke fouten leiden tot retry met begrensde exponential backoff en jitter.
 

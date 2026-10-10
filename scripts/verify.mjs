@@ -28,6 +28,22 @@ try {
     passed: true,
     durationMs: Date.now() - registerStart,
   });
+  const ingestStart = Date.now();
+  try {
+    npm(['run', 'test:ingest'], { stdio: 'inherit', timeout: 420000 });
+    checks.push({
+      name: 'Ingest API, mTLS, Kafka en herstel',
+      passed: true,
+      durationMs: Date.now() - ingestStart,
+    });
+  } catch (error) {
+    checks.push({
+      name: 'Ingest API, mTLS, Kafka en herstel',
+      passed: false,
+      durationMs: Date.now() - ingestStart,
+    });
+    throw error;
+  }
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))

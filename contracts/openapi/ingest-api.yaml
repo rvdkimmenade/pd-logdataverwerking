@@ -1,16 +1,85 @@
 openapi: 3.1.0
 info:
   title: LDV Ingest API
-  version: 0.1.0
+  version: 0.2.0
   description: De server voegt na duurzame acceptatie een interne transportenvelop toe.
 servers:
   - url: https://ldv.example.invalid
 paths:
+  /health:
+    get:
+      operationId: liveness
+      security:
+        - sourceCertificate: []
+      responses:
+        "200":
+          description: Proces actief
+        "403":
+          description: Bron niet bevoegd
+  /ready:
+    get:
+      operationId: readiness
+      security:
+        - sourceCertificate: []
+      responses:
+        "200":
+          description: Database en Kafka bereikbaar
+        "403":
+          description: Bron niet bevoegd
+        "503":
+          description: Afhankelijkheid niet beschikbaar
+  /metrics:
+    get:
+      operationId: counters
+      security:
+        - sourceCertificate: []
+      responses:
+        "200":
+          description: Proceslokale tellers zonder labels of payloads
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - received
+                  - accepted
+                  - rejected
+                  - unavailable
+                properties:
+                  received:
+                    type: integer
+                    minimum: 0
+                  accepted:
+                    type: integer
+                    minimum: 0
+                  rejected:
+                    type: integer
+                    minimum: 0
+                  unavailable:
+                    type: integer
+                    minimum: 0
+        "403":
+          description: Bron niet bevoegd
   /v1/log-records:
     post:
       operationId: createLogRecord
       summary: Leg een LDV-logregel vast
-      description: Bij meerdere betrokkenen biedt de applicatie per betrokkene een afzonderlijke logregel aan.
+      security:
+        - sourceCertificate: []
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          description: Stabiele UUID per logisch event, binnen de geauthenticeerde bron en
+            verantwoordelijke. Herhaling van dezelfde inhoud geeft dezelfde
+            ontvangst terug; andere inhoud geeft 409. Zonder header krijgt
+            iedere aanvraag een nieuw event_id.
+          schema:
+            type: string
+            format: uuid
+      description: Bij meerdere betrokkenen biedt de applicatie per betrokkene een
+        afzonderlijke logregel aan.
       requestBody:
         required: true
         content:
@@ -28,12 +97,99 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
-                required: [event_id, accepted_at]
+                required:
+                  - event_id
+                  - accepted_at
                 properties:
-                  event_id: {type: string, format: uuid}
-                  accepted_at: {type: string, format: date-time}
-        "400": {description: JSON of verzoekstructuur is ongeldig}
-        "401": {description: Authenticatie ontbreekt of is ongeldig}
-        "403": {description: Bron is niet bevoegd}
-        "422": {description: Logregel voldoet niet aan het LDV-contract}
-        "503": {description: Duurzame acceptatie kan niet worden gegarandeerd}
+                  event_id:
+                    type: string
+                    format: uuid
+                  accepted_at:
+                    type: string
+                    format: date-time
+        "400":
+          description: JSON of verzoekstructuur is ongeldig
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Authenticatie ontbreekt of is ongeldig
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Bron is niet bevoegd
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: IDEMPOTENCY_CONFLICT — sleutel eerder gebruikt voor andere inhoud
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "413":
+          description: Verzoek overschrijdt de limiet van 1048576 bytes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "415":
+          description: Alleen application/json wordt ondersteund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Logregel voldoet niet aan het LDV-contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "503":
+          description: Duurzame acceptatie kan niet worden gegarandeerd
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+      properties:
+        code:
+          enum:
+            - INVALID_REQUEST
+            - INVALID_KEY
+            - FORBIDDEN
+            - IDEMPOTENCY_CONFLICT
+            - INVALID_LOG_RECORD
+            - UNAVAILABLE
+        issues:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              - layer
+              - code
+              - path
+            properties:
+              layer:
+                type: string
+              code:
+                type: string
+              path:
+                type: string
+  securitySchemes:
+    sourceCertificate:
+      type: mutualTLS
+      description: Vertrouwde certificaatketen plus expliciete certificaatmapping naar
+        bron, verantwoordelijke en toegestane verwerkingen. Ontbrekende of
+        ongeldige certificaten worden tijdens TLS geweigerd.

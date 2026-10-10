@@ -13,7 +13,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json",
+    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json && tsc -p apps/ingest/tsconfig.json",
     "format": "prettier --write packages apps scripts infra .github *.json *.mjs *.ts",
     "format:check": "prettier --check packages apps scripts infra .github *.json *.mjs *.ts",
     "lint": "eslint .",
@@ -24,6 +24,10 @@
     "register:down": "node scripts/register-local.mjs down",
     "register:check": "node scripts/register-local.mjs check",
     "test:register": "node scripts/register-test.mjs",
+    "test:ingest": "node scripts/ingest-test.mjs",
+    "ingest:up": "npm run build && node scripts/ingest-local.mjs up",
+    "ingest:down": "node scripts/ingest-local.mjs down",
+    "demo:ingest": "node scripts/ingest-local.mjs demo",
     "verify:code": "npm run format:check && npm run lint && npm run build && npm test && npm run contracts:check",
     "verify": "node scripts/verify.mjs",
     "infra:up": "npm run build && node scripts/infra.mjs up",

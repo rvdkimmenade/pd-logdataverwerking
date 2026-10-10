@@ -11,7 +11,8 @@ Het platform ontkoppelt gemeentelijke applicaties van centrale LDV-opslag, zonde
 | Applicatie | Voert de dataverwerking uit en maakt trace-, span- en LDV-context |
 | Transactionele outbox | Slaat businessmutatie en te publiceren event atomair op |
 | LDV publisher | Leest de outbox en levert events herhaald aan tot ontvangst bevestigd is |
-| Ingest API | Authenticeert bron, valideert envelop en accepteert events |
+| Ingest API | Authenticeert bron, valideert LDV-logregel, maakt envelop en accepteert events |
+| Ontvangstadministratie | Bewaart uitsluitend stabiele retry-identiteit en acceptatiestatus (ADR-011) |
 | Kafka | Duurzaam transport, piekbuffer, fan-out en replay |
 | Log consumer | Valideert inhoud, dedupliceert en schrijft duurzaam |
 | Append-only logopslag | Gezaghebbende opslag van geaccepteerde logregels |
@@ -31,6 +32,7 @@ flowchart TB
   subgraph Inname
     P --> G[Ingest API]
     G --> K[(Kafka)]
+    G --> M[(Ontvangstmetadata)]
   end
   subgraph Logboek
     K --> C[Log consumer]

@@ -1,0 +1,19 @@
+asyncapi: 3.0.0
+info:
+  title: LDV accepted ingestion events
+  version: 1.0.0
+channels:
+  accepted:
+    address: ldv.accepted.v1
+    description: At-least-once transport, geen archief. Sleutel is JSON-array [responsible_party, trace_id]. Consumers dedupliceren op event_id. Alleen gevalideerde en geautoriseerde logregels.
+    messages:
+      logEvent:
+        name: LogEventV1
+        contentType: application/json
+        payload:
+          $ref: ../schemas/ldv-envelope.schema.json
+operations:
+  publishAccepted:
+    action: send
+    channel:
+      $ref: '#/channels/accepted'

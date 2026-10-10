@@ -1,0 +1,78 @@
+services:
+  postgres:
+    image: postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    entrypoint: [bash, -ec]
+    command:
+      - cp /pki/server.key /tmp/server.key; chmod 600 /tmp/server.key; chown postgres /tmp/server.key; exec docker-entrypoint.sh postgres -c ssl=on -c ssl_cert_file=/pki/server.crt -c ssl_key_file=/tmp/server.key -c ssl_ca_file=/pki/ca.crt -c hba_file=/pki/pg_hba.conf
+    environment:
+      POSTGRES_USER: ingest_owner
+      POSTGRES_DB: ingest
+      POSTGRES_PASSWORD_FILE: /run/secrets/password
+    secrets: [password]
+    ports: ['127.0.0.1:${INGEST_DB_PORT}:5432']
+    volumes:
+      - database:/var/lib/postgresql
+      - ${INGEST_PKI}/database:/pki:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U ingest_owner -d ingest']
+      interval: 3s
+      timeout: 5s
+      retries: 40
+  kafka-volume-init:
+    image: apache/kafka:4.3.1@sha256:77e3df9054047a88b520d0cc46e16696d3b22022e1d580aeccd2632df6532837
+    user: '0:0'
+    entrypoint: [chown, '1000:1000', /data]
+    read_only: true
+    network_mode: none
+    cap_drop: [ALL]
+    cap_add: [CHOWN]
+    volumes: [broker:/data]
+  kafka:
+    image: apache/kafka:4.3.1@sha256:77e3df9054047a88b520d0cc46e16696d3b22022e1d580aeccd2632df6532837
+    depends_on:
+      kafka-volume-init: { condition: service_completed_successfully }
+    ports: ['127.0.0.1:${INGEST_KAFKA_PORT}:9094']
+    environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://127.0.0.1:${INGEST_KAFKA_PORT}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:SSL,CONTROLLER:SSL,EXTERNAL:SSL
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_SSL_KEYSTORE_TYPE: PEM
+      KAFKA_SSL_KEYSTORE_LOCATION: /pki/broker.pem
+      KAFKA_SSL_TRUSTSTORE_TYPE: PEM
+      KAFKA_SSL_TRUSTSTORE_LOCATION: /pki/ca.crt
+      KAFKA_SSL_CLIENT_AUTH: required
+      KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
+      KAFKA_SUPER_USERS: User:CN=admin;User:CN=server
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: 'false'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      KAFKA_HEAP_OPTS: -Xms256m -Xmx512m
+    volumes:
+      - broker:/tmp/kraft-combined-logs
+      - ${INGEST_PKI}/kafka:/pki:ro
+    healthcheck:
+      test:
+        [
+          CMD-SHELL,
+          '/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092 --command-config /pki/admin.properties >/dev/null 2>&1',
+        ]
+      interval: 5s
+      timeout: 15s
+      retries: 30
+      start_period: 20s
+volumes:
+  database:
+  broker:
+secrets:
+  password:
+    file: ${INGEST_PASSWORD_FILE}

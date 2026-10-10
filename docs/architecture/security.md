@@ -11,6 +11,12 @@ geïmplementeerd en zijn niet door een infrastructuurdemo bewezen.
 
 ## Uitgangspunten
 
+Fase 3 implementeert mTLS voor bron, Kafka (inclusief controller) en
+PostgreSQL in de afzonderlijke ingest-demo. Certificaatmapping, topic-ACL's en
+een beperkte runtime-databaserol zijn onderdeel van de integratiepoort.
+Zie [ingestrunbook](../runbooks/ingest.md). De lokale CA/secretbestanden zijn
+ontwikkelmiddelen; productievoorzieningen en sleutelrotatie volgen in fase 8.
+
 - Authenticatie van services met workload identity of mTLS.
 - Autorisatie per bronapplicatie, verantwoordelijke en gebruikersrol.
 - Versleuteling tijdens transport en in opslag.

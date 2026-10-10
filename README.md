@@ -57,8 +57,8 @@ contractcontroles, PostgreSQL, Kafka en een reproduceerbare verificatie. ADR-006
 ADR-007 en ADR-008 zijn op 8 oktober 2026 goedgekeurd. De actuele testbewijzen en
 resterende fasepoorten staan in [de implementatiestatus](docs/implementation/status.md).
 
-Er is nog geen Register API, ingestservice, logboekopslag of adminconsole. Die
-componenten volgen uitsluitend in hun eigen roadmapfase.
+Het register met beheer is beschikbaar. Fase 3 voegt de Ingest API toe;
+gezaghebbende logboekopslag en zoekfunctionaliteit volgen in latere fasen.
 
 ## Technische demo starten
 
@@ -103,6 +103,11 @@ het [registerrunbook](docs/runbooks/register.md). OIDC volgt op verzoek in fase 
 Stop met `npm run register:down`; data blijft behouden.
 
 ## Kafka-viewer
+
+De beveiligde Ingest API start met `npm run ingest:up`. Voer vervolgens
+`npm run demo:ingest` uit voor een synthetische aanvraag en identieke retry.
+Zie het [ingestrunbook](docs/runbooks/ingest.md) voor mTLS, berichtinzage en herstel.
+De ingestbroker is apart van onderstaande foundation-viewer.
 
 Kafka inspecteren kan met de optionele Kafbat UI:
 
