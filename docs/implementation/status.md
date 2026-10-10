@@ -2,12 +2,11 @@
 
 ## Huidige fase
 
-**Fase 3 — Ingest API en duurzame acceptatie (uitvoering)**
+**Fase 3 — Ingest API en duurzame acceptatie (voltooid)**
 
-Status op 2026-10-09: **fase 2 voltooid; fase 3 in uitvoering**. ADR-011 is door
-de opdrachtgever goedgekeurd met 'ja akkoord'. De ontvangstlogica, contracten en
-beveiligde lokale infrastructuur zijn geïmplementeerd; volledige verificatie en
-schone checkout moeten voor afsluiting nog groen zijn.
+Status op 2026-10-10: **fase 3 voltooid**. ADR-011 is door de opdrachtgever
+goedgekeurd met 'ja akkoord'. Implementatie, contracten, demo en volledige
+verificatie vanuit een schone checkout zijn groen. Fase 4 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -22,21 +21,48 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 0. Fundament en besluiten | Voltooid | Geen open fase-0-gates |
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
-| 3. Ingest API en Kafka | In uitvoering | Volledige gates, demo en schone checkout |
-| 4. Consumer en logopslag | Niet gestart | Voorafgaande fasen |
+| 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
+| 4. Consumer en logopslag | Niet gestart | Volgende implementatiefase |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
 
-## Fase-2-resultaat (2026-10-09)
+## Fase-3-resultaat (2026-10-10)
 
-Voorafgaande fase-3-uitvoering op 2026-10-09: `npm run verify` geslaagd met 93
-unit-/contracttests, foundationproeven, 12 registerchecks en 15 ingestgates.
-Daarna expliciete netwerk-requestTimeout toegevoegd en aanvullend een stille
-broker getoetst: verify:code en alle 16 ingestgates groen. Demo op 18082 geeft
-202, event_id `91b44678-8b3c-4282-bb10-0290c990bb8d`, identieke retryresponse.
-Schone checkout nog te toetsen vóór fase-3-afsluiting. Rapport: artifacts/ingest.json.
+Geteste implementatiecommit `4ec10d2` op `codex/phase-3-ingest`.
+POST /v1/log-records valideert met @ldv/domain en gebruikt mTLS-bronmapping,
+een beperkte PostgreSQL-ontvangstadministratie en een idempotente Kafka-producer.
+De optionele Idempotency-Key houdt identiteit stabiel bij retries; conflicten
+geven 409. De LDV-body en envelopschema's zijn ongewijzigd.
+
+- Schone checkout `.local/ingest-clean` van `4ec10d2`: `npm ci --offline
+  --ignore-scripts` en `npm run verify` geslaagd op 2026-10-10.
+- Formatter, lint, vier builds, **93 tests in 7 bestanden**, contractvalidatie,
+  foundationproeven en **12 registerchecks** inclusief browserflow groen.
+- **16 ingestgates** groen: echte Kafka-publicatie; schema/HTTP-fouten;
+  mTLS en scope; gelijktijdige retries; restart; conflicten; crash na ack;
+  database- en brokeruitval; stille broker met begrensde wachttijd; herstel;
+  Kafka-ACL's; beperkte DB-rechten; veilige metrics/fouten.
+- Crash na Kafka-ack veroorzaakt aantoonbaar dezelfde envelop bij retry.
+  Dit bewijst at-least-once, geen effectief eenmalige archiefopslag (fase 4).
+- Demo op https://127.0.0.1:18082 geeft 202 en een identieke retryresponse.
+  Voorbeeldevent: `91b44678-8b3c-4282-bb10-0290c990bb8d`.
+- Lokale bewijsbestanden: artifacts/ingest.json en, vanuit de schone checkout,
+  .local/ingest-clean/artifacts/ingest.json en foundation.html/json.
+- Runbook: [ingest.md](../runbooks/ingest.md). Geen nieuwe GitHub CI-run geclaimd.
+
+Herstelde bevindingen: Kafka 4.3 gebruikt --command-config; een te grote TLS-body
+wordt begrensd gedraineerd zodat de 413-response wordt ontvangen; de client krijgt
+zowel een expliciete broker-timeout als netwerk-requestTimeout. Containers krijgen
+geen CA-private sleutel of bronprivate sleutels. Ook de controller gebruikt TLS.
+
+Beperkingen: uitsluitend synthetische lokale demo, één Kafka-replica; geen HA of
+schijfverliesgarantie. Geen ontvangstexpiratie, productie-secretbeheer of
+productie-restoreclaim. OIDC voor mensen blijft fase 6. Geen fase-4-consumer of
+gezaghebbend logarchief gebouwd.
+
+## Fase-2-resultaat (2026-10-09)
 
 Implementatiecommit `dd0e867` op `codex/phase-2-register`. Register API, migraties,
 lokale rol-/scopehandhaving en beheerinterface zijn gebouwd. ADR-010 legt de

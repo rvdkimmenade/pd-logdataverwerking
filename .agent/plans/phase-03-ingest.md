@@ -46,8 +46,8 @@ Geen LDV-archief, consumer, zoekindex, bedrijfsoutbox of OIDC in deze fase.
 - [x] Geen succes zonder duurzame acceptatie; uitval geeft 503.
 - [x] Geen persoonsgegevens of geheimen in technische logs/fouten.
 - [x] Retry-, conflict- en herstartproeven volgens ADR-011.
-- [ ] Synthetische end-to-enddemo, volledige verify en schone checkout groen.
-- [ ] Evidence, runbook en consistente commit; fase 4 niet gestart.
+- [x] Synthetische end-to-enddemo, volledige verify en schone checkout groen.
+- [x] Evidence, runbook en consistente commit; fase 4 niet gestart.
 
 ## Veiligheid en herstel
 
@@ -69,8 +69,12 @@ databaseherstel zijn bewezen; runtime kan geen metadata wissen of IDs wijzigen.
 Codepoort: 93 tests in 7 bestanden groen. Volledige verify met 15 ingestgates,
 foundation en 12 registerchecks groen. Daarna expliciete netwerktimeout toegevoegd:
 verify:code en alle 16 ingestgates inclusief stille broker groen. Lokale demo geeft
-202 en dezelfde ontvangst bij retry; API draait op 18082. Schone checkout resteert
-vóór voltooiing. Nog geen fase-4-werk.
+202 en dezelfde ontvangst bij retry; API draait op 18082.
+
+2026-10-10: schone checkout van implementatiecommit 4ec10d2 in
+.local/ingest-clean: npm ci --offline --ignore-scripts en npm run verify volledig
+groen, inclusief 93 tests, 12 registerchecks en alle 16 ingestgates. Evidence staat
+in docs/implementation/status.md. Fase 3 voltooid; fase 4 niet gestart.
 
 Herstelde bevindingen: Kafka 4.3 gebruikt --command-config; TLS-antwoord 413
 vereist een begrensde drain van een te grote body; Kafka-client onderscheidt
