@@ -2,11 +2,10 @@
 
 ## Huidige fase
 
-**Fase 4 — Consumer en append-only logopslag (in uitvoering)**
+**Fase 4 — Consumer en append-only logopslag (voltooid)**
 
-Status op 2026-10-11: fase 3 is voltooid en fase 4 is in uitvoering op verzoek
-van de opdrachtgever. Volledige verificatie is groen: 97 tests, foundation,
-12 register-, 16 ingest- en 11 logboekgates. Demo en schone checkout volgen.
+Status op 2026-10-11: fase 4 is voltooid. De lokale demo werkt; volledige
+verificatie is ook vanuit een schone checkout geslaagd. Fase 5 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -22,11 +21,46 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
-| 4. Consumer en logopslag | In uitvoering | Volledige verify, demo en schone checkout |
+| 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-4-resultaat (2026-10-11)
+
+Implementatiecommit `bdcd5ea` op `codex/phase-4-logbook`. Consumer, afzonderlijke
+logbook-database, beperkte writer-/readerrollen, append-only bescherming,
+integriteitsmetadata, reject/DLQ en expliciete replay zijn geïmplementeerd.
+Originele Kafka-bytes en envelop blijven behouden; event_id dedupliceert.
+
+- `npm run verify` geslaagd in de werkmap én in schone checkout
+  `.local/logbook-clean` van `bdcd5ea`, na `npm ci --offline --ignore-scripts`.
+- Formatter, lint, vijf builds, **97 tests in 8 bestanden**, vier schemas,
+  twee OpenAPI-contracten, acht fixtures en tien platformvoorbeelden groen.
+- Foundationproeven, **12 registerchecks**, **16 ingestgates** en
+  **11 logboekgates** groen vanuit beide checkouts.
+- Echte procescrashes vóór DB-commit en na DB-commit vóór offsetcommit,
+  duplicaten, ID-conflicten, database-uitval, geweigerde rejectpublicatie,
+  technische dead letters/replay, beperkte SQL-rechten en veilige output bewezen.
+- Lokale consumer gestart met logbook:up. demo:logbook bewijst ingest → Kafka →
+  archief; event `48dfe630-aaa3-40d9-bea6-b3bdf8b7659b`, opgeslagen
+  2026-10-11T13:57:34.864Z. Register:check groen; register op 18081 blijft beschikbaar.
+- Op aanvullend verzoek tien platformvoorbeelden als concept via de editor-API
+  toegevoegd. Tweede import: nul nieuwe activiteiten. Bestaande inhoud behouden.
+  Grondslag en retentie zijn nog vast te stellen demonstratietekst.
+- Bewijs: artifacts/logbook.json en .local/logbook-clean/artifacts/logbook.json,
+  aangevuld met foundation- en registerrapporten. Geen nieuwe GitHub CI-run geclaimd.
+- Runbooks: [logboek](../runbooks/logbook.md) en [register](../runbooks/register.md).
+
+Hersteld: strikte schema-eis voor het DLQ-veld; de offsetwaarnemer gebruikt
+listCommittedOffsets. Foutpublicatie staat buiten de SQL-retryclassificatie.
+Reader-/replaycredentials staan apart van de consumerconfiguratie.
+
+Beperkingen: synthetische lokale demo, één Kafka-replica, vertrouwde lokale
+querytooling met expliciete partij. Geen publieke zoekinterface, productie-HA,
+retentie of backup-/restoreclaim. Health toont processtatus, geen achterstand.
+OIDC blijft fase 6; publieke Query API en zoekprojectie volgen in fase 5.
 
 ## Fase-3-resultaat (2026-10-10)
 

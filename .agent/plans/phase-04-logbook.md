@@ -44,20 +44,20 @@ backup/restore en bewaarbeleid zijn fase 8. Bestaande registergegevens blijven i
 
 ## Deliverables en verplichte gates
 
-- [ ] Kafka-consumer met expliciet offsetbeheer.
-- [ ] PostgreSQL append-only tabellen en migratie; unieke event_id.
-- [ ] Functionele rejectstroom; technische retries en dead-letter-beleid.
-- [ ] Query op event-, trace-, span- en processing-activity-ID.
-- [ ] Integriteit/ontvangstmetadata zonder originele payload te wijzigen.
-- [ ] Crash vóór DB-commit levert opnieuw.
-- [ ] Crash na DB-commit vóór offsetcommit maakt geen duplicaat.
-- [ ] Herhaald event_id is idempotent; conflicterende inhoud muteert niets.
-- [ ] Tijdelijke DB-uitval geeft retry en geen functionele reject.
-- [ ] Permanent ongeldig event komt met veilige reden in rejectstroom.
-- [ ] Normale runtime/API kan records niet wijzigen, verwijderen of truncaten.
-- [ ] POST → Kafka → opslag aantoonbaar; foutstroom-/replaytests groen.
-- [ ] Contracten, privacy, mTLS/ACL, volledige verify en schone checkout groen.
-- [ ] Demo, runbook, statusbewijs en commit; fase 5 niet gestart.
+- [x] Kafka-consumer met expliciet offsetbeheer.
+- [x] PostgreSQL append-only tabellen en migratie; unieke event_id.
+- [x] Functionele rejectstroom; technische retries en dead-letter-beleid.
+- [x] Query op event-, trace-, span- en processing-activity-ID.
+- [x] Integriteit/ontvangstmetadata zonder originele payload te wijzigen.
+- [x] Crash vóór DB-commit levert opnieuw.
+- [x] Crash na DB-commit vóór offsetcommit maakt geen duplicaat.
+- [x] Herhaald event_id is idempotent; conflicterende inhoud muteert niets.
+- [x] Tijdelijke DB-uitval geeft retry en geen functionele reject.
+- [x] Permanent ongeldig event komt met veilige reden in rejectstroom.
+- [x] Normale runtime/API kan records niet wijzigen, verwijderen of truncaten.
+- [x] POST → Kafka → opslag aantoonbaar; foutstroom-/replaytests groen.
+- [x] Contracten, privacy, mTLS/ACL, volledige verify en schone checkout groen.
+- [x] Demo, runbook, statusbewijs en commit; fase 5 niet gestart.
 
 ## Voortgang
 
@@ -66,7 +66,14 @@ database-uitval, rejectpublicatie zonder ACL, technische DLQ/replay en append-on
 rechten. De offsetwaarnemer gebruikte aanvankelijk een niet-bestaande clientmethode;
 vervangen door listCommittedOffsets. Opslag en offsetcontrole zijn nu bewezen.
 Volledige verify is geslaagd: 97 tests in 8 bestanden, foundation, 12 register-,
-16 ingest- en 11 logboekgates. De consumer draait lokaal; demo en schone checkout volgen.
+16 ingest- en 11 logboekgates. De consumer draait lokaal.
+
+Demo geslaagd met event 48dfe630-aaa3-40d9-bea6-b3bdf8b7659b; register:check groen.
+Implementatiecommit bdcd5ea. Schone checkout .local/logbook-clean geïnstalleerd
+met npm ci --offline --ignore-scripts; volledige verify daarop geslaagd met dezelfde
+97 tests en alle foundation-, register-, ingest- en logboekgates. Status en runbooks
+bijgewerkt. Fase 4 voltooid; fase 5 niet gestart. Geen nieuwe afwijkende architectuur,
+beveiligingsgrens of retentie ingevoerd.
 
 Aanvullend gebruikersverzoek binnen bestaand register: tien synthetische
 platformvoorbeelden als concept toegevoegd via de editor-API. Een tweede run maakt
