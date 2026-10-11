@@ -2,11 +2,11 @@
 
 ## Huidige fase
 
-**Fase 3 — Ingest API en duurzame acceptatie (voltooid)**
+**Fase 4 — Consumer en append-only logopslag (in uitvoering)**
 
-Status op 2026-10-10: **fase 3 voltooid**. ADR-011 is door de opdrachtgever
-goedgekeurd met 'ja akkoord'. Implementatie, contracten, demo en volledige
-verificatie vanuit een schone checkout zijn groen. Fase 4 is niet gestart.
+Status op 2026-10-11: fase 3 is voltooid en fase 4 is in uitvoering op verzoek
+van de opdrachtgever. Volledige verificatie is groen: 97 tests, foundation,
+12 register-, 16 ingest- en 11 logboekgates. Demo en schone checkout volgen.
 
 ## Menselijke goedkeuring
 
@@ -22,7 +22,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 1. LDV-domein en contractvalidatie | Voltooid | Geen open fase-1-gates |
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
-| 4. Consumer en logopslag | Niet gestart | Volgende implementatiefase |
+| 4. Consumer en logopslag | In uitvoering | Volledige verify, demo en schone checkout |
 | 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |

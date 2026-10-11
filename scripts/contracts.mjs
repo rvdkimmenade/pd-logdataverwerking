@@ -50,6 +50,8 @@ export async function checkContracts() {
     ['valid-ldv-log-record.json', 'ldv-log-record.schema.json'],
     ['valid-log-event.json', 'ldv-envelope.schema.json'],
     ['valid-register-draft.json', 'register.schema.json#/$defs/create'],
+    ['valid-consumer-reject.json', 'consumer-failure.schema.json'],
+    ['valid-consumer-dead-letter.json', 'consumer-failure.schema.json'],
   ];
   for (const [example, schema] of examples) {
     const validator = ajv.getSchema(
@@ -102,7 +104,7 @@ export async function checkContracts() {
     documents: documents.size,
     schemas: schemas.length,
     openapi: apiCount,
-    fixtures: 6,
+    fixtures: 8,
   };
 }
 

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "failure_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "kind": "reject",
+  "reason": "INVALID_ENVELOPE",
+  "source_topic": "ldv.accepted.v1",
+  "source_partition": 0,
+  "source_offset": "0",
+  "payload_sha256": "d72bf994342a56102f88d61c43e535503b00dacf0ccdccfc364f8b1436976527",
+  "observed_at": "2026-10-10T12:00:00.000Z"
+}

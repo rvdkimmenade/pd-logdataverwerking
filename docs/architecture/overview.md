@@ -53,6 +53,12 @@ flowchart TB
 
 ## Schrijf- en leespaden
 
+De lokale fase-4-implementatie realiseert ingest → Kafka → logconsumer →
+PostgreSQL-archief. De aparte logbook-database deelt lokaal de beveiligde ingest-
+database-instance; eigen rollen scheiden archief en ontvangstmetadata. De interne
+querymodule biedt vier ID-queries. Het getoonde diagram is de doelarchitectuur;
+zoekprojectie, publieke Query API en outbox volgen in hun eigen fasen.
+
 Het schrijfpad is volledig asynchroon vanaf de lokale outbox. De applicatie is niet afhankelijk van Kafka, de zoekindex of het Register tijdens een gebruikersrequest.
 
 De append-only opslag is de bron van waarheid. De zoekindex bevat een denormaliseerde projectie en mag volledig worden verwijderd en opnieuw worden opgebouwd. De Query API gebruikt de index voor zoeken en haalt zo nodig het originele record en de historisch geldige registerversie op.

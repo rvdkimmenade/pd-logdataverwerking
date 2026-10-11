@@ -1,5 +1,11 @@
 # Contracten
 
+Fase 4 beschrijft de interne consumerstromen in
+`asyncapi/logbook-consumer.yaml`. `schemas/consumer-failure.schema.json` begrenst
+rejects tot metadata en vaste foutredenen; uitsluitend dead letters mogen de
+gevalideerde originele envelop in Base64 bevatten. Beide vormen hebben een
+synthetische fixture en worden door contracts:check gevalideerd.
+
 Deze map is de bron van waarheid voor externe interfaces.
 
 - `openapi/`: synchrone HTTP-interfaces.

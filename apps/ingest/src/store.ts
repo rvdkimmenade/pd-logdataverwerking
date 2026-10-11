@@ -1,6 +1,8 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import type { LdvEnvelope, LdvLogRecord } from '@ldv/domain';
+import { canonical } from '@ldv/domain';
+export { canonical } from '@ldv/domain';
 
 export interface Source {
   source_application: string;
@@ -13,19 +15,6 @@ export interface Publisher {
   close(): Promise<void>;
 }
 export class Conflict extends Error {}
-export function canonical(value: unknown): string {
-  if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
-  if (value !== null && typeof value === 'object')
-    return (
-      '{' +
-      Object.entries(value)
-        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-        .map(([k, v]) => JSON.stringify(k) + ':' + canonical(v))
-        .join(',') +
-      '}'
-    );
-  return JSON.stringify(value);
-}
 export class ReceiptStore {
   constructor(
     private pool: Pool,

@@ -27,6 +27,14 @@ ontwikkelmiddelen; productievoorzieningen en sleutelrotatie volgen in fase 8.
 
 ## Rollen adminconsole
 
+Fase 4 gebruikt eigen consumer-, reader- en replaycertificaten en Kafka-ACL's.
+Het archief heeft een eigen logische database en owner/writer/readerrollen.
+De writer mag alleen de opslagfunctie uitvoeren; de reader wordt uitsluitend
+door vertrouwde lokale tooling gebruikt. Party-filtering in de interne query is
+geen publieke autorisatiegrens. Een publieke Query API volgt in fase 5.
+De beheerder met DDL-rechten blijft vertrouwd; hashes zijn geen cryptografisch
+bewijs tegen een beheerder die zowel data als hashes kan vervangen.
+
 | Rol | Rechten |
 |---|---|
 | Registerbeheerder | Concepten en nieuwe registerversies beheren |

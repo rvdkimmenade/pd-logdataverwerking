@@ -57,8 +57,12 @@ contractcontroles, PostgreSQL, Kafka en een reproduceerbare verificatie. ADR-006
 ADR-007 en ADR-008 zijn op 8 oktober 2026 goedgekeurd. De actuele testbewijzen en
 resterende fasepoorten staan in [de implementatiestatus](docs/implementation/status.md).
 
-Het register met beheer is beschikbaar. Fase 3 voegt de Ingest API toe;
-gezaghebbende logboekopslag en zoekfunctionaliteit volgen in latere fasen.
+Het register met beheer en de Ingest API zijn beschikbaar. Fase 4 voegt de
+append-only logboekopslag toe; zoekfunctionaliteit volgt in fase 5.
+
+Gebruik `npm run register:examples` voor tien platformgerelateerde concepten.
+Start de consumer met `npm run logbook:up` en toon POST → Kafka → archief met
+`npm run demo:logbook`. Zie het [logboekrunbook](docs/runbooks/logbook.md).
 
 ## Technische demo starten
 

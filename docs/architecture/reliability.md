@@ -30,6 +30,17 @@ Applicaties zonder database mogen een lokale duurzame spool gebruiken, maar hebb
 
 ## Consumersemantiek
 
+De fase-4-consumer bewaart originele Kafka-bytes en envelop plus SHA-256 en
+ontvangstmetadata in een append-only PostgreSQL-archief. Canoniek identieke
+herleveringen zijn duplicaten; dezelfde event_id met andere inhoud geeft een
+functionele reject. De originele archiefregel blijft behouden.
+
+Afhankelijkheidsuitval blijft retryen met maximaal 30 seconden backoff. Andere
+technische fouten gaan na drie pogingen naar de DLQ. Foutstromen krijgen pas een
+source-offsetcommit na bevestigde Kafka-publicatie. Herlevering kan dezelfde
+failure_id opnieuw publiceren; afnemers moeten ook daar dedupliceren.
+Zie [logboekrunbook](../runbooks/logbook.md) voor expliciete replay en beperkingen.
+
 - Dedupliceer op `event_id` via een unieke databaseconstraint.
 - Commit de Kafka-offset pas na duurzame databasecommit.
 - Een duplicaat geldt als succesvolle idempotente verwerking.

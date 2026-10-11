@@ -13,6 +13,7 @@ import type {
   ValidationOptions,
 } from './types.js';
 export type * from './types.js';
+export { canonical } from './canonical.js';
 
 const recordSchema = JSON.parse(
   readFileSync(

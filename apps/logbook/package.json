@@ -1,0 +1,16 @@
+{
+  "name": "@ldv/logbook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/consumer.js"
+  },
+  "dependencies": {
+    "@ldv/domain": "0.0.0",
+    "@platformatic/kafka": "2.14.0",
+    "pg": "8.23.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

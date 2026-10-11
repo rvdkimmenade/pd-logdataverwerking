@@ -1,5 +1,21 @@
 # Verwerkingsregister met beheerscherm
 
+## Platformvoorbeelden
+
+`npm run register:examples` voegt tien synthetische platformactiviteiten toe via
+de lokale Register API met de bestaande editorrol. Bestaande namen worden
+overgeslagen; bestaande inhoud wordt niet overschreven. Uitvoering is sequentieel;
+start niet meerdere imports tegelijk. Na hernoemen kan opnieuw importeren een
+nieuw voorbeeld met de oorspronkelijke naam maken.
+
+Voorbeelden: identiteit/toegang, API-routering, berichtenuitwisseling,
+documentopslag, notificaties, LDV-verantwoording, beveiligingsmonitoring,
+back-up/herstel, ondersteuning en ketenuitwisseling. Alles blijft concept.
+Grondslag, bewaartermijn, partijen en inrichting zijn demonstratietekst die vóór
+publicatie moet worden beoordeeld. De normale audit en publicatierollen gelden.
+Ververs het activiteitenoverzicht om de voorbeelden te openen en te bewerken.
+`npm run contracts:check` valideert ook deze voorbeelden tegen het registercontract.
+
 ## Lokaal starten
 
 Vereist: Node 24, npm 11 en Docker met Linux-containers. Alleen synthetische data.

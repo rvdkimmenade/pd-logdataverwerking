@@ -1,0 +1,32 @@
+asyncapi: 3.0.0
+info:
+  title: LDV logbook consumer
+  version: 1.0.0
+channels:
+  accepted:
+    address: ldv.accepted.v1
+    messages:
+      logEvent:
+        payload: {$ref: ../schemas/ldv-envelope.schema.json}
+  rejected:
+    address: ldv.rejected.v1
+    description: At-least-once, deduplicatie op failure_id. Alleen veilige metadata; geen ongeldige payload.
+    messages:
+      failure:
+        payload: {$ref: ../schemas/consumer-failure.schema.json}
+  deadLetter:
+    address: ldv.dead-letter.v1
+    description: Technische fouten na retries; gevalideerde originele bytes voor expliciete replay. Geen functionele rejects of dependency-uitval. Beperkte beheerrechten.
+    messages:
+      failure:
+        payload: {$ref: ../schemas/consumer-failure.schema.json}
+operations:
+  consume:
+    action: receive
+    channel: {$ref: '#/channels/accepted'}
+  reject:
+    action: send
+    channel: {$ref: '#/channels/rejected'}
+  deadLetter:
+    action: send
+    channel: {$ref: '#/channels/deadLetter'}

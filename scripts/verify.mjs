@@ -44,6 +44,22 @@ try {
     });
     throw error;
   }
+  const logbookStart = Date.now();
+  try {
+    npm(['run', 'test:logbook'], { stdio: 'inherit', timeout: 600000 });
+    checks.push({
+      name: 'Logbook append-only opslag, offsets, crash en replay',
+      passed: true,
+      durationMs: Date.now() - logbookStart,
+    });
+  } catch (error) {
+    checks.push({
+      name: 'Logbook append-only opslag, offsets, crash en replay',
+      passed: false,
+      durationMs: Date.now() - logbookStart,
+    });
+    throw error;
+  }
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))
