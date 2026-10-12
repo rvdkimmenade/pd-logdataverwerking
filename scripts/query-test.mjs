@@ -14,7 +14,7 @@ import { createApp as registerApp } from '../apps/register/dist/app.js';
 import { Store } from '../apps/register/dist/store.js';
 import { Archive } from '../apps/logbook/dist/store.js';
 import { LogConsumer } from '../apps/logbook/dist/consumer.js';
-import { SearchClient } from '../apps/query/dist/search-client.js';
+import { SearchClient, SearchError } from '../apps/query/dist/search-client.js';
 import { Projector, alias } from '../apps/query/dist/projector.js';
 import { QueryService } from '../apps/query/dist/service.js';
 import { RegisterClient } from '../apps/query/dist/register-client.js';
@@ -459,7 +459,15 @@ try {
         }
       }, 90000);
       const started = Date.now();
-      await projector.sync();
+      await until(async () => {
+        try {
+          return await projector.sync();
+        } catch (error) {
+          if (!(error instanceof SearchError) || error.status !== 503)
+            throw error;
+          return false;
+        }
+      });
       performance.recoveryMs = Date.now() - started;
       assert.ok(performance.recoveryMs < 30000);
       assert.equal(
