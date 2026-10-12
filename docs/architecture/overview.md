@@ -44,27 +44,22 @@ flowchart TB
     R[Register API] --> RDB[(Versioned register)]
   end
   subgraph Beheer
-    UI[Adminconsole] --> Q[Query API]
+    UI[Adminconsole browser] --> B[Consolebackend]
+    UI --> OIDC[OIDC-provider]
+    B --> Q[Query API]
     Q --> I
     Q --> D
     Q --> R
-    UI --> R
+    B --> R
   end
-```
-    Q --> I
-    Q --> D
-    Q --> R
-  end
-  A -. processing_activity_id .-> R
 ```
 
 ## Schrijf- en leespaden
 
-De lokale fase-4-implementatie realiseert ingest → Kafka → logconsumer →
-PostgreSQL-archief. De aparte logbook-database deelt lokaal de beveiligde ingest-
-database-instance; eigen rollen scheiden archief en ontvangstmetadata. De interne
-querymodule biedt vier ID-queries. Het getoonde diagram is de doelarchitectuur;
-zoekprojectie, publieke Query API en outbox volgen in hun eigen fasen.
+De lokale implementatie realiseert ingest → Kafka → logconsumer → PostgreSQL-archief,
+een herbouwbare OpenSearch-projectie en de Query API. De console gebruikt OIDC voor
+menselijke toegang en mTLS met begrensde partij- en applicatiescope voor queries.
+Registerbeheer gebruikt dezelfde console-sessie. De lokale outbox volgt in fase 7.
 
 Het schrijfpad is volledig asynchroon vanaf de lokale outbox. De applicatie is niet afhankelijk van Kafka, de zoekindex of het Register tijdens een gebruikersrequest.
 

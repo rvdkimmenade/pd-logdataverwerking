@@ -1,5 +1,10 @@
 # Contracten
 
+Fase 6 beschrijft OIDC-sessies, onderzoek, export en operationele metadata in
+[console-api.yaml](openapi/console-api.yaml). Het bijbehorende
+[console.schema.json](schemas/console.schema.json) begrenst identiteit, export en
+pipeline-overzicht; register- en querycontracten worden hergebruikt.
+
 Fase 4 beschrijft de interne consumerstromen in
 `asyncapi/logbook-consumer.yaml`. `schemas/consumer-failure.schema.json` begrenst
 rejects tot metadata en vaste foutredenen; uitsluitend dead letters mogen de

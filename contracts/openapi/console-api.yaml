@@ -1,0 +1,178 @@
+openapi: 3.1.0
+info:
+  title: LDV Adminconsole
+  version: 1.0.0
+  description: Server-side OIDC Authorization Code met S256 PKCE. Rollen en scopes worden op de server toegewezen. Registerfuncties hergebruiken het registercontract. Geen OIDC- of workloadtokens in browserresponses.
+servers:
+  - url: https://127.0.0.1:18087
+security:
+  - consoleSession: []
+components:
+  securitySchemes:
+    consoleSession:
+      type: apiKey
+      in: cookie
+      name: __Host-ldv-console
+  responses:
+    Problem:
+      description: 400 ongeldige invoer, 401 geen sessie, 403 geen recht, 404 niet gevonden of 503 afhankelijkheid/audit niet beschikbaar. Geen invoerwaarden in foutmeldingen.
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/register.schema.json#/$defs/problem
+paths:
+  /api/me:
+    get:
+      operationId: consoleIdentity
+      responses:
+        '200':
+          description: Toegewezen console-identiteit; geen tokens of credentials.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/console.schema.json#/$defs/identity
+        default:
+          $ref: '#/components/responses/Problem'
+  /api/session:
+    delete:
+      operationId: consoleLogout
+      description: Origin vereist; verwijdert de server-side consolesessie en wist de Secure-cookie. De OIDC-providersessie wordt niet beëindigd.
+      responses:
+        '200':
+          description: Sessieverwijdering bevestigd.
+        default:
+          $ref: '#/components/responses/Problem'
+    post:
+      operationId: consoleRejectLegacyLogin
+      security: []
+      responses:
+        '403':
+          description: Demo-codeauthenticatie is niet beschikbaar op de console.
+  /api/activities:
+    $ref: register-api.json#/paths/~1api~1activities
+  /api/activities/{id}:
+    $ref: register-api.json#/paths/~1api~1activities~1{id}
+  /api/activities/{id}/versions:
+    $ref: register-api.json#/paths/~1api~1activities~1{id}~1versions
+  /api/activities/{id}/versions/{version}:
+    $ref: register-api.json#/paths/~1api~1activities~1{id}~1versions~1{version}
+  /api/activities/{id}/versions/{version}/publish:
+    $ref: register-api.json#/paths/~1api~1activities~1{id}~1versions~1{version}~1publish
+  /api/activities/{id}/resolve:
+    $ref: register-api.json#/paths/~1api~1activities~1{id}~1resolve
+  /api/operations:
+    get:
+      operationId: consoleOperations
+      description: Alleen de expliciet toegewezen operations-rol voor de gedeelde lokale pipeline. Geen LDV-payloadinzage of subjectvelden. Read-only bounded metadataweergave vanuit fouttopics; geen offsetcommits. Lag is het verschil tussen Kafka-eindoffset en archiefconsumercommit, niet het aantal records per verantwoordelijke.
+      responses:
+        '200':
+          description: Actuele pipelineachterstand, projectorleeftijd en maximaal 100 recente reject/dead-lettermetadataregels. Fouttopics zijn transport en geen autoritatief archief. Bij onbeschikbaarheid of onvolledige inlezing expliciete status, nooit een claim dat nul fouten bestaan.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/console.schema.json#/$defs/operations
+        default:
+          $ref: '#/components/responses/Problem'
+  /auth/login:
+    get:
+      operationId: startConsoleLogin
+      security: []
+      responses:
+        '302':
+          description: Redirect naar vooraf ingestelde OIDC-provider; browsergebonden state, nonce en PKCE.
+        default:
+          $ref: '#/components/responses/Problem'
+  /auth/callback:
+    get:
+      operationId: completeConsoleLogin
+      security: []
+      parameters:
+        - name: code
+          in: query
+          schema: { type: string }
+        - name: state
+          in: query
+          schema: { type: string }
+      responses:
+        '302':
+          description: Eenmalige callback; geverifieerd subject krijgt kortlevende Secure HttpOnly SameSite-sessie. Onbekende identiteit geweigerd.
+        default:
+          $ref: '#/components/responses/Problem'
+  /api/logs/search:
+    post:
+      operationId: consoleSearch
+      description: Alleen log.read. Scope komt uit sessie, nooit uit request. Origin vereist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/query.schema.json#/$defs/search
+      responses:
+        '200':
+          description: Zoekpagina binnen eigen scope, geaudit vóór inzage.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/query.schema.json#/$defs/page
+        default:
+          $ref: '#/components/responses/Problem'
+  /api/logs/{event_id}:
+    get:
+      operationId: consoleDetail
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Originele logregel en historische registercontext, alleen log.read.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/query.schema.json#/$defs/item
+        default:
+          $ref: '#/components/responses/Problem'
+  /api/traces/{trace_id}:
+    post:
+      operationId: consoleTrace
+      parameters:
+        - name: trace_id
+          in: path
+          required: true
+          schema: { type: string, pattern: '^[a-f0-9]{32}$' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/query.schema.json#/$defs/search
+      responses:
+        '200':
+          description: Gepagineerde spans binnen eigen scope, parent-span blijft behouden.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/query.schema.json#/$defs/page
+        default:
+          $ref: '#/components/responses/Problem'
+  /api/logs/export:
+    post:
+      operationId: consoleExport
+      description: Afzonderlijk log.export-recht. Eén begrensde zoekpagina; cursor blijft onderdeel van export zodat truncatie zichtbaar is. JSON bevat actor, scope en exportmoment. Origin en succesvolle audit vereist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/query.schema.json#/$defs/search
+      responses:
+        '200':
+          description: Gemarkeerd JSON-bestand. Geen openbare downloadlink; uitsluitend geauthenticeerde response met no-store.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/console.schema.json#/$defs/export
+        default:
+          $ref: '#/components/responses/Problem'

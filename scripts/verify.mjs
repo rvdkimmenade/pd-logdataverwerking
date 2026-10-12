@@ -76,6 +76,22 @@ try {
     });
     throw error;
   }
+  const consoleStart = Date.now();
+  try {
+    npm(['run', 'test:console'], { stdio: 'inherit', timeout: 600000 });
+    checks.push({
+      name: 'Console OIDC, rollen, zoeken, trace, export en operationeel inzicht',
+      passed: true,
+      durationMs: Date.now() - consoleStart,
+    });
+  } catch (error) {
+    checks.push({
+      name: 'Console OIDC, rollen, zoeken, trace, export en operationeel inzicht',
+      passed: false,
+      durationMs: Date.now() - consoleStart,
+    });
+    throw error;
+  }
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))

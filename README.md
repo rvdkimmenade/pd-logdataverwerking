@@ -63,6 +63,12 @@ Start met `npm run register:up` en `npm run query:up`, en zoek met
 `npm run demo:query`. Zie het [zoekrunbook](docs/runbooks/query.md) voor
 autorisatie, historische verrijking, herstel en de actuele verificatie-eisen.
 
+De fase-6-console wordt gestart met `npm run console:up` en is bereikbaar op
+https://127.0.0.1:18087. Deze gebruikt een lokale OIDC-provider met synthetische
+gebruikers en biedt logboekzoeken, traceonderzoek, details, export en operationeel
+inzicht. Gebruikersgegevens staan in het genegeerde lokale toegangbestand.
+Zie het [consolerunbook](docs/runbooks/console.md) voor login, rollen en demo.
+
 Gebruik `npm run register:examples` voor tien platformgerelateerde concepten.
 Start de consumer met `npm run logbook:up` en toon POST → Kafka → archief met
 `npm run demo:logbook`. Zie het [logboekrunbook](docs/runbooks/logbook.md).

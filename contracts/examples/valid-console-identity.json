@@ -1,0 +1,1 @@
+{"id":"synthetic-auditor","party":"example-municipality","role":"reader","permissions":["log.read","log.export"],"applications":["demo-service"]}

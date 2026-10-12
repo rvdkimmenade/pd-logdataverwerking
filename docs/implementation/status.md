@@ -2,12 +2,12 @@
 
 ## Huidige fase
 
-**Fase 5 — Zoekprojectie en Query API (voltooid)**
+**Fase 6 — Adminconsole (in uitvoering)**
 
-Status op 2026-10-12: fase 5 is voltooid op branch `codex/phase-5-query`.
-Implementatie `85ffc45`, herstelproef `be885ee`: volledige verificatie vanuit
-een schone checkout groen. Integratie- en demobewijs zijn aanwezig.
-Fase 6 is niet gestart.
+Status op 2026-10-12: fase 6 is gestart op `codex/phase-6-console`, met expliciet
+gekozen lokale OIDC-provider voor synthetische gebruikers. De eerste console-
+integratieproef en lokale rol/demo-proef zijn groen. Volledige verify en bewijs
+vanuit schone checkout moeten nog slagen. Fase 7 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -25,9 +25,39 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
 | 5. Zoekprojectie en Query API | Voltooid | Geen open fase-5-gates |
-| 6. Adminconsole | Niet gestart | Voorafgaande fasen |
+| 6. Adminconsole | In uitvoering | Volledige verify, schone checkout en eindbewijs |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-6-voortgang (2026-10-12)
+
+Plan: `.agent/plans/phase-06-console.md`. Runbook: [console](../runbooks/console.md).
+Lokale providerkeuze bevestigd door opdrachtgever; ADR-012 werkt de geaccepteerde
+OIDC-keuze uit. Keycloak 26.8.0 en openid-client 6.8.8 vastgezet. Console op
+https://127.0.0.1:18087; provider op https://127.0.0.1:18086. Browsertokens blijven
+server-side; Secure/HttpOnly-sessies, PKCE, state/nonce en RS256-tokencontrole.
+
+Zoeken, geautoriseerde originele details en historische context, parent/child-
+traceweergave, begrensde gemarkeerde export en pipelinefoutmetadata aanwezig.
+Registerbeheer gebruikt de bestaande wizard/API met OIDC-authenticatiemodus.
+De console weigert codefallback; de afzonderlijke lokale fase-2-reader blijft
+voor historische Query-resolutie behouden. Geen productie-inzet geclaimd.
+
+Eerste positieve bewijs: 15 nieuwe negatieve OIDC/API-tests; geïsoleerde
+`test:console` met acht gates groen. Dit bewijst zeven identiteiten, echte
+Keycloak-browserlogin, mTLS Query, scope-isolatie, oorspronkelijke bytes/SHA-256,
+historische versies, paginering, parent plus twee afzonderlijke betrokkenen,
+mobiele layout/toetsenbord/labels, OIDC-registerwijzigingen, publicatie/opvolger/
+versieverschil/historie, exportaudit, audituitval, reject/DLQ-metadata, read-only
+Kafka-ACL's, verkeerde CA, Origin, backenduitval en logout.
+Lokale `demo:console` voor zes rollen eveneens groen; screenshots visueel bekeken.
+Bewijs: artifacts/console.json, console-demo.json en console-test-desktop/mobile.png.
+
+Hersteld: Keycloak-certificaatrechten op Windows via uitsluitend noodzakelijke
+bestanden in een beperkt Docker-volume; ontbrekende synthetische profielvelden;
+historische responsevorm in de UI; mobiele horizontale overflow; contractfixture
+voor registerversies. Console controleert ook de scope van backendresultaten.
+Fase 6 is nog niet voltooid vóór volledige verify en schone-checkoutbewijs.
 
 ## Fase-5-voortgang (2026-10-12)
 

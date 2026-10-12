@@ -17,3 +17,4 @@ Statussen: Proposed, Accepted, Superseded of Rejected.
 - [ADR-009: Lokale Kafka-viewer](ADR-009-local-kafka-viewer.md) — Accepted
 - [ADR-010: Registerbeheer in fase 2, OIDC in fase 6](ADR-010-register-management-phase-2.md) — Accepted
 - [ADR-011: Stabiele ingest-identiteit bij retries](ADR-011-ingest-retry-identity.md) — Accepted
+- [ADR-012: Lokale OIDC-console en sessies](ADR-012-console-oidc-local.md) — uitwerking van ADR-008/010 en expliciete lokale providerkeuze

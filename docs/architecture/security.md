@@ -58,3 +58,21 @@ inzet worden hiermee niet geclaimd.
 Specifieke medewerkers worden niet in LDV-logregels opgenomen. Persoonsgebonden gebruikersinformatie hoort in een afzonderlijk auditlog en kan waar toegestaan via `trace_id` worden gecorreleerd.
 
 Exports zijn tijdgebonden, gemarkeerd, geaudit en alleen beschikbaar voor bevoegde rollen.
+
+Fase 6 gebruikt in de lokale console OIDC Authorization Code met S256 PKCE en
+state/nonce via Keycloak. RS256-handtekening, issuer, audience en expiratie worden
+gecontroleerd. Alleen expliciet geconfigureerde subjects krijgen rollen/scopes.
+Tokens blijven server-side; browsercookies zijn Secure, HttpOnly en kortlevend.
+De console gebruikt HTTPS en weigert de oude demo-codeauthenticatie. Register-
+functies worden met een OIDC-authenticatiemodus hergebruikt; de afzonderlijke
+fase-2-reader blijft uitsluitend een lokaal historisch resolverhulpmiddel.
+Zie ADR-012 en het consolerunbook voor de begrensde lokale inzet.
+
+Logboekinzage, export, registerbeheer en technische pipeline-inzage zijn aparte
+rechten. De consolebackend spreekt Query via begrensde mTLS-scopes. Technische
+gebruikers zien uitsluitend metadata van de expliciet gedeelde lokale pipeline,
+geen LDV-payloads of subjectwaarden. Een eigen Kafka-certificaat mag fouttopics
+lezen en offsetstanden beschrijven, maar niet publiceren. Consoleaudit staat
+append-only in register.audit, zonder zoekwaarden/tokens; audituitval blokkeert
+inzage en export. Exports zijn gemarkeerde, begrensde geauthenticeerde responses
+zonder blijvende downloadlink, met no-store.

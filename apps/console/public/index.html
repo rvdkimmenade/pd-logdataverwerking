@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LDV · Logboek</title>
+    <link rel="stylesheet" href="/console.css" />
+    <script type="module" src="/console.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Naar inhoud</a>
+    <header>
+      <a class="brand" href="/">LDV <span>Logboek dataverwerkingen</span></a>
+      <div id="identity"></div>
+    </header>
+    <nav aria-label="Hoofdnavigatie">
+      <a href="/" aria-current="page">Logboek</a
+      ><a id="register-link" href="/register" hidden>Verwerkingsregister</a
+      ><button id="operations" hidden>Pipeline</button>
+    </nav>
+    <main id="main">
+      <p class="eyebrow">LOKALE DEMO · SYNTHETISCHE GEGEVENS</p>
+      <h1>Onderzoek een verwerking</h1>
+      <p class="intro">
+        Volg gebeurtenissen van bronapplicatie tot archief, met de
+        registercontext die op dat moment geldig was.
+      </p>
+      <p id="message" role="status" aria-live="polite"></p>
+      <section id="login" class="card">
+        <h2>Inloggen</h2>
+        <p>Je toegewezen rol bepaalt welke gegevens je kunt raadplegen.</p>
+        <a class="button" href="/auth/login">Inloggen via identityprovider</a>
+      </section>
+      <div id="workspace" hidden>
+        <section class="card">
+          <form id="search">
+            <div class="fields">
+              <label
+                >Trace-ID<input
+                  name="trace_id"
+                  autocomplete="off"
+                  placeholder="32 hextekens"
+              /></label>
+              <label>Vanaf<input name="from" type="datetime-local" /></label
+              ><label
+                >Tot (exclusief)<input name="until" type="datetime-local"
+              /></label>
+              <label
+                >Bronapplicatie<select
+                  name="source_application"
+                  id="applications"
+                >
+                  <option value="">Alle toegewezen applicaties</option>
+                </select></label
+              >
+              <label
+                >Verwerkingsactiviteit<input
+                  name="processing_activity_id"
+                  placeholder="urn:uuid:…" /></label
+              ><label
+                >Subjectpseudoniem<input name="subject_id" autocomplete="off"
+              /></label>
+            </div>
+            <div class="actions">
+              <button>Zoeken</button
+              ><button
+                type="button"
+                id="export"
+                class="secondary"
+                hidden
+                disabled
+              >
+                Exporteer deze pagina
+              </button>
+            </div>
+          </form>
+        </section>
+        <div class="results">
+          <section class="card">
+            <div class="section-title">
+              <h2>Gebeurtenissen</h2>
+              <span id="count"></span>
+            </div>
+            <p id="empty">Vul filters in of zoek binnen je toegewezen scope.</p>
+            <div class="table-scroll">
+              <table id="results" hidden>
+                <caption class="sr">
+                  Gevonden logregels
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Tijdstip</th>
+                    <th>Applicatie</th>
+                    <th>Activiteit</th>
+                    <th>Status</th>
+                    <th>Acties</th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+            <button id="next" class="secondary" hidden>Volgende pagina</button>
+          </section>
+          <section class="card" id="detail">
+            <h2>Context en origineel</h2>
+            <p>
+              Selecteer een gebeurtenis voor het originele record en de
+              historische registerversie.
+            </p>
+          </section>
+        </div>
+        <section class="card" id="trace" hidden>
+          <h2>Tracetijdlijn</h2>
+          <p id="trace-note"></p>
+          <ol id="spans"></ol>
+          <button id="trace-next" hidden>Meer spans</button>
+        </section>
+      </div>
+      <section id="pipeline" class="card" hidden>
+        <h2>Lokale pipeline</h2>
+        <p>
+          Technisch overzicht van de gedeelde lokale pipeline. Geen inzage in
+          logpayloads.
+        </p>
+        <button id="refresh-pipeline">Vernieuwen</button>
+        <dl id="pipeline-summary"></dl>
+        <h3>Rejects en dead letters</h3>
+        <p id="failure-status"></p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr">
+              Recente foutmetadata
+            </caption>
+            <thead>
+              <tr>
+                <th>Moment</th>
+                <th>Soort</th>
+                <th>Reden</th>
+                <th>Bronoffset</th>
+              </tr>
+            </thead>
+            <tbody id="failures"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <footer>
+      LDV · Onderzoek & verantwoording
+      <span>Archief is de bron van waarheid</span>
+    </footer>
+  </body>
+</html>

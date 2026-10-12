@@ -66,6 +66,9 @@ export async function checkContracts() {
     ['valid-consumer-reject.json', 'consumer-failure.schema.json'],
     ['valid-consumer-dead-letter.json', 'consumer-failure.schema.json'],
     ['valid-query-search.json', 'query.schema.json#/$defs/search'],
+    ['valid-console-identity.json', 'console.schema.json#/$defs/identity'],
+    ['valid-console-export.json', 'console.schema.json#/$defs/export'],
+    ['valid-console-operations.json', 'console.schema.json#/$defs/operations'],
   ];
   for (const [example, schema] of examples) {
     const validator = ajv.getSchema(
@@ -118,7 +121,11 @@ export async function checkContracts() {
     documents: documents.size,
     schemas: schemas.length,
     openapi: apiCount,
-    fixtures: 9,
+    fixtures:
+      examples.length +
+      documents.get(
+        resolve(contracts, 'examples/data-subject-id-examples.json'),
+      ).examples.length,
   };
 }
 

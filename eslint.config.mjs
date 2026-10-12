@@ -8,7 +8,12 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   { languageOptions: { globals: globals.node } },
   {
-    files: ['apps/register/public/*.js', 'scripts/register-test.mjs'],
+    files: [
+      'apps/register/public/*.js',
+      'apps/console/public/*.js',
+      'scripts/register-test.mjs',
+      'scripts/console-test.mjs',
+    ],
     languageOptions: { globals: globals.browser },
   },
 );

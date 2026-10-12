@@ -1,9 +1,10 @@
-import Fastify, { type FastifyRequest } from 'fastify';
+import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify';
 import { readFileSync } from 'node:fs';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { Ajv2020 } from 'ajv/dist/2020.js';
 import formats from 'ajv-formats';
 import type { Pool } from 'pg';
+import type { SecureContextOptions } from 'node:tls';
 import { Store, RegisterError, type Actor, type Draft } from './store.js';
 
 const schema = JSON.parse(
@@ -31,11 +32,29 @@ export interface AppOptions {
   pool: Pool;
   accounts: DemoAccount[];
   origin: string;
+  tls?: SecureContextOptions;
+  authenticate?: (request: FastifyRequest) => Actor;
+  logout?: (request: FastifyRequest) => void;
+  rootRoute?: string;
+  errorHandler?: (
+    error: unknown,
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ) => unknown;
 }
 export function createApp(options: AppOptions) {
-  if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(options.origin))
+  if (!/^https?:\/\/127\.0\.0\.1:\d+$/.test(options.origin))
     throw new Error('LOCAL_ORIGIN_REQUIRED');
-  const app = Fastify({ logger: false, bodyLimit: 32768 });
+  if (
+    options.authenticate &&
+    (!options.tls || !options.origin.startsWith('https:'))
+  )
+    throw new Error('OIDC_TLS_REQUIRED');
+  const app = Fastify({
+    logger: false,
+    bodyLimit: 32768,
+    ...(options.tls ? { https: options.tls } : {}),
+  });
   app.setNotFoundHandler((_request, reply) =>
     reply.code(404).send({ code: 'NOT_FOUND' }),
   );
@@ -44,6 +63,7 @@ export function createApp(options: AppOptions) {
   const attempts = new Map<string, { count: number; until: number }>();
   const metrics = { requests: 0, denied: 0, mutations: 0 };
   const actor = (request: FastifyRequest) => {
+    if (options.authenticate) return options.authenticate(request);
     const token = request.headers.cookie
       ?.split(';')
       .map((s) => s.trim())
@@ -104,6 +124,8 @@ export function createApp(options: AppOptions) {
       actor(request);
   });
   app.setErrorHandler(async (error, request, reply) => {
+    if (options.errorHandler)
+      return options.errorHandler(error, request, reply);
     const code = (error as { code?: string }).code;
     const status =
       error instanceof RegisterError
@@ -140,6 +162,7 @@ export function createApp(options: AppOptions) {
     return reply.code(status).send({ code: safeCode });
   });
   app.post('/api/session', async (request, reply) => {
+    if (options.authenticate) throw new RegisterError(403, 'OIDC_REQUIRED');
     const key = request.ip;
     const now = Date.now();
     const previous = attempts.get(key);
@@ -167,6 +190,14 @@ export function createApp(options: AppOptions) {
     return account.actor;
   });
   app.delete('/api/session', async (request, reply) => {
+    if (options.logout) {
+      options.logout(request);
+      reply.header(
+        'Set-Cookie',
+        '__Host-ldv-console=; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=0',
+      );
+      return { ok: true };
+    }
     const token = request.headers.cookie
       ?.split(';')
       .map((s) => s.trim())
@@ -240,14 +271,27 @@ export function createApp(options: AppOptions) {
     return store.resolve(who, p.id, at as string);
   });
   for (const [route, file, type] of [
-    ['/', 'index.html', 'text/html'],
+    [options.rootRoute ?? '/', 'index.html', 'text/html'],
     ['/app.js', 'app.js', 'text/javascript'],
     ['/style.css', 'style.css', 'text/css'],
   ]) {
-    const data = readFileSync(
+    let data = readFileSync(
       new URL(`../public/${file}`, import.meta.url),
       'utf8',
     );
+    if (options.authenticate && file === 'index.html') {
+      data = data
+        .replace('OIDC volgt in fase 6', 'OIDC-login')
+        .replace(
+          '<form id="login-form">',
+          '<a href="/auth/login">Inloggen via de lokale identityprovider</a><form id="login-form" hidden>',
+        )
+        .replace('Open het lokale register', 'Open het register')
+        .replace(
+          /Gebruik de toegangscode[\s\S]*?eigen code\./,
+          'Log in via de lokale identityprovider. Je toegewezen rol bepaalt welke acties beschikbaar zijn.',
+        );
+    }
     app.get(route!, async (_request, reply) => reply.type(type!).send(data));
   }
   return app;

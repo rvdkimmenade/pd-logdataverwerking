@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/console.schema.json",
+  "$defs": {
+    "identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id","party","role","permissions","applications"],
+      "properties": {
+        "id": {"type":"string","minLength":1,"maxLength":200},
+        "party": {"type":"string","minLength":1,"maxLength":200},
+        "role": {"enum":["editor","reviewer","reader"]},
+        "permissions": {"type":"array","uniqueItems":true,"items":{"enum":["register","log.read","log.export","operations"]}},
+        "applications": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":200}},
+        "backend": {"type":"string","minLength":1,"maxLength":200}
+      }
+    },
+    "export": {
+      "type":"object","additionalProperties":false,
+      "required":["exported_at","exported_by","responsible_party","applications","scope","page"],
+      "properties": {
+        "exported_at":{"type":"string","format":"date-time"},
+        "exported_by":{"type":"string","minLength":1},
+        "responsible_party":{"type":"string","minLength":1},
+        "applications":{"type":"array","minItems":1,"items":{"type":"string","minLength":1}},
+        "scope":{"const":"one-page"},
+        "page":{"$ref":"query.schema.json#/$defs/page"}
+      }
+    },
+    "operations": {
+      "type":"object","additionalProperties":false,
+      "required":["scope","observed_at","archive_consumer_lag","consumer_offset","end_offset","earliest_offset","expired_unprocessed","feed_status","invalid_failure_messages","window","failures","projector"],
+      "properties": {
+        "scope":{"const":"shared-local-pipeline"},
+        "observed_at":{"type":"string","format":"date-time"},
+        "archive_consumer_lag":{"type":"string","pattern":"^[0-9]+$"},
+        "consumer_offset":{"type":"string","pattern":"^-?[0-9]+$"},
+        "end_offset":{"type":"string","pattern":"^[0-9]+$"},
+        "earliest_offset":{"type":"string","pattern":"^[0-9]+$"},
+        "expired_unprocessed":{"type":"boolean"},
+        "feed_status":{"enum":["unavailable","catching_up","caught_up"]},
+        "invalid_failure_messages":{"type":"integer","minimum":0},
+        "window":{"const":"last-100-observed-metadata"},
+        "failures":{"type":"array","maxItems":100,"items":{"type":"object","additionalProperties":false,"required":["failure_id","kind","reason","source_partition","source_offset","observed_at"],"properties":{"failure_id":{"type":"string","pattern":"^[a-f0-9]{64}$"},"kind":{"enum":["reject","dead_letter"]},"reason":{"enum":["INVALID_JSON","INVALID_ENVELOPE","EVENT_ID_CONFLICT","PROCESSING_FAILED"]},"source_partition":{"type":"integer","minimum":0},"source_offset":{"type":"string","pattern":"^(0|[1-9][0-9]*)$"},"observed_at":{"type":"string","format":"date-time"}}}},
+        "projector":{"type":"object","additionalProperties":false,"required":["cycles","failures","rebuilds","projected","last_success_at","scan_started_at","rebuild_duration_ms","scan_lag_ms"],"properties":{"cycles":{"type":"integer","minimum":0},"failures":{"type":"integer","minimum":0},"rebuilds":{"type":"integer","minimum":0},"projected":{"type":"integer","minimum":0},"last_success_at":{"type":"integer","minimum":0},"scan_started_at":{"type":"integer","minimum":0},"rebuild_duration_ms":{"type":"integer","minimum":0},"scan_lag_ms":{"type":["integer","null"],"minimum":0}}}
+      }
+    }
+  }
+}
