@@ -705,6 +705,8 @@ try {
       const nextUser = users.find(
         (u) => u.username === 'synthetic-investigator',
       );
+      if (!(await page.locator('#username').count()))
+        await page.locator('#reset-login').click();
       await page.locator('#username').fill(nextUser.username);
       await page.locator('#password').fill(nextUser.password);
       await page.locator('#kc-login').click();

@@ -37,7 +37,8 @@ HttpOnly, SameSite=Lax-sessies vervallen uiterlijk na dertig minuten of bij de
 ID-tokenexpiratie, afhankelijk van wat eerder is. Uitloggen beëindigt de
 consolesessie. Elke volgende login vraagt via OIDC `prompt=login` opnieuw om
 gebruikersnaam en wachtwoord, ook als de provider nog een sessie heeft. Je kunt
-daarmee in hetzelfde browservenster van demorol wisselen.
+daarmee in hetzelfde browservenster van demorol wisselen. Als de provider de
+vorige gebruikersnaam toont, kies eerst het wisselicoon naast die naam.
 
 ## Demo zonder database- of Kafka-tools
 
