@@ -2,11 +2,12 @@
 
 ## Huidige fase
 
-**Fase 5 — Zoekprojectie en Query API (in uitvoering)**
+**Fase 5 — Zoekprojectie en Query API (voltooid)**
 
-Status op 2026-10-12: fase 4 is voltooid. Fase 5 wordt verder gebouwd op branch
-`codex/phase-5-query`. Code-/contractcontroles zijn groen; integratie-, demo- en
-schone-checkoutbewijs voor fase 5 zijn nog niet compleet. Fase 6 is niet gestart.
+Status op 2026-10-12: fase 5 is voltooid op branch `codex/phase-5-query`.
+Implementatie `85ffc45`, herstelproef `be885ee`: volledige verificatie vanuit
+een schone checkout groen. Integratie- en demobewijs zijn aanwezig.
+Fase 6 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -23,7 +24,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
-| 5. Zoekprojectie en Query API | In uitvoering | Integratie, demo, volledige verify en schone checkout |
+| 5. Zoekprojectie en Query API | Voltooid | Geen open fase-5-gates |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
@@ -57,6 +58,38 @@ herstel wacht op beschikbare indexshards. Ook de kleinste geldige UUID wordt
 geprojecteerd. Nog geen fasevoltooiing geclaimd vóór de schone-checkoutpoort.
 
 Plan: `.agent/plans/phase-05-query.md`. Runbook: [zoeken](../runbooks/query.md).
+
+Hervatting 2026-10-12: implementatiecommit `85ffc45` is aanwezig en de werkmap
+was schoon. De eerdere volledige verify in `.local/query-clean-20261012` van
+die commit heeft de querygate voor OpenSearch-uitval/herstel niet gehaald;
+foundation-, register-, ingest- en logboekgates slaagden wel. Deze mislukte
+schone-checkoutproef is geen voltooiingsbewijs. Een gerichte herhaling kon de
+testomgeving niet starten doordat Docker Engine niet beschikbaar is, ook buiten
+de sandbox. `docker desktop start` aangevraagd, maar de enginepipe bleef
+onbeschikbaar en `docker desktop status` kon geen status ophalen.
+`npm.cmd run verify:code` opnieuw geslaagd: 106 tests in 9 bestanden, builds,
+formatter, lint en alle contractchecks groen. Blokkade: werkende Docker Engine;
+daarna de herstelgate onderzoeken en volledige schone-checkoutverify herhalen.
+Fase 5 blijft in uitvoering; fase 6 is niet gestart.
+
+Vervolg op dezelfde dag: Docker Engine 29.5.3 bereikbaar. De herstelgate
+reproduceerde een tijdelijke HTTP 503 nadat clusterhealth beschikbaar was.
+De test probeert projectie nu opnieuw bij uitsluitend SearchError 503, binnen
+de ongewijzigde herstelgrens van 30 seconden; dit volgt het herhalende gedrag
+van de runtimeprojector. Geen runtime-, contract- of rechtenwijziging.
+
+**Fase-5-eindbewijs:** testwijziging `be885ee`; nieuwe schone checkout
+`.local/query-recovery-clean`, `npm.cmd ci --offline --ignore-scripts` en
+`npm.cmd run verify` geslaagd. Werkboom van deze checkout is schoon. Opnieuw
+106 tests in 9 bestanden, zes builds, alle contractchecks, foundationproeven,
+12 registerchecks, 16 ingestgates, 11 logboekgates en alle 11 querygates groen.
+Schone-checkoutmeting: p95 **318 ms** over 30 verzoeken; herstelprojectie
+**924 ms**, inclusief eventuele tijdelijke 503-retries (grenzen 2.000/30.000 ms).
+Bewijs: `.local/query-recovery-clean/artifacts/foundation.json`, `query.json`,
+`register.json`, `ingest.json` en `logbook.json`. Eerder lokaal demobewijs
+`artifacts/query-demo-proof.json` toont zoeken, detail, integriteit en trace;
+rebuild is ook in beide geslaagde queryproeven bewezen. De eerdere blokkade
+is opgelost. Fase 5 is voltooid; geen nieuwe GitHub CI-run of fase-6-start geclaimd.
 
 ## Fase-4-resultaat (2026-10-11)
 

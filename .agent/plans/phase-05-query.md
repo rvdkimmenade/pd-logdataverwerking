@@ -60,8 +60,8 @@ Geen productiesizing of SLA. Metingen worden in artifacts/query.json vastgelegd.
 - [x] OpenSearch-uitval blokkeert archiefopslag niet; herstel haalt in.
 - [x] Lag-/rebuildmetrics en begrensde fouten zonder payloads/secrets.
 - [x] Synthetische performanceproef haalt meetlat; trace werkt.
-- [ ] Volledige verify en schone checkout groen.
-- [ ] Demo, runbook, status, commit; fase 6 niet gestart.
+- [x] Volledige verify en schone checkout groen.
+- [x] Demo, runbook, status, commit; fase 6 niet gestart.
 
 ## Voortgang
 
@@ -83,3 +83,27 @@ Opstartrechten en aliasautorisatie hersteld zonder verruiming van queryrechten.
 OpenSearch-herstel wacht op beschikbare shards. Een scan start zonder kunstmatige
 UUID-ondergrens, zodat ook een later toegevoegd nil-UUID-record wordt gevonden.
 Resterend: commit van deze implementatie en verificatie vanuit schone checkout.
+
+Hervatting 2026-10-12: commit `85ffc45` bestaat. De schone checkout van deze
+commit bevat een mislukte OpenSearch-uitval/herstelgate; overige fasegates waren
+groen. Gerichte herhaling faalt nu bij infrastructuurvoorbereiding doordat Docker
+Engine niet draait. Ook na aangevraagde Docker Desktop-start is de enginepipe
+niet beschikbaar. Codeverify opnieuw groen (106 tests en contractchecks).
+Geen fasevoltooiing: eerst Docker beschikbaar maken, herstelgate onderzoeken,
+volledige verify vanuit schone checkout uitvoeren en bewijs vastleggen.
+
+Herhaalproef 2026-10-12: Docker Engine 29.5.3 is bereikbaar. De herstelgate
+reproduceerde een tijdelijke OpenSearch HTTP 503 na de clusterhealthcheck.
+De proef doet nu begrensde retries uitsluitend voor SearchError 503, overeenkomstig
+de herhalende runtimeprojector. De herstelgrens blijft 30 seconden; andere fouten
+worden direct doorgegeven. Alle 11 querygates groen: p95 325 ms, laatste
+herstelprojectie 605 ms. Codeverify opnieuw groen. Testwijziging gecommit als
+`be885ee`; volledige verify loopt vanuit `.local/query-recovery-clean` na
+offline installatie uit de npm-cache.
+
+Afgerond 2026-10-12: volledige `npm.cmd run verify` in de schone checkout van
+`be885ee` geslaagd. Alle foundation-, register-, ingest-, logboek- en querygates
+groen; 106 tests, builds en contractvalidatie groen. Checkoutwerkboom schoon.
+Query p95 318 ms; herstelprojectie inclusief retries 924 ms. Bewijs onder
+`.local/query-recovery-clean/artifacts/`. Bestaande lokale demo en runbook zijn
+aanwezig; status bijgewerkt. Fase 5 voltooid, fase 6 niet gestart.
