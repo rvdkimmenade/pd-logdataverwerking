@@ -2,6 +2,11 @@
 
 Proof of concept voor een gemeentelijke implementatie van de Logboek Dataverwerkingen (LDV) standaard.
 
+Gemeentelijke demo's: start de console en voer `npm run demo:gemeente` uit voor
+Wmo-, vergunning- en paspoortaanvragen. Dit voegt drie gepubliceerde synthetische
+registeractiviteiten en twaalf doorzoekbare logregels toe. Zie het
+[consolerunbook](docs/runbooks/console.md) voor rollen en kijkinstructies.
+
 ## Doel
 
 Dit project onderzoekt een centraal LDV-platform waarin:

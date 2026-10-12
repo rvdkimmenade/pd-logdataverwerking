@@ -1,0 +1,43 @@
+{
+  "scenarios": [
+    {
+      "slug": "wmo",
+      "title": "Wmo-aanvraag behandelen",
+      "purpose": "Een synthetische aanvraag voor ondersteuning beoordelen en een besluit vastleggen.",
+      "data_categories": ["Aanvraaggegevens", "Ondersteuningsbehoefte", "Huishoudsamenstelling", "Besluit"],
+      "data_subject_categories": ["Synthetische aanvragers", "Synthetische huisgenoten"],
+      "steps": [
+        {"name": "Wmo: aanvraag ontvangen", "subject": "aanvrager"},
+        {"name": "Wmo: ondersteuningsbehoefte raadplegen", "subject": "aanvrager"},
+        {"name": "Wmo: huishoudgegevens raadplegen", "subject": "huisgenoot"},
+        {"name": "Wmo: besluit vastleggen", "subject": "aanvrager"}
+      ]
+    },
+    {
+      "slug": "vergunning",
+      "title": "Vergunningaanvraag behandelen",
+      "purpose": "Een synthetische vergunningaanvraag beoordelen en de uitkomst registreren.",
+      "data_categories": ["Aanvraagreferentie", "Locatiegegevens", "Bijlagen", "Eigenaarsrelatie", "Besluit"],
+      "data_subject_categories": ["Synthetische aanvragers", "Synthetische eigenaren"],
+      "steps": [
+        {"name": "Vergunning: aanvraag ontvangen", "subject": "aanvrager"},
+        {"name": "Vergunning: aanvraagdocumenten raadplegen", "subject": "aanvrager"},
+        {"name": "Vergunning: eigenaarsrelatie raadplegen", "subject": "eigenaar"},
+        {"name": "Vergunning: besluit vastleggen", "subject": "aanvrager"}
+      ]
+    },
+    {
+      "slug": "paspoort",
+      "title": "Paspoortaanvraag behandelen",
+      "purpose": "Een synthetische paspoortaanvraag voor een minderjarige beoordelen en de uitgifte registreren.",
+      "data_categories": ["Aanvraagreferentie", "Identiteitsgegevens", "Toestemmingsstatus", "Uitgiftestatus"],
+      "data_subject_categories": ["Synthetische minderjarige aanvragers", "Synthetische gezaghebbende ouders"],
+      "steps": [
+        {"name": "Paspoort: aanvraag ontvangen", "subject": "aanvrager"},
+        {"name": "Paspoort: identiteit raadplegen", "subject": "aanvrager"},
+        {"name": "Paspoort: toestemming ouder raadplegen", "subject": "ouder"},
+        {"name": "Paspoort: uitgifte registreren", "subject": "aanvrager"}
+      ]
+    }
+  ]
+}

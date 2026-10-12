@@ -107,3 +107,20 @@ inclusief wachtwoordplicht en andere identiteit in dezelfde context. Alle gates
 groen; de laatste volledige verify-exit 1 en de geslaagde gerichte herproef zijn
 expliciet vastgelegd in status.md. Geen verdere runtimewijziging na de verify.
 Lokale console draait met loginfix, zes demorollen gecontroleerd. Fase 7 niet gestart.
+
+## Aanvulling gemeentelijke demo's (2026-10-12)
+
+Opdrachtgever vraagt concrete Wmo-, vergunning- en paspoortvoorbeelden. Dit blijft
+fase 6: bestaande register-/console-/ingestinterfaces gebruiken, geen outbox of
+nieuwe API's. Nieuwe contractfixtures bevatten uitsluitend synthetische processen;
+grondslag en retentie zijn herkenbare demo-invulwaarden, geen juridische claims.
+Uitvoering: drie activiteiten aanmaken via OIDC-editor, publiceren via afzonderlijke
+OIDC-reviewer, twaalf records via bestaande mTLS-ingest publiceren en via console
+historische context/trace verifiëren. Bestaande gegevens behouden. Herhaling gebruikt
+dezelfde ontvangstidentiteiten. Alleen lokale demo-source krijgt de drie expliciete
+activiteit-ID's erbij; geen wildcard of verruiming van partij-/applicatiescope.
+
+- [ ] Fixtures en register-/LDV-validatie.
+- [ ] Drie gepubliceerde activiteiten en twaalf doorzoekbare records lokaal.
+- [ ] Herhaling zonder duplicaten, browseronderzoek en registerweergave.
+- [ ] Repositoryverificatie en bewijs in status.md.

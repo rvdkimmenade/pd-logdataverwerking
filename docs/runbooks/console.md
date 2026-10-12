@@ -2,6 +2,31 @@
 
 ## Starten en openen
 
+### Gemeentelijke voorbeelden
+
+Na het starten van de console voegt `npm run demo:gemeente` drie gepubliceerde,
+synthetische registeractiviteiten en twaalf logregels toe: Wmo-aanvraag,
+vergunningaanvraag en paspoortaanvraag voor een minderjarige. Per proces zijn
+er vier stappen met een parent-span en afzonderlijke child-spans voor twee
+betrokkenen (aanvrager plus huisgenoot, eigenaar of ouder). De details tonen
+de bij het eventtijdstip geldige gepubliceerde registerversie.
+
+Open `/register` met `demo-editor`, `demo-reviewer` of `demo-reader` om de
+activiteiten met voorvoegsel `Demo gemeente:` te zien. Open het logboek met
+`demo-auditor` of `demo-investigator` en klik **Zoeken**. De logregels hebben
+procesnamen als `Wmo: aanvraag ontvangen`; **Details** en **Trace** tonen context
+en samenhang. Activiteit- en trace-ID's staan in `artifacts/municipal-demo.json`.
+
+De seeder gebruikt de console-API met twee OIDC-identiteiten voor aanmaken en
+publiceren en de bestaande mTLS-ingest voor logregels; geen directe archiefwrites.
+Hij voegt alleen de drie concrete activiteit-ID's toe aan de bestaande lokale
+demo-source en herstart daarvoor uitsluitend de ingestservice, zonder containers
+of opslag te verwijderen. Herhaling hergebruikt dezelfde idempotentiesleutels.
+Bij een gewijzigde bestaande demoactiviteit stopt hij in plaats van die te
+overschrijven. Alle identifiers zijn synthetisch; er zijn geen echte namen,
+BSN's, medische inhoud, adressen, documenten of biometrische gegevens opgenomen.
+Grondslag en bewaartermijn zijn herkenbare demo-invulwaarden.
+
 Node 24, npm 11 en Docker Linux-containers. Uitsluitend synthetische lokale data.
 
 ```text
