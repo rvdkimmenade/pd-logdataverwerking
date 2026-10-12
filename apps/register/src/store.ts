@@ -4,6 +4,7 @@ import type { Pool, PoolClient } from 'pg';
 export interface Actor {
   id: string;
   role: 'editor' | 'reviewer' | 'reader';
+  roles?: ('editor' | 'reviewer' | 'reader')[];
   party: string;
 }
 export interface Draft {

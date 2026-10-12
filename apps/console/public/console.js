@@ -154,17 +154,20 @@ $('export').onclick = run(async () => {
 try {
   const me = await api('/api/me');
   $('login').hidden = true;
-  const roleName = me.permissions.includes('log.export')
-    ? 'Auditor'
-    : me.permissions.includes('log.read')
-      ? 'Onderzoeker'
-      : me.permissions.includes('operations')
-        ? 'Technisch beheerder'
-        : {
-            editor: 'Registerbeheerder',
-            reviewer: 'Privacy reviewer',
-            reader: 'Registerlezer',
-          }[me.role];
+  const roleName =
+    me.roles?.includes('editor') && me.roles?.includes('reviewer')
+      ? 'Admin'
+      : me.permissions.includes('log.export')
+        ? 'Auditor'
+        : me.permissions.includes('log.read')
+          ? 'Onderzoeker'
+          : me.permissions.includes('operations')
+            ? 'Technisch beheerder'
+            : {
+                editor: 'Registerbeheerder',
+                reviewer: 'Privacy reviewer',
+                reader: 'Registerlezer',
+              }[me.role];
   $('identity').innerHTML =
     `<span>${esc(roleName)}</span> <button id="logout">Uitloggen</button>`;
   $('logout').onclick = run(async () => {

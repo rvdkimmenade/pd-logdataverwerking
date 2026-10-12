@@ -22,13 +22,16 @@ try {
     'reviewer',
     'reader',
     'technical',
+    ...(users.some((user) => user.username === 'admin') ? ['admin'] : []),
   ]) {
     const context = await browser.newContext({
       ignoreHTTPSErrors: true,
       viewport: { width: 1440, height: 1000 },
     });
     const page = await context.newPage();
-    const user = users.find((u) => u.username === `demo-${name}`);
+    const user = users.find(
+      (u) => u.username === (name === 'admin' ? 'admin' : `demo-${name}`),
+    );
     await page.goto(config.origin);
     await page
       .getByRole('link', { name: 'Inloggen via identityprovider' })
@@ -71,17 +74,20 @@ try {
     });
     assert.equal(
       search.status(),
-      ['auditor', 'investigator'].includes(name) ? 200 : 403,
+      ['auditor', 'investigator', 'admin'].includes(name) ? 200 : 403,
     );
     const exported = await page.request.post(
       config.origin + '/api/logs/export',
       { headers: { Origin: config.origin }, data: { limit: 25 } },
     );
-    assert.equal(exported.status(), name === 'auditor' ? 200 : 403);
+    assert.equal(
+      exported.status(),
+      ['auditor', 'admin'].includes(name) ? 200 : 403,
+    );
     const register = await page.request.get(config.origin + '/api/activities');
     assert.equal(
       register.status(),
-      ['editor', 'reviewer', 'reader'].includes(name) ? 200 : 403,
+      ['editor', 'reviewer', 'reader', 'admin'].includes(name) ? 200 : 403,
     );
     if (name === 'auditor') {
       await page.getByRole('button', { name: 'Zoeken', exact: true }).click();
@@ -109,10 +115,25 @@ try {
       });
     }
     const operation = await page.request.get(config.origin + '/api/operations');
-    assert.equal(operation.status(), name === 'technical' ? 200 : 403);
-    if (name === 'technical') {
+    assert.equal(
+      operation.status(),
+      ['technical', 'admin'].includes(name) ? 200 : 403,
+    );
+    if (name === 'technical' || name === 'admin') {
       await page.getByRole('button', { name: 'Pipeline', exact: true }).click();
       await page.locator('#pipeline').waitFor({ state: 'visible' });
+    }
+    if (name === 'admin') {
+      assert.deepEqual(me.roles, ['editor', 'reviewer', 'reader']);
+      await page.goto(config.origin + '/register');
+      await page
+        .getByRole('button', { name: 'Nieuwe activiteit', exact: true })
+        .waitFor();
+      await page.screenshot({
+        path: resolve(root, 'artifacts/console-admin.png'),
+        fullPage: true,
+      });
+      await page.goto(config.origin);
     }
     await page.getByRole('button', { name: 'Uitloggen', exact: true }).click();
     await page

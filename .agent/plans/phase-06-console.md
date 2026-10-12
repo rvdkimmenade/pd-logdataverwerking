@@ -135,3 +135,20 @@ op nieuwe schermresultaten. Volledige npm run verify groen, inclusief alle acht
 consolegates. Verify:code op schone checkout eveneens groen met 121 tests en
 validatie van drie registervoorbeelden/twaalf records. Geen interfacewijzigingen,
 nieuwe dependencies, directe archiefwrites of volgende-fasewerk.
+
+## Aanvulling gecombineerde demo-admin (2026-10-12)
+
+Opdrachtgever vraagt expliciet een lokale gebruiker admin met het opgegeven
+demo-wachtwoord en alle rollen. ADR-013 beschrijft de aanvullende optionele
+`roles`-lijst; bestaande primaire rollen blijven compatibel. Rollen worden
+uitsluitend server-side toegekend. Alle vier consolepermissions, dezelfde partij
+en applicatiescope. Tweede-persoonpublicatie blijft verplicht, ook voor admin.
+Provisioning gebruikt de Keycloak-beheer-API met een tijdelijke service-identiteit
+die na afloop wordt verwijderd; gebruikers en realm blijven behouden. Wachtwoord
+alleen in genegeerde lokale configuratie, niet in code of fixtures.
+
+- [x] Contract eerst aangevuld, gecombineerde API- en UI-autorisatie.
+- [x] Lokale providergebruiker aangemaakt, tijdelijke provisioning-identiteit verwijderd.
+- [x] Echte browserlogin met zeven lokale gebruikers en admin-acties.
+- [x] Geïsoleerde adminproef: eigen publicatie weigeren, andere identiteit publiceren.
+- [ ] Volledige verify, schone checkout en bijgewerkt statusbewijs.

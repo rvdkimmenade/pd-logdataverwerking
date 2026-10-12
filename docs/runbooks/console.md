@@ -2,6 +2,16 @@
 
 ## Starten en openen
 
+De expliciet gevraagde lokale gebruiker `admin` heeft alle registerrollen en
+logboek-, export- en pipeline-rechten binnen dezelfde demoscope. Het opgegeven
+wachtwoord staat uitsluitend in het lokale toegangsbestand. Ook admin kan zijn
+eigen laatst gewijzigde concept niet publiceren: daarvoor is een andere identiteit
+nodig. Het account krijgt geen Keycloak-beheerrechten. Provisioning kan lokaal
+worden herhaald met `node scripts/console-admin.mjs <demo-wachtwoord>`; dit gebruikt
+de geverifieerde provider-API, herstart alleen de lokale provider en verwijdert de
+tijdelijke provisioning-identiteit. Herstart daarna de console voor de nieuwe
+serverconfiguratie. Geen productieclaim.
+
 ### Gemeentelijke voorbeelden
 
 Na het starten van de console voegt `npm run demo:gemeente` drie gepubliceerde,
@@ -124,11 +134,14 @@ npm run demo:console
 verify bevat code-, contract- en OIDC-negatieve tests, alle eerdere fasegates en
 test:console. De console-integratieproef gebruikt eigen provider-/database-/Kafka-/
 OpenSearch-omgevingen, synthetische historische versies, een parent en twee
-betrokkenen, zeven identiteiten, browserflows, scopes, exportaudit en foutstromen.
+betrokkenen, acht identiteiten inclusief gecombineerde admin, browserflows, scopes,
+exportaudit en foutstromen. De adminproef weigert eigen publicatie en accepteert
+publicatie van een concept van een andere identiteit.
 Alleen deze unieke teststacks worden opgeruimd. Rapport: artifacts/console.json;
 browserbeelden: console-test-desktop.png en console-test-mobile.png.
 
-demo:console toetst de zes lokale rollen op de echte provider en APIs. Rapport:
+demo:console toetst de zes lokale rollen en, indien aangemaakt, admin op de echte
+provider en APIs. Rapport:
 artifacts/console-demo.json. Rechtenfouten, verkeerde CA, tokenhandtekening,
 issuer/audience/nonce/state, verlopen sessies, audit- en backenduitval moeten groen
 zijn voordat fase 6 voltooid kan worden verklaard. Ook een schone-checkoutproef

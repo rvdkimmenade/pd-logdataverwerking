@@ -61,6 +61,9 @@ function message(text, error = false) {
   $('message').className = error ? 'error' : '';
   $('message').setAttribute('role', error ? 'alert' : 'status');
 }
+function hasRole(role) {
+  return (me.roles ?? [me.role]).includes(role);
+}
 async function api(path, method = 'GET', data) {
   const r = await fetch(path, {
     method,
@@ -128,7 +131,7 @@ async function open(id) {
 function render() {
   const latest = detail.versions[0];
   $('detail').innerHTML =
-    `<p class="eyebrow">VERWERKINGSACTIVITEIT</p><h2>${esc(latest.content.name)}</h2><p class="code muted">${esc(detail.processing_activity_id)}</p><p class="muted">${esc(detail.party)}</p><div class="toolbar"><h3>Versies</h3>${me.role === 'editor' ? '<button id="next" class="secondary">Nieuwe versie</button>' : ''}</div>${detail.versions
+    `<p class="eyebrow">VERWERKINGSACTIVITEIT</p><h2>${esc(latest.content.name)}</h2><p class="code muted">${esc(detail.processing_activity_id)}</p><p class="muted">${esc(detail.party)}</p><div class="toolbar"><h3>Versies</h3>${hasRole('editor') ? '<button id="next" class="secondary">Nieuwe versie</button>' : ''}</div>${detail.versions
       .map(
         (v) =>
           `<article class="version"><div class="toolbar"><strong>Versie ${v.version}</strong><span class="badge ${v.status === 'draft' ? 'draft' : ''}">${v.status === 'draft' ? 'Concept' : 'Gepubliceerd'}</span></div><p class="muted">${format(v.valid_from)} — ${format(v.valid_until)}</p><dl>${Object.keys(
@@ -140,7 +143,7 @@ function render() {
             )
             .join(
               '',
-            )}</dl><div class="actions">${v.status === 'draft' && me.role === 'editor' ? `<button data-edit="${v.version}" class="secondary">Concept bewerken</button>` : ''}${v.status === 'draft' && me.role === 'reviewer' ? `<button data-publish="${v.version}">Publiceren</button>` : ''}</div></article>`,
+            )}</dl><div class="actions">${v.status === 'draft' && hasRole('editor') ? `<button data-edit="${v.version}" class="secondary">Concept bewerken</button>` : ''}${v.status === 'draft' && hasRole('reviewer') ? `<button data-publish="${v.version}">Publiceren</button>` : ''}</div></article>`,
       )
       .join(
         '',
@@ -309,7 +312,7 @@ async function enter(actor) {
   me = actor;
   $('login').hidden = true;
   $('workspace').hidden = false;
-  $('new').hidden = me.role !== 'editor';
+  $('new').hidden = !hasRole('editor');
   $('identity').innerHTML =
     `<span>${esc(roleNames[me.role])}</span><button id="logout">Uitloggen</button>`;
   $('logout').onclick = run(async () => {

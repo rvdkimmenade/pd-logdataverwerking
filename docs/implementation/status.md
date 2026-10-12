@@ -32,6 +32,33 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Fase-6-voortgang (2026-10-12)
 
+### Gecombineerde lokale admin — verificatie in uitvoering
+
+Hervatting van de bestaande fase-6-aanvulling: optionele server-side `roles`
+met editor, reviewer en reader, plus alle vier consolepermissions. Partij- en
+applicatiescope en tweede-persoonpublicatie blijven gelden (ADR-013).
+De geïsoleerde consoleproef omvat admin-login, eigen publicatie weigeren,
+publicatie door andere identiteit en gecombineerde beheerknoppen.
+
+Codeverificatie: formatter, lint, zeven builds, 121 tests en alle 24
+contractdocumenten groen. De eerste sandboxrun faalde op tijdelijke
+Vitest-bestanden; een run buiten de sandbox op twee configuratietimeouts
+tijdens gelijktijdige builds. Herhaling zonder die belasting slaagde.
+Docker Desktop meldde running terwijl de Linux-enginepipe ontbrak;
+herstart herstelde Engine 29.5.3. Volledige `npm run verify` daarna groen:
+alle eerdere fasegates en negen consolegates, inclusief acht identiteiten en
+de gecombineerde adminpublicatieproef. Query p95 275 ms, herstel 811 ms.
+
+Lokale `demo:console` groen voor alle zeven accounts, inclusief admin en
+wachtwoordplicht na logout. Keycloak bleek het aangeleverde nieuwe user-ID
+te vervangen; provisioning leest nu het werkelijk opgeslagen ID terug.
+Admin-configuratie herladen door uitsluitend het consoleproces te herstarten.
+De demo keert na registercontrole terug naar de console voor de logoutcontrole;
+het register heeft een anders benoemde OIDC-inloglink. Desktop- en adminbeeld
+visueel gecontroleerd. Bewijs: artifacts/foundation.json, console.json,
+console-demo.json en console-admin.png. Schone-checkoutbewijs staat nog open.
+Deze aanvulling is nog niet afgerond; fase 7 is niet gestart.
+
 ### Gemeentelijke demoaanvulling
 
 Op verzoek zijn in a910d0e drie concrete synthetische processen toegevoegd:

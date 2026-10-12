@@ -83,6 +83,7 @@ const definitions = [
   ['auditor', ['log.read', 'log.export']],
   ['investigator', ['log.read']],
   ['technical', ['operations']],
+  ['admin', ['register', 'log.read', 'log.export', 'operations']],
   ['foreign', ['log.read']],
 ];
 const users = definitions.map(([name, permissions]) => ({
@@ -92,7 +93,13 @@ const users = definitions.map(([name, permissions]) => ({
   actor: {
     id: randomUUID(),
     party: name === 'foreign' ? 'other-party' : fixture.responsible_party,
-    role: ['editor', 'reviewer'].includes(name) ? name : 'reader',
+    role:
+      name === 'admin'
+        ? 'editor'
+        : ['editor', 'reviewer'].includes(name)
+          ? name
+          : 'reader',
+    ...(name === 'admin' ? { roles: ['editor', 'reviewer', 'reader'] } : {}),
     permissions,
     applications: [fixture.source_application],
     backend: name === 'foreign' ? 'other' : 'auditor',
@@ -310,7 +317,7 @@ try {
     },
   );
   await gate(
-    'OIDC browser flow, role navigation and direct API denial for seven identities',
+    'OIDC browser flow, role navigation and direct API denial for eight identities',
     async () => {
       for (const [name, permissions] of definitions) {
         const page = await login(name);
@@ -330,9 +337,15 @@ try {
           permissions.includes('register') ? 200 : 403,
         );
         const op = await request(page, '/api/operations');
-        assert.equal(op.status(), name === 'technical' ? 200 : 403);
+        assert.equal(
+          op.status(),
+          permissions.includes('operations') ? 200 : 403,
+        );
         const exp = await request(page, '/api/logs/export', {});
-        assert.equal(exp.status(), name === 'auditor' ? 200 : 403);
+        assert.equal(
+          exp.status(),
+          permissions.includes('log.export') ? 200 : 403,
+        );
         assert.equal(
           await page.locator('#workspace').isVisible(),
           permissions.includes('log.read'),
@@ -659,6 +672,62 @@ try {
         .click();
       await pages.technical.locator('#pipeline').waitFor({ state: 'visible' });
       assert.equal(await pages.technical.locator('#failures tr').count(), 2);
+    },
+  );
+  await gate(
+    'Combined admin roles retain scope and second-person publication',
+    async () => {
+      const admin = pages.admin;
+      const make = async (page, name) => {
+        const response = await request(page, '/api/activities', {
+          ...draft,
+          content: { ...draft.content, name },
+        });
+        assert.equal(response.status(), 201);
+        return response.json();
+      };
+      const own = await make(admin, 'Synthetic admin concept');
+      assert.equal(
+        (
+          await request(admin, `/api/activities/${own.id}/versions/1/publish`, {
+            revision: 1,
+          })
+        ).status(),
+        403,
+      );
+      assert.equal(
+        (
+          await request(
+            pages.reviewer,
+            `/api/activities/${own.id}/versions/1/publish`,
+            { revision: 1 },
+          )
+        ).status(),
+        200,
+      );
+      const other = await make(pages.editor, 'Synthetic other-author concept');
+      assert.equal(
+        (
+          await request(
+            admin,
+            `/api/activities/${other.id}/versions/1/publish`,
+            { revision: 1 },
+          )
+        ).status(),
+        200,
+      );
+      const editable = await make(admin, 'Synthetic editable admin concept');
+      await admin.goto(origin + '/register');
+      await admin
+        .getByRole('button', { name: 'Nieuwe activiteit', exact: true })
+        .waitFor();
+      await admin.locator(`[data-id="${editable.id}"]`).click();
+      await admin
+        .getByRole('button', { name: 'Concept bewerken', exact: true })
+        .waitFor();
+      await admin
+        .getByRole('button', { name: 'Publiceren', exact: true })
+        .waitFor();
     },
   );
   await gate(

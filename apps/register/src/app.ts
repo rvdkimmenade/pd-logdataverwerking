@@ -78,7 +78,12 @@ export function createApp(options: AppOptions) {
   };
   const allow = (request: FastifyRequest, role?: Actor['role']) => {
     const who = actor(request);
-    if (role && who.role !== role) throw new RegisterError(403, 'FORBIDDEN');
+    if (
+      role &&
+      who.role !== role &&
+      !(options.authenticate && who.roles?.includes(role))
+    )
+      throw new RegisterError(403, 'FORBIDDEN');
     return who;
   };
   const body = (request: FastifyRequest, key: string) => {

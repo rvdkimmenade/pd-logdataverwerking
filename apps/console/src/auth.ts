@@ -6,6 +6,7 @@ export interface Identity {
   id: string;
   party: string;
   role: 'editor' | 'reviewer' | 'reader';
+  roles?: ('editor' | 'reviewer' | 'reader')[];
   permissions: ('register' | 'log.read' | 'log.export' | 'operations')[];
   applications: string[];
   backend: string;
@@ -56,6 +57,12 @@ export class Sessions {
         !actor.id ||
         !actor.party ||
         !['editor', 'reviewer', 'reader'].includes(actor.role) ||
+        (actor.roles !== undefined &&
+          (!actor.roles.length ||
+            !actor.roles.includes(actor.role) ||
+            actor.roles.some(
+              (role) => !['editor', 'reviewer', 'reader'].includes(role),
+            ))) ||
         !actor.applications.length ||
         !actor.backend ||
         actor.permissions.some(
