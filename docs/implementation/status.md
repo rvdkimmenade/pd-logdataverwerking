@@ -2,12 +2,13 @@
 
 ## Huidige fase
 
-**Fase 6 — Adminconsole (in uitvoering)**
+**Fase 6 — Adminconsole (voltooid)**
 
-Status op 2026-10-12: fase 6 is gestart op `codex/phase-6-console`, met expliciet
-gekozen lokale OIDC-provider voor synthetische gebruikers. De eerste console-
-integratieproef en lokale rol/demo-proef zijn groen. Volledige verify en bewijs
-vanuit schone checkout moeten nog slagen. Fase 7 is niet gestart.
+Status op 2026-10-12: fase 6 is voltooid op `codex/phase-6-console`, met expliciet
+gekozen lokale OIDC-provider voor synthetische gebruikers. Repositorygates,
+schone-checkoutbewijs en de lokale zes-rollen-demo zijn groen. De gemelde
+automatische herlogin is verholpen en rolwisseling is in dezelfde browser
+geverifieerd. Fase 7 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -25,11 +26,27 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
 | 5. Zoekprojectie en Query API | Voltooid | Geen open fase-5-gates |
-| 6. Adminconsole | In uitvoering | Volledige verify, schone checkout en eindbewijs |
+| 6. Adminconsole | Voltooid | Geen open fase-6-gates |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
 
 ## Fase-6-voortgang (2026-10-12)
+
+Eindbewijs: implementatie da938fc; loginfix 9b3c71a; gecorrigeerde accountwisselproef
+dc45fde. `npm run verify` volledig groen in werkcheckout en schone checkout
+`.local/console-clean-20261012` op da938fc. Na de loginfix zijn format/lint, zeven
+builds, 121 tests, 23 contractdocumenten (zes schema's, vier OpenAPI's, twaalf
+fixtures) en alle fundament/register/ingest/archief/querygates opnieuw groen in
+de schone checkout. Query: p95 453 ms over 30 metingen, herstel 1036 ms.
+De laatste consolepoort faalde eerst omdat de nieuwe proef het gebruikersnaamveld
+direct verwachtte; Keycloak toont bij herauthenticatie eerst de eerdere naam en
+een wisselicoon. Alleen die testflow en runbook zijn gecorrigeerd, geen verdere
+runtimewijziging. De volledige `test:console` herproef op dc45fde is groen met
+alle acht gates, inclusief wachtwoordplicht en rolwisseling in dezelfde browser.
+De laatste volledige verify-aanroep had dus exit 1; de falende poort is daarna
+afzonderlijk hersteld en volledig groen uitgevoerd. Alle gates hebben positief
+bewijs. Lokale `demo:console` voor zes rollen met wachtwoordcontrole na logout
+eveneens groen. Geen productie- of GitHub-CI-bewijs afgeleid.
 
 Plan: `.agent/plans/phase-06-console.md`. Runbook: [console](../runbooks/console.md).
 Lokale providerkeuze bevestigd door opdrachtgever; ADR-012 werkt de geaccepteerde

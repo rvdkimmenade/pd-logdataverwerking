@@ -60,7 +60,7 @@ projectie is rebuildable; migraties krijgen afzonderlijk herstelbewijs.
 - [x] Export geautoriseerd en geaudit.
 - [x] Labels, toetsenbordbediening en foutmeldingen gecontroleerd.
 - [x] Volledige synthetische demo zonder database-/Kafka-tools.
-- [ ] Volledige verify én schone-checkoutbewijs, documentatie en implementatie eens.
+- [x] Volledige verify én schone-checkoutbewijs, documentatie en implementatie eens.
 
 ## Betrouwbaarheid, security en terugrol
 
@@ -90,3 +90,20 @@ mobiele layout en OIDC-registerflows. Lokale demo voor zes rollen groen.
 Keycloak-volumerechten, synthetische profielvelden, historische UI-responsevorm,
 mobiele overflow en versionfixture hersteld. Volledige verify gestart;
 schone-checkoutpoort en bewijscommit nog open. Fase 7 niet gestart.
+
+Volledige verify groen op implementatiecommit da938fc, zowel in de werkcheckout
+als in `.local/console-clean-20261012` (121 tests en alle integratiegates).
+Gebruikersmelding over automatische herlogin verwerkt in 9b3c71a: OIDC
+`prompt=login` vereist nieuwe authenticatie, zonder tokens aan browsercode te
+geven. Lokale zes-rollen-demo bevestigt na logout het lege wachtwoordveld in
+dezelfde browsercontext. De geïsoleerde browserproef controleert bovendien
+rolwisseling na logout. Definitieve verify voor deze fix loopt nog.
+
+Afgerond 2026-10-12: de herhaalde verify op 9b3c71a slaagde tot en met query;
+alleen de nieuwe rolwisselproef faalde op het ontbrekende gebruikersnaamveld.
+Keycloak vereist eerst zijn accountwisselicoon; proef en runbook gecorrigeerd in
+dc45fde. Daarna volledige test:console in de schone checkout groen (acht gates),
+inclusief wachtwoordplicht en andere identiteit in dezelfde context. Alle gates
+groen; de laatste volledige verify-exit 1 en de geslaagde gerichte herproef zijn
+expliciet vastgelegd in status.md. Geen verdere runtimewijziging na de verify.
+Lokale console draait met loginfix, zes demorollen gecontroleerd. Fase 7 niet gestart.
