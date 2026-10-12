@@ -120,7 +120,18 @@ historische context/trace verifiëren. Bestaande gegevens behouden. Herhaling ge
 dezelfde ontvangstidentiteiten. Alleen lokale demo-source krijgt de drie expliciete
 activiteit-ID's erbij; geen wildcard of verruiming van partij-/applicatiescope.
 
-- [ ] Fixtures en register-/LDV-validatie.
-- [ ] Drie gepubliceerde activiteiten en twaalf doorzoekbare records lokaal.
-- [ ] Herhaling zonder duplicaten, browseronderzoek en registerweergave.
-- [ ] Repositoryverificatie en bewijs in status.md.
+- [x] Fixtures en register-/LDV-validatie.
+- [x] Drie gepubliceerde activiteiten en twaalf doorzoekbare records lokaal.
+- [x] Herhaling zonder duplicaten, browseronderzoek en registerweergave.
+- [x] Repositoryverificatie en bewijs in status.md.
+
+Afgerond op a910d0e: drie activiteiten via afzonderlijke OIDC-editor/reviewer
+gemaakt/gepubliceerd en twaalf records via ingest, Kafka en archief naar de
+console. Alle details resolven registerversie 1. Herhaling behoudt vier records
+per activiteit en dezelfde event-identiteiten. Browser controleert de drie
+registeritems en alle tracetijdlijnen; screenshots bekeken. Eerste demo-proeven
+hersteld voor het synthetische case-ID-beleid, UUID-idempotentiesleutels en wachten
+op nieuwe schermresultaten. Volledige npm run verify groen, inclusief alle acht
+consolegates. Verify:code op schone checkout eveneens groen met 121 tests en
+validatie van drie registervoorbeelden/twaalf records. Geen interfacewijzigingen,
+nieuwe dependencies, directe archiefwrites of volgende-fasewerk.

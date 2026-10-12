@@ -32,6 +32,31 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Fase-6-voortgang (2026-10-12)
 
+### Gemeentelijke demoaanvulling
+
+Op verzoek zijn in a910d0e drie concrete synthetische processen toegevoegd:
+Wmo-aanvraag, vergunningaanvraag en paspoortaanvraag voor een minderjarige.
+`npm run demo:gemeente` maakt drie registeractiviteiten via de console-API met
+OIDC-editor en publiceert via een afzonderlijke reviewer. Twaalf LDV-records gaan
+via de bestaande mTLS-ingest/Kafka/consumerketen naar het archief; geen directe
+opslagwrites. Lokale demo-sourceautorisatie is aangevuld met uitsluitend deze drie
+activiteit-ID's, met behoud van partij/applicatiescope en eerdere activiteit-ID's.
+
+Elk proces heeft een parent en drie child-spans voor twee synthetische betrokkenen.
+Alle logdetails tonen de juiste gepubliceerde registerversie 1. Herhaalde demo
+houdt vier records per proces en dezelfde event-ID's. Browsercontrole van zoeken,
+details, drie traces en de registerlijst groen; screenshots visueel gecontroleerd.
+Grondslag/retentie zijn herkenbare demo-invulwaarden; geen echte persoonsdata.
+
+Volledige `npm run verify` groen na deze aanvulling: formatter, lint, zeven builds,
+121 tests, 24 contractdocumenten, zes schema's, vier OpenAPI's, twaalf bestaande
+fixtures plus validatie van drie gemeentelijke registervoorbeelden en twaalf
+gegenereerde LDV-records; alle fundament/register/ingest/logbook/query/consolegates
+groen. `verify:code` op de schone checkout van a910d0e eveneens groen. Dit vervangt
+de eerdere laatste verify-exit 1 hieronder door een volledige geslaagde run.
+Bewijs: artifacts/municipal-demo.json en municipal-{wmo,vergunning,paspoort,register}.png,
+plus artifacts/foundation.json. Fase 7 is niet gestart.
+
 Eindbewijs: implementatie da938fc; loginfix 9b3c71a; gecorrigeerde accountwisselproef
 dc45fde. `npm run verify` volledig groen in werkcheckout en schone checkout
 `.local/console-clean-20261012` op da938fc. Na de loginfix zijn format/lint, zeven
