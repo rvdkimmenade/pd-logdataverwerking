@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: LDV Query API
+  version: 1.0.0
+  description: >-
+    mTLS workload reader, mapped to responsible party and source applications.
+    Search is eventually consistent. Results are reloaded from the authoritative
+    archive and checked against scope. from is inclusive; until is exclusive.
+    Ordered by event time then event ID. Cursor expires after 15 minutes and is
+    bound to filters, page size, identity and scope; pagination is not a snapshot.
+    Unknown scopes and identity headers never grant access. No export endpoint.
+servers:
+  - url: https://127.0.0.1:18084
+security:
+  - workload: []
+paths:
+  /v1/log-records/search:
+    post:
+      operationId: searchRecords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/query.schema.json#/$defs/search
+      responses:
+        '200':
+          description: Scoped originals with historical register context
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/query.schema.json#/$defs/page
+        '400': {$ref: '#/components/responses/Invalid'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /v1/traces/{trace_id}:
+    post:
+      operationId: queryTrace
+      description: Ordered, paginated spans within caller scope; same filters and cursor as search. Conflicting trace filter is invalid.
+      parameters:
+        - in: path
+          name: trace_id
+          required: true
+          schema: {type: string, pattern: '^[0-9a-f]{32}$'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '../schemas/query.schema.json#/$defs/search'}
+      responses:
+        '200':
+          description: Trace spans with original parent_span_id
+          content:
+            application/json:
+              schema: {$ref: '../schemas/query.schema.json#/$defs/page'}
+        '400': {$ref: '#/components/responses/Invalid'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /v1/log-records/{event_id}:
+    get:
+      operationId: getOriginal
+      parameters:
+        - in: path
+          name: event_id
+          required: true
+          schema: {type: string, format: uuid}
+      responses:
+        '200':
+          description: Original archive record; does not depend on the search index
+          content:
+            application/json:
+              schema: {$ref: '../schemas/query.schema.json#/$defs/item'}
+        '400': {$ref: '#/components/responses/Invalid'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404':
+          description: Record absent or outside caller scope
+        '503': {$ref: '#/components/responses/Unavailable'}
+components:
+  securitySchemes:
+    workload: {type: mutualTLS}
+  responses:
+    Invalid:
+      description: Invalid filters, interval or expired/mismatched cursor
+    Forbidden:
+      description: Identity unmapped, no read action or source outside scope
+    Unavailable:
+      description: Dependency unavailable; no successful empty result is fabricated

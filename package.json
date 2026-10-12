@@ -13,7 +13,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json && tsc -p apps/ingest/tsconfig.json && tsc -p apps/logbook/tsconfig.json",
+    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json && tsc -p apps/ingest/tsconfig.json && tsc -p apps/logbook/tsconfig.json && tsc -p apps/query/tsconfig.json",
     "format": "prettier --write packages apps scripts infra .github *.json *.mjs *.ts",
     "format:check": "prettier --check packages apps scripts infra .github *.json *.mjs *.ts",
     "lint": "eslint .",
@@ -27,6 +27,12 @@
     "test:register": "node scripts/register-test.mjs",
     "test:ingest": "node scripts/ingest-test.mjs",
     "test:logbook": "node scripts/logbook-test.mjs",
+    "test:query": "node scripts/query-test.mjs",
+    "query:up": "npm run build && node scripts/query-local.mjs up",
+    "query:down": "node scripts/query-local.mjs down",
+    "query:rebuild": "node scripts/query-local.mjs rebuild",
+    "query:metrics": "node scripts/query-local.mjs metrics",
+    "demo:query": "node scripts/query-local.mjs demo",
     "logbook:up": "npm run build && node scripts/logbook-local.mjs up",
     "logbook:down": "node scripts/logbook-local.mjs down",
     "logbook:query": "node scripts/logbook-local.mjs query",

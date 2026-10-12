@@ -60,6 +60,22 @@ try {
     });
     throw error;
   }
+  const queryStart = Date.now();
+  try {
+    npm(['run', 'test:query'], { stdio: 'inherit', timeout: 600000 });
+    checks.push({
+      name: 'Query API, scope, historie, rebuild en herstel',
+      passed: true,
+      durationMs: Date.now() - queryStart,
+    });
+  } catch (error) {
+    checks.push({
+      name: 'Query API, scope, historie, rebuild en herstel',
+      passed: false,
+      durationMs: Date.now() - queryStart,
+    });
+    throw error;
+  }
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))

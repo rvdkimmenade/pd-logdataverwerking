@@ -1,0 +1,32 @@
+services:
+  search-volume-init:
+    image: postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    user: '0:0'
+    entrypoint: [bash, -ec]
+    command:
+      - cp /input/ca.crt /input/search-node.crt /input/search-node.key /pki/; chown 1000:1000 /data /pki /pki/*; chmod 750 /pki; chmod 644 /pki/*.crt; chmod 600 /pki/search-node.key
+    network_mode: none
+    volumes:
+      - search-data:/data
+      - search-pki:/pki
+      - ${QUERY_DIRECTORY}/node:/input:ro
+  opensearch:
+    image: opensearchproject/opensearch:3.9.0@sha256:adfa61f85025d06b4aeb562e7e74fde7e31c437039c93c3862c17e9acebd6c7c
+    depends_on:
+      search-volume-init: { condition: service_completed_successfully }
+    environment:
+      DISABLE_INSTALL_DEMO_CONFIG: 'true'
+      OPENSEARCH_JAVA_OPTS: '-Xms512m -Xmx512m'
+    ports:
+      - '127.0.0.1:${QUERY_SEARCH_PORT}:9200'
+    volumes:
+      - search-data:/usr/share/opensearch/data
+      - ${QUERY_DIRECTORY}/opensearch.yml:/usr/share/opensearch/config/opensearch.yml:ro
+      - search-pki:/usr/share/opensearch/config/pki:ro
+      - ${QUERY_DIRECTORY}/security:/usr/share/opensearch/config/opensearch-security:ro
+    ulimits:
+      nofile: { soft: 65536, hard: 65536 }
+    mem_limit: 2g
+volumes:
+  search-data:
+  search-pki:

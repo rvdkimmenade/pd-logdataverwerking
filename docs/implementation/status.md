@@ -2,10 +2,11 @@
 
 ## Huidige fase
 
-**Fase 4 — Consumer en append-only logopslag (voltooid)**
+**Fase 5 — Zoekprojectie en Query API (in uitvoering)**
 
-Status op 2026-10-11: fase 4 is voltooid. De lokale demo werkt; volledige
-verificatie is ook vanuit een schone checkout geslaagd. Fase 5 is niet gestart.
+Status op 2026-10-12: fase 4 is voltooid. Fase 5 wordt verder gebouwd op branch
+`codex/phase-5-query`. Code-/contractcontroles zijn groen; integratie-, demo- en
+schone-checkoutbewijs voor fase 5 zijn nog niet compleet. Fase 6 is niet gestart.
 
 ## Menselijke goedkeuring
 
@@ -22,10 +23,40 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 2. Versioned Verwerkingsregister en beheer | Voltooid | Geen open fase-2-gates |
 | 3. Ingest API en Kafka | Voltooid | Geen open fase-3-gates |
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
-| 5. Zoekprojectie en Query API | Niet gestart | Voorafgaande fasen |
+| 5. Zoekprojectie en Query API | In uitvoering | Integratie, demo, volledige verify en schone checkout |
 | 6. Adminconsole | Niet gestart | Voorafgaande fasen |
 | 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-5-voortgang (2026-10-12)
+
+Query API, ondertekende cursors, OpenSearch-projector, TLS-/rolconfiguratie en
+historische registerresolver zijn aanwezig. `npm run verify` is op 2026-10-12
+geslaagd: 106 tests in 9 bestanden, zes builds, vijf schemas, drie
+OpenAPI-contracten, negen fixtures, foundationproeven, 12 registerchecks,
+16 ingestgates, 11 logboekgates en alle 11 querygates.
+
+De zoekproef gebruikt 1.000 synthetische basisrecords plus één herstelrecord:
+p95 **435 ms** over 30 zoek-/traceverzoeken na warm-up; projectie na
+OpenSearch-herstel **609 ms** (doelen 2.000/30.000 ms). Indexverlies en volledige
+deterministische herbouw, mislukte rebuild zonder aliaswissel, lockconcurrentie,
+partij-/applicatie-isolatie, historische tijdgrens en registeruitval zijn bewezen.
+
+Lokale Query API op https://127.0.0.1:18084 gestart. Demo bewijst zoeken, detail,
+SHA-256-controle, trace en expliciete rebuild op twee bestaande synthetische
+records. Register op 18081 blijft bereikbaar. Bewijs: artifacts/query.json,
+foundation.json en query-demo-proof.json. Schone checkout is nog te verifiëren.
+
+Hersteld: lokale resolutie van schema-ID's in de contractvalidator;
+projectorfouttelling bij databaseverbindingsfouten; controle van indexsortering
+tegen het archief. De eerste integratierun vond een OpenSearch-opstartfout door
+certificaatbestandsrechten op de Windows-bindmount. Een initcontainer kopieert
+uitsluitend de nodecertificaten naar een volume met begrensde Linux-rechten.
+Dit herstel is bewezen. Aliasopvragen zijn beperkt tot LDV-indexen;
+herstel wacht op beschikbare indexshards. Ook de kleinste geldige UUID wordt
+geprojecteerd. Nog geen fasevoltooiing geclaimd vóór de schone-checkoutpoort.
+
+Plan: `.agent/plans/phase-05-query.md`. Runbook: [zoeken](../runbooks/query.md).
 
 ## Fase-4-resultaat (2026-10-11)
 

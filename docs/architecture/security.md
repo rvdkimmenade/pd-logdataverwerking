@@ -35,6 +35,18 @@ geen publieke autorisatiegrens. Een publieke Query API volgt in fase 5.
 De beheerder met DDL-rechten blijft vertrouwd; hashes zijn geen cryptografisch
 bewijs tegen een beheerder die zowel data als hashes kan vervangen.
 
+Fase 5 voegt een lokale mTLS Query API toe: certificaatfingerprint, leesactie,
+verantwoordelijke en bronapplicaties bepalen de scope. Indexhits worden opnieuw
+uit het archief gelezen met die scope. Query en projector krijgen afzonderlijke
+SELECT-only databaserollen en aparte OpenSearch-certificaten/rechten. Alleen de
+projector mag LDV-indexgeneraties aanpassen. De OpenSearch-node ontvangt geen
+CA-private sleutel of clientprivate sleutels. Historische verrijking gebruikt
+de bestaande lokale registeruitzondering met een readercode per partij;
+onbekende activiteit-URL's worden niet gevolgd. Zoekpogingen en weigeringen
+krijgen een afzonderlijke auditregel zonder zoekwaarden. Zie het
+[zoekrunbook](../runbooks/query.md). OIDC, productie-secretbeheer en gedeelde
+inzet worden hiermee niet geclaimd.
+
 | Rol | Rechten |
 |---|---|
 | Registerbeheerder | Concepten en nieuwe registerversies beheren |

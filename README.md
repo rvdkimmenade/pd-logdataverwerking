@@ -58,7 +58,10 @@ ADR-007 en ADR-008 zijn op 8 oktober 2026 goedgekeurd. De actuele testbewijzen e
 resterende fasepoorten staan in [de implementatiestatus](docs/implementation/status.md).
 
 Het register met beheer en de Ingest API zijn beschikbaar. Fase 4 voegt de
-append-only logboekopslag toe; zoekfunctionaliteit volgt in fase 5.
+append-only logboekopslag toe. Fase 5 voegt OpenSearch en de Query API toe.
+Start met `npm run register:up` en `npm run query:up`, en zoek met
+`npm run demo:query`. Zie het [zoekrunbook](docs/runbooks/query.md) voor
+autorisatie, historische verrijking, herstel en de actuele verificatie-eisen.
 
 Gebruik `npm run register:examples` voor tien platformgerelateerde concepten.
 Start de consumer met `npm run logbook:up` en toon POST → Kafka → archief met

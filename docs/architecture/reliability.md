@@ -61,4 +61,14 @@ Zie [logboekrunbook](../runbooks/logbook.md) voor expliciete replay en beperking
 
 ## Monitoring
 
+De fase-5-projector leest het archief onafhankelijk van de Kafka-consumer.
+Herhaalde snapshot-scans in batches leveren idempotente indexdocumenten op
+event_id. Een volledige volgende scan neemt ook laat gecommitte records mee;
+dit is een begrensde POC-aanpak. OpenSearch-uitval stopt het archief niet.
+Rebuild vult een nieuwe generatie en wisselt de leesalias pas na geslaagde
+projectie en refresh. Een PostgreSQL advisory lock sluit gelijktijdige
+projectie/rebuild uit; mislukking behoudt de bestaande leesalias. Oude generaties
+worden niet automatisch verwijderd. Zie het [zoekrunbook](../runbooks/query.md)
+voor meetlat, herstel en de betekenis van scanleeftijd.
+
 Meet minimaal outboxleeftijd, publicatiefouten, Kafka consumer lag, rejectratio, dead-lettervolume, databasefouten, indexachterstand en tijd tussen eventtijd en doorzoekbaarheid.

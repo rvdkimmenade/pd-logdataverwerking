@@ -21,7 +21,20 @@ async function files(directory) {
 }
 
 export async function validateOpenApi(path) {
-  return SwaggerParser.validate(path, { resolve: { http: false } });
+  return SwaggerParser.validate(path, {
+    resolve: {
+      http: false,
+      localSchemas: {
+        order: 1,
+        canRead: /^https:\/\/schemas\.example\.invalid\/[a-z-]+\.schema\.json$/,
+        read: (file) =>
+          readFile(
+            resolve(contracts, 'schemas', new URL(file.url).pathname.slice(1)),
+            'utf8',
+          ),
+      },
+    },
+  });
 }
 
 export async function checkContracts() {
@@ -52,6 +65,7 @@ export async function checkContracts() {
     ['valid-register-draft.json', 'register.schema.json#/$defs/create'],
     ['valid-consumer-reject.json', 'consumer-failure.schema.json'],
     ['valid-consumer-dead-letter.json', 'consumer-failure.schema.json'],
+    ['valid-query-search.json', 'query.schema.json#/$defs/search'],
   ];
   for (const [example, schema] of examples) {
     const validator = ajv.getSchema(
@@ -104,7 +118,7 @@ export async function checkContracts() {
     documents: documents.size,
     schemas: schemas.length,
     openapi: apiCount,
-    fixtures: 8,
+    fixtures: 9,
   };
 }
 

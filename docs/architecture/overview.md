@@ -37,13 +37,20 @@ flowchart TB
   subgraph Logboek
     K --> C[Log consumer]
     C --> D[(Append-only opslag)]
-    C --> I[(Zoekindex)]
+    D --> P2[Projector]
+    P2 --> I[(Zoekindex)]
   end
   subgraph Register
     R[Register API] --> RDB[(Versioned register)]
   end
   subgraph Beheer
     UI[Adminconsole] --> Q[Query API]
+    Q --> I
+    Q --> D
+    Q --> R
+    UI --> R
+  end
+```
     Q --> I
     Q --> D
     Q --> R
