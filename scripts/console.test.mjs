@@ -104,6 +104,7 @@ describe('Console OIDC boundary', () => {
     const url = new URL(a.flow.url);
     expect(url.searchParams.get('code_challenge_method')).toBe('S256');
     expect(url.searchParams.get('scope')).toBe('openid');
+    expect(url.searchParams.get('prompt')).toBe('login');
     expect(url.searchParams.get('code_challenge')).toHaveLength(43);
     expect(a.flow.cookie).not.toBe(b.flow.cookie);
     expect(a.flow.url).not.toBe(b.flow.url);

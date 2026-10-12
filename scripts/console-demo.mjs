@@ -122,6 +122,11 @@ try {
       (await page.request.get(config.origin + '/api/me')).status(),
       401,
     );
+    await page
+      .getByRole('link', { name: 'Inloggen via identityprovider' })
+      .click();
+    await page.locator('#password').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#password').inputValue(), '');
     results.push({ name, passed: true });
     console.log(`PASS console OIDC, API and navigation: ${name}`);
     await context.close();

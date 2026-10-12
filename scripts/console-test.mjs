@@ -697,6 +697,22 @@ try {
         .getByRole('link', { name: 'Inloggen via identityprovider' })
         .waitFor();
       assert.equal((await request(page, '/api/me')).status(), 401);
+      await page
+        .getByRole('link', { name: 'Inloggen via identityprovider' })
+        .click();
+      await page.locator('#password').waitFor({ state: 'visible' });
+      assert.equal(await page.locator('#password').inputValue(), '');
+      const nextUser = users.find(
+        (u) => u.username === 'synthetic-investigator',
+      );
+      await page.locator('#username').fill(nextUser.username);
+      await page.locator('#password').fill(nextUser.password);
+      await page.locator('#kc-login').click();
+      await page.waitForURL(origin + '/');
+      assert.equal(
+        (await (await request(page, '/api/me')).json()).id,
+        nextUser.actor.id,
+      );
     },
   );
 } finally {

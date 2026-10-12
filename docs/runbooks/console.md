@@ -35,8 +35,9 @@ browsergebonden state/nonce. ID-tokenhandtekening (RS256), issuer, audience en
 geldigheid worden gecontroleerd. Tokens blijven op de server. Opaque Secure,
 HttpOnly, SameSite=Lax-sessies vervallen uiterlijk na dertig minuten of bij de
 ID-tokenexpiratie, afhankelijk van wat eerder is. Uitloggen beëindigt de
-consolesessie; de providersessie blijft bestaan. Gebruik een apart browserprofiel
-of privévenster om tussen demorollen te wisselen.
+consolesessie. Elke volgende login vraagt via OIDC `prompt=login` opnieuw om
+gebruikersnaam en wachtwoord, ook als de provider nog een sessie heeft. Je kunt
+daarmee in hetzelfde browservenster van demorol wisselen.
 
 ## Demo zonder database- of Kafka-tools
 

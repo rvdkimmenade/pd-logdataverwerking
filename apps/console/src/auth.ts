@@ -169,6 +169,7 @@ export class Sessions {
       redirect_uri: this.origin + '/auth/callback',
       response_type: 'code',
       scope: 'openid',
+      prompt: 'login',
       state,
       nonce,
       code_challenge: await oidc.calculatePKCECodeChallenge(verifier),

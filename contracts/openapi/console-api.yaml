@@ -36,7 +36,7 @@ paths:
   /api/session:
     delete:
       operationId: consoleLogout
-      description: Origin vereist; verwijdert de server-side consolesessie en wist de Secure-cookie. De OIDC-providersessie wordt niet beëindigd.
+      description: Origin vereist; verwijdert de server-side consolesessie en wist de Secure-cookie. Een volgende login vereist opnieuw authenticatie via OIDC prompt=login, ook bij een bestaande providersessie.
       responses:
         '200':
           description: Sessieverwijdering bevestigd.
