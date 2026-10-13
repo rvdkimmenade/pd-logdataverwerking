@@ -89,6 +89,14 @@ en ruimen uitsluitend dat eigen project en zijn tijdelijke data op. Browser-,
 API-, migratie-, concurrency-, autorisatie- en database-uitvalproeven leveren
 `artifacts/register.html` en screenshots op. Rapporteer geen lokale toegangscodes.
 
+Registerbeheer biedt een zoektekst voor naam en/of activiteit-ID, filters voor
+activiteiten met concepten, gepubliceerde versies of uitsluitend concepten, en
+één/meerdere versies. Filters combineren met elkaar. Sorteren kan op naam A–Z,
+Z–A of meeste versies. Filters wissen herstelt het volledige geautoriseerde
+overzicht. Een activiteit kan zowel concepten als gepubliceerde versies hebben.
+Een geopend detail blijft zichtbaar, met melding als het buiten de filters valt.
+Deze opties zijn ook beschikbaar in het OIDC-register van de console.
+
 `/health` toont procesbereikbaarheid, `/ready` databasebereikbaarheid. Na inloggen
 geeft `/api/metrics` tellers voor requests, autorisatieweigeringen en mutaties.
 Auditmetadata staat append-only in register.audit, gescheiden van LDV-payloads;

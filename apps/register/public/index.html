@@ -49,9 +49,48 @@
       <div id="workspace" class="workspace" hidden>
         <aside class="card">
           <h2>Activiteiten</h2>
-          <label for="filter">Zoeken op naam</label
-          ><input id="filter" type="search" placeholder="Zoek een activiteit" />
-          <p id="count" class="muted"></p>
+          <form
+            id="search-filters"
+            role="search"
+            aria-label="Register doorzoeken"
+          >
+            <label for="filter">Zoektekst</label>
+            <input
+              id="filter"
+              type="search"
+              placeholder="Naam of activiteit-ID"
+            />
+            <label for="search-field">Zoeken in</label>
+            <select id="search-field">
+              <option value="all">Naam en activiteit-ID</option>
+              <option value="name">Alleen naam</option>
+              <option value="id">Alleen activiteit-ID</option>
+            </select>
+            <label for="search-status">Status van versies</label>
+            <select id="search-status">
+              <option value="all">Alle statussen</option>
+              <option value="draft">Met concept</option>
+              <option value="published">Met gepubliceerde versie</option>
+              <option value="draft-only">Alleen concepten</option>
+            </select>
+            <label for="search-versions">Aantal versies</label>
+            <select id="search-versions">
+              <option value="all">Alle aantallen</option>
+              <option value="single">Eén versie</option>
+              <option value="multiple">Meerdere versies</option>
+            </select>
+            <label for="search-sort">Sorteren</label>
+            <select id="search-sort">
+              <option value="name-asc">Naam A–Z</option>
+              <option value="name-desc">Naam Z–A</option>
+              <option value="versions">Meeste versies eerst</option>
+            </select>
+            <button type="reset" class="secondary">Filters wissen</button>
+          </form>
+          <p id="count" class="muted" role="status" aria-live="polite"></p>
+          <p id="selection-note" class="muted" hidden>
+            De geopende activiteit valt buiten de huidige filters.
+          </p>
           <nav id="activities" aria-label="Verwerkingsactiviteiten"></nav>
         </aside>
         <section id="detail" class="card">

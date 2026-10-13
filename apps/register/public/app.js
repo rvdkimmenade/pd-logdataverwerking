@@ -109,16 +109,51 @@ async function load() {
   list();
 }
 function list() {
-  const q = $('filter').value.toLowerCase();
-  const visible = items.filter((i) => i.name.toLowerCase().includes(q));
-  $('count').textContent = `${visible.length} activiteiten · ${me.party}`;
+  const q = $('filter').value.trim().toLocaleLowerCase('nl');
+  const field = $('search-field').value;
+  const status = $('search-status').value;
+  const versions = $('search-versions').value;
+  const visible = items.filter((i) => {
+    const text =
+      field === 'name'
+        ? i.name
+        : field === 'id'
+          ? i.processing_activity_id
+          : `${i.name} ${i.processing_activity_id}`;
+    const published = i.version_count - i.draft_count;
+    return (
+      text.toLocaleLowerCase('nl').includes(q) &&
+      (status === 'all' ||
+        (status === 'draft' && i.draft_count > 0) ||
+        (status === 'published' && published > 0) ||
+        (status === 'draft-only' && published === 0)) &&
+      (versions === 'all' ||
+        (versions === 'single' && i.version_count === 1) ||
+        (versions === 'multiple' && i.version_count > 1))
+    );
+  });
+  const sort = $('search-sort').value;
+  visible.sort((a, b) => {
+    const nameOrder =
+      a.name.localeCompare(b.name, 'nl') || a.id.localeCompare(b.id);
+    return sort === 'versions'
+      ? b.version_count - a.version_count || nameOrder
+      : sort === 'name-desc'
+        ? -nameOrder
+        : nameOrder;
+  });
+  $('count').textContent =
+    `${visible.length} van ${items.length} activiteiten · ${me.party}`;
+  $('selection-note').hidden =
+    !selected || visible.some((i) => i.id === selected);
   $('activities').innerHTML =
     visible
       .map(
         (i) =>
           `<button data-id="${esc(i.id)}" aria-current="${i.id === selected}">${esc(i.name)}<small>${i.version_count} versie(s) · ${i.draft_count} concept(en)</small></button>`,
       )
-      .join('') || '<p class="muted">Nog geen activiteiten gevonden.</p>';
+      .join('') ||
+    '<p class="muted">Geen activiteiten gevonden. Pas de filters aan of kies Filters wissen.</p>';
   for (const b of $('activities').querySelectorAll('button'))
     b.onclick = run(() => open(b.dataset.id));
 }
@@ -327,7 +362,16 @@ $('login-form').onsubmit = run(async () => {
   await enter(actor);
   message('Je bent ingelogd in de lokale demo.');
 });
+$('search-filters').onsubmit = (event) => event.preventDefault();
 $('filter').oninput = list;
+for (const id of [
+  'search-field',
+  'search-status',
+  'search-versions',
+  'search-sort',
+])
+  $(id).onchange = list;
+$('search-filters').onreset = () => setTimeout(list, 0);
 $('new').onclick = () => wizard('create');
 try {
   await enter(await api('/api/me'));

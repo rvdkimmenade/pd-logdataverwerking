@@ -610,6 +610,74 @@ try {
       await expect(editor.locator('#difference')).toContainText(
         'Opvolgend browserdoel',
       );
+      const activityId = await editor
+        .locator('#detail .code')
+        .first()
+        .textContent();
+      const activityButtons = editor.locator('#activities button');
+      await editor
+        .getByLabel('Zoektekst', { exact: true })
+        .fill('  BROWSERDEMONSTRATIE  ');
+      await expect(activityButtons).toHaveCount(1);
+      await editor.getByLabel('Status van versies').selectOption('draft');
+      await editor.getByLabel('Aantal versies').selectOption('multiple');
+      await expect(activityButtons).toHaveCount(1);
+      await editor.getByLabel('Status van versies').selectOption('published');
+      await expect(activityButtons).toHaveCount(1);
+      await editor.getByLabel('Status van versies').selectOption('draft-only');
+      await expect(activityButtons).toHaveCount(0);
+      await expect(editor.locator('#selection-note')).toBeVisible();
+      await expect(editor.locator('#detail')).toContainText(
+        'Opvolgend browserdoel',
+      );
+      await editor.getByLabel('Status van versies').selectOption('all');
+      await editor.getByLabel('Aantal versies').selectOption('single');
+      await expect(activityButtons).toHaveCount(0);
+      await editor.getByLabel('Aantal versies').selectOption('multiple');
+      await editor.getByLabel('Zoeken in', { exact: true }).selectOption('id');
+      await editor
+        .getByLabel('Zoektekst', { exact: true })
+        .fill(activityId.toUpperCase());
+      await expect(activityButtons).toHaveCount(1);
+      await expect(editor.locator('#selection-note')).toBeHidden();
+      await editor
+        .getByLabel('Zoeken in', { exact: true })
+        .selectOption('name');
+      await expect(activityButtons).toHaveCount(0);
+      await editor
+        .getByRole('button', { name: 'Filters wissen', exact: true })
+        .click();
+      await expect(activityButtons).not.toHaveCount(0);
+      await expect(editor.getByLabel('Zoektekst', { exact: true })).toHaveValue(
+        '',
+      );
+      await expect(editor.getByLabel('Aantal versies')).toHaveValue('all');
+      await expect(editor.getByLabel('Status van versies')).toHaveValue('all');
+      const names = () =>
+        activityButtons.evaluateAll((buttons) =>
+          buttons.map((button) => button.firstChild.textContent),
+        );
+      const ascending = await names();
+      assert.deepEqual(
+        ascending,
+        [...ascending].sort((a, b) => a.localeCompare(b, 'nl')),
+      );
+      await editor
+        .getByLabel('Sorteren', { exact: true })
+        .selectOption('name-desc');
+      assert.deepEqual(await names(), [...ascending].reverse());
+      await editor
+        .getByLabel('Sorteren', { exact: true })
+        .selectOption('versions');
+      const counts = await activityButtons.locator('small').allTextContents();
+      const versionCounts = counts.map((text) => Number.parseInt(text, 10));
+      assert.deepEqual(
+        versionCounts,
+        [...versionCounts].sort((a, b) => b - a),
+      );
+      await editor
+        .getByRole('button', { name: 'Filters wissen', exact: true })
+        .click();
       await reviewer
         .getByRole('button', { name: /Browserdemonstratie/ })
         .click();

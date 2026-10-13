@@ -163,3 +163,19 @@ werkelijk opgeslagen Keycloak-user-ID terug; lokale runtime met bijgewerkte
 configuratie herstart. Demo keert voor logout terug naar de consolepagina.
 Schone querymeting p95 346 ms, herstel 1285 ms. Bewijs in status.md en lokale
 artifactmappen. Fase 7 niet gestart.
+
+## Aanvulling registerzoekfilters (2026-10-13)
+
+Fase 6, gebruikersverzoek: meer zoekopties in registerbeheer. Gebruik uitsluitend
+de geautoriseerde samenvattingen die de API al levert: naam, activiteit-ID,
+concept/publicatie-aantallen en totaal versies. UI-afspraken eerst vastgelegd
+in contracts/register-search.md; geen API-, migratie- of architectuurwijziging.
+Combineer tekst, status en versieaantal; sorteer en reset. Behoud geopend detail
+met een melding als het buiten de selectie valt. Bestaande rolgrenzen blijven.
+
+- [x] Zoekafspraken vastleggen.
+- [ ] UI implementeren en browserproef voor combinaties, nul resultaten en reset.
+- [ ] Alle fasegates via verify, schone checkout en visuele controle.
+- [ ] Runbook en statusbewijs bijwerken.
+
+Terugrol: UI-bestanden terugzetten; geen datawijzigingen. Geen fase-7-werk.
