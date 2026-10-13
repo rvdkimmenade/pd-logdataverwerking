@@ -32,6 +32,38 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Fase-6-voortgang (2026-10-12)
 
+### Registerzoekfilters (2026-10-13) — toegevoegd, eindgate geblokkeerd
+
+Implementatie `9700c8a`: zoeken in naam/activiteit-ID, combineerbare status- en
+versieaantalfilters, sorteren op naam of meeste versies, resultaatmelding en
+reset. Een geopend detail blijft behouden met melding bij uitsluiting.
+De API en geautoriseerde scope blijven ongewijzigd; afspraken staan in
+contracts/register-search.md. Geen migratie of fase-7-werk.
+
+121 tests, contractchecks, foundation- en registergates groen in werkcheckout
+en schone checkout `.local/register-search-clean-20261013` na offline npm ci.
+De uitgebreide registerbrowserproef bewijst hoofdletter-/witruimtezoeking,
+naam versus ID, concept plus publicatie in één activiteit, gecombineerde
+versiefilters, nul resultaten, behouden detail, reset en drie sorteringen.
+Desktop- en mobiele screenshots visueel gecontroleerd; lokale OIDC-demo groen
+voor alle zeven accounts. Werkmapverify stopte bij query-opstart op PostgreSQL
+`57P03` (starting up). Schone-checkoutverify slaagde tot en met alle querygates
+(p95 282 ms, herstel 1676 ms), maar de eerste consolezoekproef kreeg HTTP 503.
+Alle eerdere gates zijn groen. Geïsoleerde herhaling reproduceerde de 503;
+twee diagnostische runs faalden eerder op OpenSearch startup-timeout. Een run
+met tijdelijk gepauzeerde lokale demo-provider en zoekindex reproduceerde de
+503; uitsluitend vaste foutcodes bevestigden Query API `UNAVAILABLE`, zonder
+QueryError-code. Geheugenruimte vrijmaken loste de fout niet op. De laatste
+backend-preflight bereikte zijn zoekactie niet door opnieuw een startup-timeout.
+Geen runtimewijziging, retryverruiming of testversoepeling toegepast. Tijdelijke
+diagnostiek uit de schone checkout verwijderd; lokale demo-services herstart.
+De verplichte consolegate is niet betrouwbaar groen. Volgens de roadmapstopregel
+stopt deze aanvulling bij de eindgate: de UI is beschikbaar en bewezen, maar geen
+volledige afronding of fase-7-start geclaimd. Vervolg: OpenSearch-startup en de
+Query API 503 isoleren, daarna de ongewijzigde consolegate groen bewijzen.
+Bewijs in de lokale
+artifactmappen: register.json, register-desktop/mobile.png en console-demo.json.
+
 ### Gecombineerde lokale admin — voltooid
 
 Hervatting van de bestaande fase-6-aanvulling: optionele server-side `roles`

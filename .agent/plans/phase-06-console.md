@@ -174,8 +174,19 @@ Combineer tekst, status en versieaantal; sorteer en reset. Behoud geopend detail
 met een melding als het buiten de selectie valt. Bestaande rolgrenzen blijven.
 
 - [x] Zoekafspraken vastleggen.
-- [ ] UI implementeren en browserproef voor combinaties, nul resultaten en reset.
+- [x] UI implementeren en browserproef voor combinaties, nul resultaten en reset.
 - [ ] Alle fasegates via verify, schone checkout en visuele controle.
-- [ ] Runbook en statusbewijs bijwerken.
+- [x] Runbook en statusbewijs bijwerken.
 
 Terugrol: UI-bestanden terugzetten; geen datawijzigingen. Geen fase-7-werk.
+
+Implementatie 9700c8a. Registerbrowserproef groen in werkcheckout en schone
+checkout; desktop/mobiel bekeken, lokale OIDC-demo voor zeven accounts groen.
+Volledige werkmapverify faalde bij query-opstart op PostgreSQL 57P03. Schone
+verify sloeg alle gates tot en met Query groen af (p95 282 ms, herstel 1676 ms),
+maar consolezoeking gaf 503. Herhaling reproduceerde dit; diagnostische runs
+vonden daarnaast onbetrouwbare OpenSearch-opstart. Extra Docker-geheugenruimte
+door demo-provider/index tijdelijk te pauzeren loste dit niet op. Deze services
+zijn herstart; tijdelijke diagnostiek verwijderd. Geen testcriteria versoepeld.
+Stop bij de verplichte eindgate volgens roadmap; aanvulling niet volledig
+afgerond. Status.md bevat bewijs en vervolg voor de infrastructuurblokkade.
