@@ -151,4 +151,15 @@ alleen in genegeerde lokale configuratie, niet in code of fixtures.
 - [x] Lokale providergebruiker aangemaakt, tijdelijke provisioning-identiteit verwijderd.
 - [x] Echte browserlogin met zeven lokale gebruikers en admin-acties.
 - [x] Geïsoleerde adminproef: eigen publicatie weigeren, andere identiteit publiceren.
-- [ ] Volledige verify, schone checkout en bijgewerkt statusbewijs.
+- [x] Volledige verify, schone checkout en bijgewerkt statusbewijs.
+
+Afgerond, eindbewijs gecontroleerd op 2026-10-13: implementatiecommit 3150a54;
+volledige verify groen in werkcheckout en schone checkout
+`.local/console-admin-clean-20261012` na offline dependency-installatie.
+121 tests en negen consolegates, inclusief acht identiteiten en eigen
+publicatie weigeren/andermans concept publiceren. Lokale browserdemo groen
+voor zeven accounts; adminbeeld visueel gecontroleerd. Provisioning leest het
+werkelijk opgeslagen Keycloak-user-ID terug; lokale runtime met bijgewerkte
+configuratie herstart. Demo keert voor logout terug naar de consolepagina.
+Schone querymeting p95 346 ms, herstel 1285 ms. Bewijs in status.md en lokale
+artifactmappen. Fase 7 niet gestart.

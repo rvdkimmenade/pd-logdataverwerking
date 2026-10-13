@@ -32,7 +32,7 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Fase-6-voortgang (2026-10-12)
 
-### Gecombineerde lokale admin — verificatie in uitvoering
+### Gecombineerde lokale admin — voltooid
 
 Hervatting van de bestaande fase-6-aanvulling: optionele server-side `roles`
 met editor, reviewer en reader, plus alle vier consolepermissions. Partij- en
@@ -56,8 +56,17 @@ Admin-configuratie herladen door uitsluitend het consoleproces te herstarten.
 De demo keert na registercontrole terug naar de console voor de logoutcontrole;
 het register heeft een anders benoemde OIDC-inloglink. Desktop- en adminbeeld
 visueel gecontroleerd. Bewijs: artifacts/foundation.json, console.json,
-console-demo.json en console-admin.png. Schone-checkoutbewijs staat nog open.
-Deze aanvulling is nog niet afgerond; fase 7 is niet gestart.
+console-demo.json en console-admin.png.
+
+Eindbewijs gecontroleerd op 2026-10-13: schone checkout van implementatiecommit
+`3150a54` in `.local/console-admin-clean-20261012`, `npm ci --offline
+--ignore-scripts` en volledige `npm run verify` geslaagd (exit 0).
+121 tests, alle contractchecks en foundation-, register-, ingest-, archief-,
+query- en negen consolegates groen. Query p95 346 ms over 30 verzoeken;
+herstelprojectie 1285 ms, binnen de grenzen 2000/30000 ms. Werkboom van de
+schone checkout is schoon. Bewijs staat in de artifactmap van die checkout.
+De admin-aanvulling is voltooid. Geen nieuwe GitHub-CI-run of productie-inzet
+geclaimd; fase 7 is niet gestart.
 
 ### Gemeentelijke demoaanvulling
 
