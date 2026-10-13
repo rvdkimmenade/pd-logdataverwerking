@@ -40,6 +40,14 @@ reset. Een geopend detail blijft behouden met melding bij uitsluiting.
 De API en geautoriseerde scope blijven ongewijzigd; afspraken staan in
 contracts/register-search.md. Geen migratie of fase-7-werk.
 
+Lokale uitrolcorrectie: gebruiker zag op 2026-10-13 nog geen filters. De services
+hielden de oude HTML/JavaScript in geheugen vanaf hun start. Uitsluitend de
+lokale register- en consoleprocessen herstart; databases/provider behouden.
+Directe HTTPS-controle van `/register` en `/app.js` op 18087 en HTTP-root op
+18081 bevestigt 200 en alle nieuwe filtervelden. Lokale OIDC-demo opnieuw groen
+voor zeven accounts; bijgewerkt adminbeeld toont de filters en is visueel
+gecontroleerd. Runbook beschrijft de vereiste serviceherstart.
+
 121 tests, contractchecks, foundation- en registergates groen in werkcheckout
 en schone checkout `.local/register-search-clean-20261013` na offline npm ci.
 De uitgebreide registerbrowserproef bewijst hoofdletter-/witruimtezoeking,

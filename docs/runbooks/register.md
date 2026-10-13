@@ -96,6 +96,9 @@ Z–A of meeste versies. Filters wissen herstelt het volledige geautoriseerde
 overzicht. Een activiteit kan zowel concepten als gepubliceerde versies hebben.
 Een geopend detail blijft zichtbaar, met melding als het buiten de filters valt.
 Deze opties zijn ook beschikbaar in het OIDC-register van de console.
+De service laadt de schermbestanden bij het starten. Na wijzigingen aan
+`apps/register/public/` moeten zowel een draaiende registerservice als de
+console opnieuw worden gestart; alleen de browser verversen is onvoldoende.
 
 `/health` toont procesbereikbaarheid, `/ready` databasebereikbaarheid. Na inloggen
 geeft `/api/metrics` tellers voor requests, autorisatieweigeringen en mutaties.
