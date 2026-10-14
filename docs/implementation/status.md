@@ -32,7 +32,19 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 
 ## Fase-6-voortgang (2026-10-12)
 
-### Registerzoekfilters (2026-10-13) — toegevoegd, eindgate geblokkeerd
+### Registerzoekfilters (2026-10-13) — voltooid op 2026-10-14
+
+Eindgate hervat op verzoek van opdrachtgever. Testcontrole toegevoegd vóór de
+providerstart: directe QueryService-zoeking levert drie geautoriseerde records
+en een geldig responsecontract. Geen runtime-, rechten-, timeout- of retrywijziging.
+Geïsoleerde test:console groen; daarna schone checkout van `a76f686` in
+`.local/phase6-final-20261014`, offline npm ci en volledige npm run verify groen
+(exit 0): 121 tests, alle contractchecks en alle foundation/register/ingest/
+archief/query/consolegates. Query p95 667 ms, herstel 1486 ms. Schone werkboom.
+Dit sluit de eerdere eindgate af; de historische fouten hieronder blijven
+vastgelegd. Geen algemene diagnose/garantie over alle infrastructuurstarts
+afgeleid. Bewijs in de artifactmap van deze checkout. Fase 7 is nu toegestaan
+op expliciet verzoek van opdrachtgever; fase 8 blijft buiten scope.
 
 Implementatie `9700c8a`: zoeken in naam/activiteit-ID, combineerbare status- en
 versieaantalfilters, sorteren op naam of meeste versies, resultaatmelding en

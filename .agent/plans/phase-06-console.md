@@ -175,7 +175,7 @@ met een melding als het buiten de selectie valt. Bestaande rolgrenzen blijven.
 
 - [x] Zoekafspraken vastleggen.
 - [x] UI implementeren en browserproef voor combinaties, nul resultaten en reset.
-- [ ] Alle fasegates via verify, schone checkout en visuele controle.
+- [x] Alle fasegates via verify, schone checkout en visuele controle.
 - [x] Runbook en statusbewijs bijwerken.
 
 Terugrol: UI-bestanden terugzetten; geen datawijzigingen. Geen fase-7-werk.
@@ -201,3 +201,8 @@ Query-responsecontract vóór de providerstart. De volledige geïsoleerde
 test:console is hiermee groen, zonder timeouts/rechten/retries te wijzigen.
 Dit is geen bewezen diagnose van alle eerdere infrastructuurfouten; volledige
 schone-checkoutverify blijft de exitpoort.
+
+Exitpoort gehaald 2026-10-14: volledige verify groen op a76f686 in schone
+checkout `.local/phase6-final-20261014`, 121 tests en alle integratiegates.
+Query p95 667 ms, herstel 1486 ms. De registeraanvulling is afgerond. Gebruiker
+heeft vervolg naar fase 7 gevraagd; verdere uitvoering krijgt een apart plan.
