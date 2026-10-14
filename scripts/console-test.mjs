@@ -246,6 +246,9 @@ try {
         applications: [fixture.source_application],
         read: true,
       };
+      const initial = await service.search(scope, { limit: 25 });
+      assert.equal(initial.items.length, 3);
+      assert.ok(validatePage(initial));
       query = queryApp({
         tls: infra.query.tls,
         service,

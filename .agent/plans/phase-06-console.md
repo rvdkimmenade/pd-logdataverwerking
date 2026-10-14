@@ -190,3 +190,14 @@ door demo-provider/index tijdelijk te pauzeren loste dit niet op. Deze services
 zijn herstart; tijdelijke diagnostiek verwijderd. Geen testcriteria versoepeld.
 Stop bij de verplichte eindgate volgens roadmap; aanvulling niet volledig
 afgerond. Status.md bevat bewijs en vervolg voor de infrastructuurblokkade.
+
+Hervatting 2026-10-14: opdrachtgever vraagt eindgate afronden en daarna fase 7.
+Eerst directe geautoriseerde QueryService-zoekproef vóór de providerstart om
+de onderliggende 503-oorzaak te isoleren. Geen testgrenzen verlagen of een fase
+overslaan. Fase 7 begint pas na groen eindbewijs voor deze aanvulling.
+
+Directe backendzoekproef toegevoegd: drie geautoriseerde records en geldig
+Query-responsecontract vóór de providerstart. De volledige geïsoleerde
+test:console is hiermee groen, zonder timeouts/rechten/retries te wijzigen.
+Dit is geen bewezen diagnose van alle eerdere infrastructuurfouten; volledige
+schone-checkoutverify blijft de exitpoort.
