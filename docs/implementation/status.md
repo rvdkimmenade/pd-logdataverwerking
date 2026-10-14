@@ -2,13 +2,17 @@
 
 ## Huidige fase
 
-**Fase 6 — Adminconsole (voltooid)**
+**Fase 7 — Applicatie-integratie en transactionele outbox (in uitvoering)**
+
+Start 2026-10-14 op expliciet verzoek, na volledige fase-6-exitgate op a76f686.
+Plan: `.agent/plans/phase-07-outbox.md`. Alleen fase 7; fase 8 niet gestart.
 
 Status op 2026-10-12: fase 6 is voltooid op `codex/phase-6-console`, met expliciet
 gekozen lokale OIDC-provider voor synthetische gebruikers. Repositorygates,
 schone-checkoutbewijs en de lokale zes-rollen-demo zijn groen. De gemelde
 automatische herlogin is verholpen en rolwisseling is in dezelfde browser
-geverifieerd. Fase 7 is niet gestart.
+geverifieerd. Deze beschrijving betreft het fase-6-eindbewijs; fase 7 is op
+2026-10-14 gestart zoals hierboven vastgelegd.
 
 ## Menselijke goedkeuring
 
@@ -27,8 +31,33 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
 | 5. Zoekprojectie en Query API | Voltooid | Geen open fase-5-gates |
 | 6. Adminconsole | Voltooid | Geen open fase-6-gates |
-| 7. Applicatie-outbox | Niet gestart | Voorafgaande fasen |
+| 7. Applicatie-outbox | In uitvoering | Implementatie, storingsproeven, demo en schone-checkoutbewijs |
 | 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+
+## Fase-7-voortgang (2026-10-14)
+
+Contract voor synthetische businessinput, bronmigratie, @ldv/publisher,
+voorbeeldapplicatie, status/requeue/worker-CLI en outboxrunbook aanwezig.
+Negen builds, 132 unit-/contracttests en 26 contractdocumenten groen in de
+eerste codeverificatie. Geïsoleerde ketenproeven bewijzen rollback/commit,
+migratiebehoud, beperkte DB-rechten, gelijktijdige leases, parent/child en
+ingest-uitval zonder verlies. Crash/herstartproef vond PostgreSQL-drivergedrag:
+TLS-key wordt non-enumerable en verdween daardoor uit JSON-configuratie.
+Helper en lokale configwriter behouden key nu expliciet in genegeerde .local;
+worker weigert ontbrekende CA/cert/key. Herproef loopt. Testselectie corrigeert
+case binnen een gedeelde W3C-trace; geen tracepropagatieregels veranderd.
+Geen fasevoltooiing vóór volledige gates, lokale demo en schone checkout.
+
+Vervolg: alle negen test:outbox-gates groen, inclusief echte continue
+workerherstart, procescrash direct na HTTP202, dezelfde ontvangstidentiteit,
+één archiefrecord per event, leasefencing, echte HTTP403/blocked/requeue en
+invalid202/retry. Bronruntime kan payloads niet wijzigen, data niet verwijderen
+of het centrale archief benaderen. Uitvoer bevat geen payloads/credentials.
+Lokale demo groen na gecontroleerde herstart van de bestaande consumer:
+4 delivered, 0 pending/blocked/leased; één betrokkene één record, twee betrokkenen
+drie records. Herhaling behoudt vier attempts en verzendt nul nieuwe events.
+De eerste demo had een verouderde readerconfigbestandsnaam; die is gecorrigeerd.
+Bewijs: artifacts/outbox.json, outbox-demo.json. Volledige schone verify resteert.
 
 ## Fase-6-voortgang (2026-10-12)
 

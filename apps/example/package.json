@@ -1,0 +1,13 @@
+{
+  "name": "@ldv/example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ldv/domain": "0.0.0",
+    "@ldv/publisher": "0.0.0",
+    "pg": "8.23.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

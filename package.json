@@ -13,7 +13,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p apps/register/tsconfig.json && tsc -p apps/ingest/tsconfig.json && tsc -p apps/logbook/tsconfig.json && tsc -p apps/query/tsconfig.json && tsc -p apps/console/tsconfig.json",
+    "build": "tsc -p tsconfig.json && tsc -p packages/ldv-domain/tsconfig.json && tsc -p packages/ldv-publisher/tsconfig.json && tsc -p apps/register/tsconfig.json && tsc -p apps/ingest/tsconfig.json && tsc -p apps/logbook/tsconfig.json && tsc -p apps/query/tsconfig.json && tsc -p apps/console/tsconfig.json && tsc -p apps/example/tsconfig.json",
     "format": "prettier --write packages apps scripts infra .github *.json *.mjs *.ts",
     "format:check": "prettier --check packages apps scripts infra .github *.json *.mjs *.ts",
     "lint": "eslint .",
@@ -30,6 +30,11 @@
     "test:query": "node scripts/query-test.mjs",
     "console:up": "npm run build && node scripts/console-local.mjs up",
     "test:console": "node scripts/console-test.mjs",
+    "test:outbox": "node scripts/outbox-test.mjs",
+    "demo:outbox": "node scripts/outbox-local.mjs demo",
+    "outbox:status": "node scripts/outbox-local.mjs status",
+    "outbox:requeue": "node scripts/outbox-local.mjs requeue",
+    "outbox:worker": "node scripts/outbox-local.mjs worker",
     "demo:console": "node scripts/console-demo.mjs",
     "demo:gemeente": "node scripts/municipal-examples.mjs",
     "query:up": "npm run build && node scripts/query-local.mjs up",

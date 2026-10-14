@@ -60,6 +60,7 @@ export async function checkContracts() {
       throw new Error('Schema could not be compiled');
   }
   const examples = [
+    ['valid-example-case.json', 'example-case.schema.json'],
     ['valid-ldv-log-record.json', 'ldv-log-record.schema.json'],
     ['valid-log-event.json', 'ldv-envelope.schema.json'],
     ['valid-register-draft.json', 'register.schema.json#/$defs/create'],

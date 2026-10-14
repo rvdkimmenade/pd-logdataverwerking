@@ -17,6 +17,14 @@ Een absolute garantie zonder duurzame opslag aan de bron bestaat niet. Daarom is
 
 Applicaties zonder database mogen een lokale duurzame spool gebruiken, maar hebben dan geen atomische koppeling tussen businessmutatie en logevent.
 
+De fase-7-voorbeeldapplicatie implementeert dit patroon in een afzonderlijke
+bron-database. Leases met fencing-token en SKIP LOCKED verdelen werk; een
+publishercrash vóór lokale bevestiging leidt tot heraanbieding met dezelfde
+sleutel/payload. Alleen gevalideerde 202-acceptatie markeert delivered. Retrybare
+fouten behouden pending/retry; permanente weigeringen blijven blocked en kunnen
+na oorzaakherstel expliciet worden herstart. Geen event wordt automatisch gewist.
+Zie [runbook](../runbooks/outbox.md) en [adaptercontract](../../contracts/outbox.md).
+
 ## Kafka-baseline
 
 - Minimaal drie brokers verdeeld over beschikbaarheidszones.

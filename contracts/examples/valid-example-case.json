@@ -1,0 +1,6 @@
+{
+  "case_id": "example-case-not-real-007",
+  "subjects": ["example-subject-not-real-001", "example-subject-not-real-002"],
+  "processing_activity_id": "https://register.example.invalid/processing-activities/DEMO-001",
+  "traceparent": "00-11111111111111111111111111111111-2222222222222222-01"
+}

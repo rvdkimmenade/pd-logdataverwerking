@@ -76,3 +76,11 @@ lezen en offsetstanden beschrijven, maar niet publiceren. Consoleaudit staat
 append-only in register.audit, zonder zoekwaarden/tokens; audituitval blokkeert
 inzage en export. Exports zijn gemarkeerde, begrensde geauthenticeerde responses
 zonder blijvende downloadlink, met no-store.
+
+Fase 7 gebruikt aparte source_owner/source_app-databaserollen voor de lokale
+voorbeeldapplicatie. Runtime mag uitsluitend bronrecords invoegen/lezen en
+outbox-aflevermetadata aanpassen; sleutel/payload zijn immutable. De bron heeft
+geen connect-/lees-/schrijfrecht op het centrale archief. Ingest gebruikt de
+bestaande begrensde mTLS-sourceidentiteit. Businessinput accepteert uitsluitend
+synthetische case- en subjectwaarden. Metrics bevatten tellingen, leeftijd en
+vaste foutcodes; payloads of medewerkersidentiteit worden niet gelogd.

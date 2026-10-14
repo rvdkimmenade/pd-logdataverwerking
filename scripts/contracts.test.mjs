@@ -7,9 +7,9 @@ import { checkContracts, validateOpenApi } from './contracts.mjs';
 describe('foundation contract tooling', () => {
   it('compiles all schemas and resolves the existing API example', async () => {
     expect(await checkContracts()).toMatchObject({
-      schemas: 6,
+      schemas: 7,
       openapi: 4,
-      fixtures: 12,
+      fixtures: 13,
     });
   });
   it('fails on an unresolved local API reference', async () => {

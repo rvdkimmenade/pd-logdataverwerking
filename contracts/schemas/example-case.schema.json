@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/example-case.schema.json",
+  "title": "Synthetische businessinput voor de outboxdemo",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "subjects", "processing_activity_id"],
+  "properties": {
+    "case_id": {"type":"string","pattern":"^example-case-not-real-[0-9]{3}$"},
+    "subjects": {"type":"array","minItems":1,"maxItems":10,"uniqueItems":true,"items":{"type":"string","pattern":"^example-subject-not-real-[0-9]{3}$"}},
+    "processing_activity_id": {"type":"string","format":"uri","maxLength":512},
+    "traceparent": {"type":"string","pattern":"^00-[0-9a-f]{32}-[0-9a-f]{16}-[0-9a-f]{2}$"}
+  }
+}

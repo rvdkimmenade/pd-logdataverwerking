@@ -59,7 +59,11 @@ flowchart TB
 De lokale implementatie realiseert ingest → Kafka → logconsumer → PostgreSQL-archief,
 een herbouwbare OpenSearch-projectie en de Query API. De console gebruikt OIDC voor
 menselijke toegang en mTLS met begrensde partij- en applicatiescope voor queries.
-Registerbeheer gebruikt dezelfde console-sessie. De lokale outbox volgt in fase 7.
+Registerbeheer gebruikt dezelfde console-sessie. Fase 7 voegt een synthetische
+bronapplicatie toe met een eigen `source` database: businessrecord en outbox
+worden in één lokale transactie geschreven. Een publisher met eigen bronrechten
+levert via mTLS-ingest af; hij schrijft niet naar Kafka of het centrale archief.
+Zie [outboxrunbook](../runbooks/outbox.md) voor demo en storingsmodel.
 
 Het schrijfpad is volledig asynchroon vanaf de lokale outbox. De applicatie is niet afhankelijk van Kafka, de zoekindex of het Register tijdens een gebruikersrequest.
 

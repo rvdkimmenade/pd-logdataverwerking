@@ -92,6 +92,22 @@ try {
     });
     throw error;
   }
+  const outboxStart = Date.now();
+  try {
+    npm(['run', 'test:outbox'], { stdio: 'inherit', timeout: 600000 });
+    checks.push({
+      name: 'Source transactionele outbox, publisher, crash en herstel',
+      passed: true,
+      durationMs: Date.now() - outboxStart,
+    });
+  } catch (error) {
+    checks.push({
+      name: 'Source transactionele outbox, publisher, crash en herstel',
+      passed: false,
+      durationMs: Date.now() - outboxStart,
+    });
+    throw error;
+  }
 } catch (error) {
   console.error(error.message);
   if (checks.every((check) => check.passed))

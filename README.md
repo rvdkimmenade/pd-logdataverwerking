@@ -7,6 +7,11 @@ Wmo-, vergunning- en paspoortaanvragen. Dit voegt drie gepubliceerde synthetisch
 registeractiviteiten en twaalf doorzoekbare logregels toe. Zie het
 [consolerunbook](docs/runbooks/console.md) voor rollen en kijkinstructies.
 
+Applicatie-outbox (fase 7): `npm run build` en `npm run demo:outbox` bewijzen
+businesscommit → outbox → mTLS-ingest → Kafka → append-only archief voor één en
+meerdere synthetische betrokkenen. `npm run outbox:status` toont achterstand;
+`npm run outbox:worker` hervat aflevering. Zie [outboxrunbook](docs/runbooks/outbox.md).
+
 ## Doel
 
 Dit project onderzoekt een centraal LDV-platform waarin:
