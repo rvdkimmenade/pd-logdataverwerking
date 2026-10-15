@@ -2,10 +2,12 @@
 
 ## Huidige fase
 
-**Fase 7 — Applicatie-integratie en transactionele outbox (in uitvoering)**
+**Fase 7 — Applicatie-integratie en transactionele outbox (voltooid)**
 
 Start 2026-10-14 op expliciet verzoek, na volledige fase-6-exitgate op a76f686.
-Plan: `.agent/plans/phase-07-outbox.md`. Alleen fase 7; fase 8 niet gestart.
+Afgerond op 2026-10-15 op `codex/phase-7-outbox`; volledige schone verify,
+gerichte eindregressie en lokale demo groen. Plan: `.agent/plans/phase-07-outbox.md`.
+Fase 8 is niet gestart.
 
 Status op 2026-10-12: fase 6 is voltooid op `codex/phase-6-console`, met expliciet
 gekozen lokale OIDC-provider voor synthetische gebruikers. Repositorygates,
@@ -31,10 +33,31 @@ lokale demo-uitzondering. Er is geen goedkeuring voor een productie-uitrol afgel
 | 4. Consumer en logopslag | Voltooid | Geen open fase-4-gates |
 | 5. Zoekprojectie en Query API | Voltooid | Geen open fase-5-gates |
 | 6. Adminconsole | Voltooid | Geen open fase-6-gates |
-| 7. Applicatie-outbox | In uitvoering | Implementatie, storingsproeven, demo en schone-checkoutbewijs |
-| 8. Hardening en acceptatie | Niet gestart | Voorafgaande fasen |
+| 7. Applicatie-outbox | Voltooid | Geen open fase-7-gates |
+| 8. Hardening en acceptatie | Niet gestart | Security, beheer, herstelproeven en menselijke POC-acceptatie |
 
 ## Fase-7-voortgang (2026-10-14)
+
+### Eindbewijs (2026-10-15)
+
+Implementatiecommit `5435f36`, schone checkout `.local/outbox-clean-20261014`:
+`npm ci --offline --ignore-scripts` en volledige `npm run verify` geslaagd
+(exit 0). Negen builds, 132 tests in 11 bestanden, 26 contractdocumenten,
+zeven schemas, vier OpenAPI's, 13 contractfixtures en alle foundation-,
+register-, ingest-, archief-, query-, negen console- en negen outboxgates groen.
+Query p95 445 ms over 30 verzoeken; indexherstel 2985 ms, binnen 2000/30000 ms.
+
+Daarna correctie `69beea0`: event_id in een 202-response moet expliciet een
+string zijn. Schone checkout fast-forward bijgewerkt; `verify:code` en alle
+negen `test:outbox`-gates opnieuw geslaagd, inclusief array-ID/invalid receipt
+zonder verkeerde afleverbevestiging. Overige componenten zijn ongewijzigd.
+Werkboom van de schone checkout schoon. Bewijs: foundation.json, register.json,
+ingest.json, logbook.json, query.json, console.json en outbox.json in de
+artifactmap van die checkout; lokaal outbox-demo.json voor de herhaalbare demo.
+Fase 7 is voltooid. Geen nieuwe GitHub-CI-run of productie-HA/retentieclaim
+afgeleid. Fase 8 blijft de volgende, nog niet gestarte fase.
+
+### Uitvoering en herstelde bevindingen
 
 Contract voor synthetische businessinput, bronmigratie, @ldv/publisher,
 voorbeeldapplicatie, status/requeue/worker-CLI en outboxrunbook aanwezig.

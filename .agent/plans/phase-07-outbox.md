@@ -55,7 +55,7 @@ oude code hervatten; geen drop of verlies van events.
 - [x] Herstart verwerkt achterstand volledig.
 - [x] Meerdere betrokkenen: dezelfde trace, unieke child-spans.
 - [x] Migratie leeg/upgrade, autorisatie, concurrency en veilige output.
-- [ ] Volledige verify en alle fasegates vanuit schone checkout.
+- [x] Volledige verify en alle fasegates vanuit schone checkout.
 - [x] Gedocumenteerde demo en bewijs in status.md.
 
 ## Exitcriterium
@@ -91,3 +91,20 @@ consumer te retryen zonder offsets. Gecontroleerde consumerherstart hervatte
 Kafka-achterstand zonder nieuwe outboxevents. Herhaling houdt vier events en
 vier attempts, publisher heeft nul nieuwe verzendpogingen. Bewijs outbox-demo.json.
 Volledige schone verify resteert.
+
+## Eindbewijs — 2026-10-15
+
+Implementatie 5435f36: schone checkout `.local/outbox-clean-20261014`, offline
+npm ci en volledige npm run verify geslaagd (exit 0). Negen builds, 132 tests
+in 11 bestanden, zeven schemas, vier OpenAPI's, 13 contractfixtures en alle
+foundation/register/ingest/archief/query/console/outboxgates groen.
+Query p95 445 ms over 30 verzoeken, herstel 2985 ms (grenzen 2000/30000 ms).
+
+Validatiecorrectie 69beea0 vereist expliciet een string voor receipt.event_id.
+Dezelfde schone checkout fast-forward bijgewerkt: verify:code en alle negen
+test:outbox-gates opnieuw groen, inclusief een ongeldige array als event_id die
+retry blijft en nooit delivered wordt. Werkboom schoon. Alle overige
+componenten zijn ongewijzigd sinds de volledige verify. Lokale demo en
+herhaling bewezen; runbook, contracten en architectuurdocumenten bijgewerkt.
+Bewijs: lokale artifacts/outbox-demo.json, outbox.json en de volledige
+artifactmap van de schone checkout. Fase 7 voltooid; fase 8 niet gestart.
