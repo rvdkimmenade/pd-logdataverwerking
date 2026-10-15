@@ -115,6 +115,7 @@ export class IngestClient implements Transport {
             try {
               const value = JSON.parse(text) as Receipt;
               if (
+                typeof value.event_id !== 'string' ||
                 !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
                   value.event_id,
                 ) ||

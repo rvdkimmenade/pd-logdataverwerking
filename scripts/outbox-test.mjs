@@ -372,6 +372,7 @@ try {
         template,
       );
       let responseStatus = 403;
+      let responseBody = '{}';
       const headers = [];
       mock = createServer(await ctx.tls('server'), (req, res) => {
         headers.push({
@@ -380,7 +381,7 @@ try {
         });
         req.resume();
         res.writeHead(responseStatus, { 'content-type': 'application/json' });
-        res.end('{}');
+        res.end(responseBody);
       });
       await new Promise((done) => mock.listen(0, '127.0.0.1', done));
       const mockClient = new IngestClient(
@@ -407,6 +408,15 @@ try {
       assert.deepEqual(headers[1], headers[0]);
       assert.equal(invalid.metrics.retries, 1);
       assert.equal((await store.status()).pending, 1);
+      responseBody = JSON.stringify({
+        event_id: [randomUUID()],
+        accepted_at: new Date().toISOString(),
+      });
+      await sleep(210);
+      await invalid.tick();
+      assert.equal(invalid.metrics.retries, 2);
+      assert.equal((await store.status()).pending, 1);
+      assert.deepEqual(headers[2], headers[0]);
       await until(async () => {
         await worker.tick();
         return (await store.status()).pending === 0;
