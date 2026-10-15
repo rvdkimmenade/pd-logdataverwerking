@@ -35,6 +35,7 @@ Dit project onderzoekt een centraal LDV-platform waarin:
 
 ## Documentatie
 
+- [Visuele overzichtsplaat: componenten en functionaliteit](docs/architecture/overview.md#overzichtsplaat)
 - [Architectuuroverzicht](docs/architecture/overview.md)
 - [Betrouwbaarheid en guaranteed delivery](docs/architecture/reliability.md)
 - [Security en privacy](docs/architecture/security.md)

@@ -4,6 +4,20 @@
 
 Het platform ontkoppelt gemeentelijke applicaties van centrale LDV-opslag, zonder logregels te verliezen wanneer netwerk of centrale voorzieningen tijdelijk niet beschikbaar zijn. Het Register is zelfstandig beheerbaar en logregels zijn snel doorzoekbaar via een adminconsole.
 
+## Overzichtsplaat
+
+![LDV-architectuur met bronapplicatie, outbox, ingest, Kafka, logarchief, zoekvoorzieningen en beheerconsole](ldv-overzicht.png)
+
+[Open de overzichtsplaat op volledige resolutie](ldv-overzicht.png).
+
+De plaat toont de logische componenten, hun functionaliteit en de gegevensstromen
+van de lokale POC tot en met fase 7. De brongroep is vereenvoudigd weergegeven:
+de demoapplicatie schrijft businessrecord en outbox atomair; uitsluitend de
+LDV-publisher levert de outboxevents aan de Ingest API. De Query API gebruikt
+OpenSearch voor zoekselectie en het LDV-archief voor originele records. De
+registerraadpleging verloopt via de Register API. Logische databases kunnen
+dezelfde lokale PostgreSQL-instantie delen.
+
 ## Componenten
 
 | Component | Verantwoordelijkheid |
